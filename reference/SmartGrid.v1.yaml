@@ -14,12 +14,16 @@ paths:
       responses:
         '201':
           description: Created
+        '202':
+          description: Accepted
         '400':
           description: Bad Request
         '401':
           description: Unauthorized
         '403':
           description: Forbidden
+        '500':
+          description: Internal Server Error
       operationId: grid-create
       requestBody:
         content:
@@ -51,6 +55,7 @@ components:
     geographicalRegion:
       title: geographicalRegion
       type: object
+      description: Root element for grid layout
       properties:
         description:
           type: string
@@ -64,11 +69,14 @@ components:
         mRID:
           type: string
           description: ID
+        subGeographicalRegion:
+          type: array
+          items:
+            $ref: '#/components/schemas/subGeographicalRegion'
       required:
-        - mRID
-        - name
         - aliasName
-      description: Root element for grid layout
+        - name
+        - mRID
     tower:
       title: tower
       type: object
@@ -187,12 +195,9 @@ components:
                 mRID: 00000000-0000-0000-0000-000000000021
       properties:
         baseVoltage:
-          type: object
-          properties:
-            '':
-              type: string
+          $ref: '#/components/schemas/baseVoltage'
         location:
-          type: object
+          $ref: '#/components/schemas/location'
         terminal:
           type: object
         asset:
@@ -232,13 +237,15 @@ components:
           type: string
           description: ID
         coordinateSystem:
-          type: object
+          $ref: '#/components/schemas/coordinateSystem'
         positionPoint:
-          type: object
+          $ref: '#/components/schemas/positionPoint'
       required:
         - aliasName
         - name
         - mRID
+        - coordinateSystem
+        - positionPoint
     coordinateSystem:
       title: coordinateSystem
       type: object
@@ -328,9 +335,13 @@ components:
       description: ''
       properties:
         line:
-          $ref: '#/components/schemas/line'
+          type: array
+          items:
+            $ref: '#/components/schemas/line'
         substation:
-          $ref: '#/components/schemas/substation'
+          type: array
+          items:
+            $ref: '#/components/schemas/substation'
         description:
           type: string
           description: Описание
