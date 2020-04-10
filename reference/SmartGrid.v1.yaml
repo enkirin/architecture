@@ -1,0 +1,55 @@
+openapi: 3.0.0
+info:
+  title: SmartGrid
+  version: 1.0.0
+  description: API for GA (Grid Analyzer) system
+servers:
+  - url: 'http://localhost:3000'
+paths:
+  /grid/create:
+    post:
+      summary: create
+      tags: [Grid]
+      responses: {}
+      operationId: grid-create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                header:
+                  type: object
+                  properties:
+                    file_id:
+                      type: string
+                payload:
+                  type: object
+                  required:
+                    - geographicalRegion
+                  description: Grid layout in CIM model.
+                  properties:
+                    geographicalRegion:
+                      type: object
+                      required:
+                        - mRID
+                        - subGeographicalRegion
+                      properties:
+                        mRID:
+                          type: string
+                        name:
+                          type: string
+                        aliasName:
+                          type: string
+                        description:
+                          type: string
+                        subGeographicalRegion:
+                          type: object
+              required:
+                - header
+                - payload
+            examples:
+              example-1: {}
+        description: Electric Grid layout (topology).
+components:
+  schemas: {}
