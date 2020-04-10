@@ -9,8 +9,17 @@ paths:
   /grid/create:
     post:
       summary: create
-      tags: [Grid]
-      responses: {}
+      tags:
+        - Grid
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
       operationId: grid-create
       requestBody:
         content:
@@ -23,6 +32,7 @@ paths:
                   properties:
                     file_id:
                       type: string
+                      description: ID for source file
                 payload:
                   type: object
                   required:
@@ -33,6 +43,8 @@ paths:
                       type: object
                       required:
                         - mRID
+                        - name
+                        - aliasName
                         - subGeographicalRegion
                       properties:
                         mRID:
@@ -45,11 +57,184 @@ paths:
                           type: string
                         subGeographicalRegion:
                           type: object
+                          required:
+                            - line
+                            - substation
+                          properties:
+                            line:
+                              type: object
+                              required:
+                                - ACLineSegment
+                                - energyConsumer
+                                - tower
+                              description: Объект линии отходящий от ТП.
+                              properties:
+                                ACLineSegment:
+                                  type: object
+                                  description: Сегмент линии
+                                energyConsumer:
+                                  type: object
+                                  description: Конечный потребитель
+                                tower:
+                                  type: object
+                                  description: Опора
+                            substation:
+                              type: object
               required:
                 - header
                 - payload
             examples:
               example-1: {}
         description: Electric Grid layout (topology).
+      description: Load new grid popology.
 components:
-  schemas: {}
+  schemas:
+    geographicalRegion:
+      title: geographicalRegion
+      type: object
+      properties:
+        id:
+          type: string
+    tower:
+      title: tower
+      type: object
+      description: Опора.
+      properties:
+        mRID:
+          type: string
+          description: ID
+        name:
+          type: string
+          description: Заводское наименование
+        aliasName:
+          type: string
+          description: Диспетчерское наименование
+        description:
+          type: string
+          description: Описание
+      required:
+        - mRID
+        - name
+        - aliasName
+    line:
+      title: line
+      type: object
+      description: Линия отходящая от ТП.
+      properties:
+        ACLineSegment:
+          type: object
+          description: Участок линии
+        energyConsumer:
+          type: object
+          description: Конечный потребитель
+        tower:
+          type: object
+          description: Опора
+      required:
+        - ACLineSegment
+        - energyConsumer
+        - tower
+    substation:
+      title: substation
+      type: object
+      properties:
+        id:
+          type: string
+      description: Трансформаторная подстанция (ТП)
+    ACLineSegment:
+      title: ACLineSegment
+      type: object
+      description: Конечный потребитель.
+      properties:
+        mRID:
+          type: string
+          description: ID
+        name:
+          type: string
+          description: Заводское наименование
+        aliasName:
+          type: string
+          description: Диспетчерское наименование
+        description:
+          type: string
+          description: Описание
+      required:
+        - mRID
+        - name
+        - aliasName
+    energyConsumer:
+      title: energyConsumer
+      type: object
+      properties:
+        description:
+          type: string
+          description: Описание
+        aliasName:
+          type: string
+          description: Диспетчерское наименование
+        name:
+          type: string
+          description: Заводское наименование
+        mRID:
+          type: string
+          description: ID
+        baseVoltage:
+          type: object
+        location:
+          type: object
+        terminal:
+          type: object
+        asset:
+          type: object
+      required:
+        - aliasName
+        - name
+        - mRID
+        - baseVoltage
+        - location
+    location:
+      title: location
+      type: object
+      properties:
+        description:
+          type: string
+          description: Описание
+        aliasName:
+          type: string
+          description: Диспетчерское наименование
+        name:
+          type: string
+          description: Заводское наименование
+        mRID:
+          type: string
+          description: ID
+        coordinateSystem:
+          type: object
+        positionPoint:
+          type: object
+      required:
+        - aliasName
+        - name
+        - mRID
+    coordinateSystem:
+      title: coordinateSystem
+      type: object
+      properties:        
+        mRID:
+          type: string
+          description: ID
+        name:
+          type: string
+          description: Заводское наименование
+        aliasName:
+          type: string
+          description: Диспетчерское наименование
+        description:
+          type: string
+          description: Описание
+        crsUrn:
+          type: string
+      required:
+        - mRID
+        - name
+        - aliasName
