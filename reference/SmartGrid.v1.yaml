@@ -47,7 +47,13 @@ paths:
                 - header
                 - payload
             examples:
-              example-1: {}
+              Grid:
+                value:
+                  geographicalRegion:
+                    mRID: ''
+                    name: ''
+                    aliasName: ''
+                    description: ''
         description: Electric Grid layout (topology).
       description: Load new grid popology.
 components:
@@ -134,9 +140,15 @@ components:
         - ACLineSegment
         - energyConsumer
         - tower
+        - aliasName
+        - name
+        - mRID
     substation:
       title: substation
       type: object
+      description: Трансформаторная подстанция (ТП)
+      x-examples:
+        example-1: {}
       properties:
         mRID:
           type: string
@@ -150,7 +162,16 @@ components:
         description:
           type: string
           description: Описание
-      description: Трансформаторная подстанция (ТП)
+        location:
+          $ref: '#/components/schemas/location'
+        connectivityNode:
+          $ref: '#/components/schemas/connectivityNode'
+        equipment:
+          type: array
+          items:
+            type: object
+      required:
+        - location
     ACLineSegment:
       title: ACLineSegment
       type: object
@@ -173,9 +194,13 @@ components:
         baseVoltage:
           $ref: '#/components/schemas/baseVoltage'
         terminal:
-          $ref: '#/components/schemas/terminal'
+          type: array
+          items:
+            $ref: '#/components/schemas/terminal'
         asset:
-          $ref: '#/components/schemas/asset'
+          type: array
+          items:
+            $ref: '#/components/schemas/asset'
         PSRType:
           type: string
           enum:
@@ -185,14 +210,14 @@ components:
         overheadWireInfo:
           type: object
           properties:
+            radius:
+              $ref: '#/components/schemas/length'
             material:
               type: string
               enum:
                 - cooper
                 - steel
                 - aluminum
-            radius:
-              $ref: '#/components/schemas/length'
         cableInfo:
           type: object
           properties:
@@ -244,9 +269,9 @@ components:
         location:
           $ref: '#/components/schemas/location'
         terminal:
-          type: object
+          $ref: '#/components/schemas/coordinateSystem'
         asset:
-          type: object
+          $ref: '#/components/schemas/asset'
         description:
           type: string
           description: Описание
@@ -403,6 +428,9 @@ components:
       required:
         - line
         - substation
+        - description
+        - name
+        - mRID
     unitSymbol:
       type: string
       title: UnitSymbol
