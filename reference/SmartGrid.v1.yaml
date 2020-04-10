@@ -266,3 +266,23 @@ components:
         - mRID
         - xPosition
         - yPosition
+    baseVoltage:
+      title: baseVoltage
+      type: object
+      properties:
+        mRID:
+          type: string
+          description: ID
+        name:
+          type: string
+          description: Заводское наименование
+        aliasName:
+          type: string
+          description: Диспетчерское наименование
+        description:
+          type: string
+          description: Описание
+      required:
+        - mRID
+        - name
+        - aliasName
