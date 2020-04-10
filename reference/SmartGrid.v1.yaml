@@ -293,6 +293,7 @@ components:
     baseVoltage:
       title: baseVoltage
       type: object
+      description: Базовое напряжение
       properties:
         mRID:
           type: string
@@ -315,13 +316,12 @@ components:
             value:
               type: number
             unit:
-              $ref: '#/components/schemas/unit'
+              $ref: '#/components/schemas/unitSymbol'
       required:
         - mRID
         - name
         - aliasName
         - nominalVoltage
-      description: Базовое напряжение
     subGeographicalRegion:
       title: subGeographicalRegion
       type: object
