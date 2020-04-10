@@ -121,6 +121,18 @@ components:
       type: object
       description: Линия отходящая от ТП.
       properties:
+        mRID:
+          type: string
+          description: ID
+        name:
+          type: string
+          description: Заводское наименование
+        aliasName:
+          type: string
+          description: Диспетчерское наименование
+        description:
+          type: string
+          description: Описание
         ACLineSegment:
           type: object
           description: Участок линии
@@ -134,12 +146,22 @@ components:
         - ACLineSegment
         - energyConsumer
         - tower
-    substation:
+    substation:      
       title: substation
       type: object
       properties:
-        id:
+        mRID:
           type: string
+          description: ID
+        name:
+          type: string
+          description: Заводское наименование
+        aliasName:
+          type: string
+          description: Диспетчерское наименование
+        description:
+          type: string
+          description: Описание
       description: Трансформаторная подстанция (ТП)
     ACLineSegment:
       title: ACLineSegment
@@ -166,18 +188,18 @@ components:
       title: energyConsumer
       type: object
       properties:
-        description:
-          type: string
-          description: Описание
-        aliasName:
-          type: string
-          description: Диспетчерское наименование
-        name:
-          type: string
-          description: Заводское наименование
         mRID:
           type: string
           description: ID
+        name:
+          type: string
+          description: Заводское наименование
+        aliasName:
+          type: string
+          description: Диспетчерское наименование
+        description:
+          type: string
+          description: Описание
         baseVoltage:
           type: object
         location:
@@ -220,18 +242,18 @@ components:
       title: location
       type: object
       properties:
-        description:
-          type: string
-          description: Описание
-        aliasName:
-          type: string
-          description: Диспетчерское наименование
-        name:
-          type: string
-          description: Заводское наименование
         mRID:
           type: string
           description: ID
+        name:
+          type: string
+          description: Заводское наименование
+        aliasName:
+          type: string
+          description: Диспетчерское наименование
+        description:
+          type: string
+          description: Описание
         coordinateSystem:
           type: object
         positionPoint:
@@ -244,18 +266,18 @@ components:
       title: coordinateSystem
       type: object
       properties:
-        description:
-          type: string
-          description: Описание
-        aliasName:
-          type: string
-          description: Диспетчерское наименование
-        name:
-          type: string
-          description: Заводское наименование
         mRID:
           type: string
           description: ID
+        name:
+          type: string
+          description: Заводское наименование
+        aliasName:
+          type: string
+          description: Диспетчерское наименование
+        description:
+          type: string
+          description: Описание
         crsUrn:
           type: string
       required:
@@ -266,18 +288,18 @@ components:
       title: positionPoint
       type: object
       properties:
-        description:
-          type: string
-          description: Описание
-        aliasName:
-          type: string
-          description: Диспетчерское наименование
-        name:
-          type: string
-          description: Заводское наименование
         mRID:
           type: string
           description: ID
+        name:
+          type: string
+          description: Заводское наименование
+        aliasName:
+          type: string
+          description: Диспетчерское наименование
+        description:
+          type: string
+          description: Описание
         xPosition:
           type: string
         yPosition:
@@ -285,27 +307,27 @@ components:
         zPosition:
           type: string
       required:
-        - aliasName
-        - name
         - mRID
+        - name
+        - aliasName
         - xPosition
         - yPosition
     baseVoltage:
       title: baseVoltage
       type: object
       properties:
-        description:
-          type: string
-          description: Описание
-        aliasName:
-          type: string
-          description: Диспетчерское наименование
-        name:
-          type: string
-          description: Заводское наименование
         mRID:
           type: string
           description: ID
+        name:
+          type: string
+          description: Заводское наименование
+        aliasName:
+          type: string
+          description: Диспетчерское наименование
+        description:
+          type: string
+          description: Описание
       required:
         - mRID
         - name
