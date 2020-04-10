@@ -104,11 +104,15 @@ components:
       description: Линия отходящая от ТП.
       properties:
         ACLineSegment:
-          type: object
+          type: array
           description: Участок линии
+          items:
+            $ref: '#/components/schemas/ACLineSegment'
         energyConsumer:
-          type: object
+          type: array
           description: Конечный потребитель
+          items:
+            $ref: '#/components/schemas/energyConsumer'
         tower:
           type: object
           description: Опора
