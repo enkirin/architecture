@@ -35,51 +35,10 @@ paths:
                       description: ID for source file
                 payload:
                   type: object
-                  required:
-                    - geographicalRegion
                   description: Grid layout in CIM model.
                   properties:
                     geographicalRegion:
-                      type: object
-                      required:
-                        - mRID
-                        - name
-                        - aliasName
-                        - subGeographicalRegion
-                      properties:
-                        mRID:
-                          type: string
-                        name:
-                          type: string
-                        aliasName:
-                          type: string
-                        description:
-                          type: string
-                        subGeographicalRegion:
-                          type: object
-                          required:
-                            - line
-                            - substation
-                          properties:
-                            line:
-                              type: object
-                              required:
-                                - ACLineSegment
-                                - energyConsumer
-                                - tower
-                              description: Объект линии отходящий от ТП.
-                              properties:
-                                ACLineSegment:
-                                  type: object
-                                  description: Сегмент линии
-                                energyConsumer:
-                                  type: object
-                                  description: Конечный потребитель
-                                tower:
-                                  type: object
-                                  description: Опора
-                            substation:
-                              type: object
+                      $ref: '#/components/schemas/geographicalRegion'
               required:
                 - header
                 - payload
@@ -93,8 +52,23 @@ components:
       title: geographicalRegion
       type: object
       properties:
-        id:
+        description:
           type: string
+          description: Описание
+        aliasName:
+          type: string
+          description: Диспетчерское наименование
+        name:
+          type: string
+          description: Заводское наименование
+        mRID:
+          type: string
+          description: ID
+      required:
+        - mRID
+        - name
+        - aliasName
+      description: Root element for grid layout
     tower:
       title: tower
       type: object
@@ -121,18 +95,6 @@ components:
       type: object
       description: Линия отходящая от ТП.
       properties:
-        mRID:
-          type: string
-          description: ID
-        name:
-          type: string
-          description: Заводское наименование
-        aliasName:
-          type: string
-          description: Диспетчерское наименование
-        description:
-          type: string
-          description: Описание
         ACLineSegment:
           type: object
           description: Участок линии
@@ -142,11 +104,23 @@ components:
         tower:
           type: object
           description: Опора
+        description:
+          type: string
+          description: Описание
+        aliasName:
+          type: string
+          description: Диспетчерское наименование
+        name:
+          type: string
+          description: Заводское наименование
+        mRID:
+          type: string
+          description: ID
       required:
         - ACLineSegment
         - energyConsumer
         - tower
-    substation:      
+    substation:
       title: substation
       type: object
       properties:
@@ -187,33 +161,6 @@ components:
     energyConsumer:
       title: energyConsumer
       type: object
-      properties:
-        mRID:
-          type: string
-          description: ID
-        name:
-          type: string
-          description: Заводское наименование
-        aliasName:
-          type: string
-          description: Диспетчерское наименование
-        description:
-          type: string
-          description: Описание
-        baseVoltage:
-          type: object
-        location:
-          type: object
-        terminal:
-          type: object
-        asset:
-          type: object
-      required:
-        - aliasName
-        - name
-        - mRID
-        - baseVoltage
-        - location
       x-examples:
         Energy Consumer:
           mRID: 93147fc9-5fab-282f-7371-338ec4891a85
@@ -238,22 +185,52 @@ components:
             - phases: none
               connectivityNode:
                 mRID: 00000000-0000-0000-0000-000000000021
+      properties:
+        baseVoltage:
+          type: object
+          properties:
+            '':
+              type: string
+        location:
+          type: object
+        terminal:
+          type: object
+        asset:
+          type: object
+        description:
+          type: string
+          description: Описание
+        aliasName:
+          type: string
+          description: Диспетчерское наименование
+        name:
+          type: string
+          description: Заводское наименование
+        mRID:
+          type: string
+          description: ID
+      required:
+        - baseVoltage
+        - location
+        - aliasName
+        - name
+        - mRID
     location:
       title: location
       type: object
       properties:
-        mRID:
-          type: string
-          description: ID
-        name:
-          type: string
-          description: Заводское наименование
-        aliasName:
-          type: string
-          description: Диспетчерское наименование
         description:
           type: string
           description: Описание
+        aliasName:
+          type: string
+          description: Диспетчерское наименование
+        name:
+          type: string
+          description: Заводское наименование
+        mRID:
+          type: string
+          description: ID
         coordinateSystem:
           type: object
         positionPoint:
@@ -266,46 +243,47 @@ components:
       title: coordinateSystem
       type: object
       properties:
-        mRID:
+        crsUrn:
           type: string
-          description: ID
-        name:
-          type: string
-          description: Заводское наименование
-        aliasName:
-          type: string
-          description: Диспетчерское наименование
         description:
           type: string
           description: Описание
-        crsUrn:
+        aliasName:
           type: string
+          description: Диспетчерское наименование
+        name:
+          type: string
+          description: Заводское наименование
+        mRID:
+          type: string
+          description: ID
       required:
-        - mRID
-        - name
         - aliasName
+        - name
+        - mRID
+      description: ''
     positionPoint:
       title: positionPoint
       type: object
       properties:
-        mRID:
-          type: string
-          description: ID
-        name:
-          type: string
-          description: Заводское наименование
-        aliasName:
-          type: string
-          description: Диспетчерское наименование
-        description:
-          type: string
-          description: Описание
         xPosition:
           type: string
         yPosition:
           type: string
         zPosition:
           type: string
+        description:
+          type: string
+          description: Описание
+        aliasName:
+          type: string
+          description: Диспетчерское наименование
+        name:
+          type: string
+          description: Заводское наименование
+        mRID:
+          type: string
+          description: ID
       required:
         - mRID
         - name
@@ -328,7 +306,50 @@ components:
         description:
           type: string
           description: Описание
+        nominalVoltage:
+          type: object
+          required:
+            - value
+            - unit
+          properties:
+            value:
+              type: number
+            unit:
+              $ref: '#/components/schemas/unit'
       required:
         - mRID
         - name
         - aliasName
+        - nominalVoltage
+      description: Базовое напряжение
+    subGeographicalRegion:
+      title: subGeographicalRegion
+      type: object
+      description: ''
+      properties:
+        line:
+          $ref: '#/components/schemas/line'
+        substation:
+          $ref: '#/components/schemas/substation'
+        description:
+          type: string
+          description: Описание
+        aliasName:
+          type: string
+          description: Диспетчерское наименование
+        name:
+          type: string
+          description: Заводское наименование
+        mRID:
+          type: string
+          description: ID
+      required:
+        - line
+        - substation
+    unitSymbol:
+      type: string
+      title: UnitSymbol
+      enum:
+        - none
+        - v
+      description: Еденицы измерения
