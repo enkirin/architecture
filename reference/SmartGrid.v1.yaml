@@ -219,22 +219,50 @@ components:
     coordinateSystem:
       title: coordinateSystem
       type: object
-      properties:        
-        mRID:
-          type: string
-          description: ID
-        name:
-          type: string
-          description: Заводское наименование
-        aliasName:
-          type: string
-          description: Диспетчерское наименование
+      properties:
         description:
           type: string
           description: Описание
+        aliasName:
+          type: string
+          description: Диспетчерское наименование
+        name:
+          type: string
+          description: Заводское наименование
+        mRID:
+          type: string
+          description: ID
         crsUrn:
           type: string
       required:
         - mRID
         - name
         - aliasName
+    positionPoint:
+      title: positionPoint
+      type: object
+      properties:
+        description:
+          type: string
+          description: Описание
+        aliasName:
+          type: string
+          description: Диспетчерское наименование
+        name:
+          type: string
+          description: Заводское наименование
+        mRID:
+          type: string
+          description: ID
+        xPosition:
+          type: string
+        yPosition:
+          type: string
+        zPosition:
+          type: string
+      required:
+        - aliasName
+        - name
+        - mRID
+        - xPosition
+        - yPosition
