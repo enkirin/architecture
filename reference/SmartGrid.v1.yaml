@@ -192,6 +192,30 @@ components:
         - mRID
         - baseVoltage
         - location
+      x-examples:
+        Energy Consumer:
+          mRID: 93147fc9-5fab-282f-7371-338ec4891a85
+          name: МИР С-04
+          aliasName: ул. Обдорская 40
+          description: ''
+          baseVoltage:
+            nominalVoltage:
+              value: 0.4
+              unit: v
+          location:
+            mRID: '1'
+            name: string
+            aliasName: string
+            description: string
+            positionPoint:
+              xPosition: '66.68189674348'
+              yPosition: '66.52272427729'
+            coordinateSystem:
+              crsUrn: string
+          terminal:
+            - phases: none
+              connectivityNode:
+                mRID: 00000000-0000-0000-0000-000000000021
     location:
       title: location
       type: object
@@ -270,18 +294,18 @@ components:
       title: baseVoltage
       type: object
       properties:
-        mRID:
-          type: string
-          description: ID
-        name:
-          type: string
-          description: Заводское наименование
-        aliasName:
-          type: string
-          description: Диспетчерское наименование
         description:
           type: string
           description: Описание
+        aliasName:
+          type: string
+          description: Диспетчерское наименование
+        name:
+          type: string
+          description: Заводское наименование
+        mRID:
+          type: string
+          description: ID
       required:
         - mRID
         - name
