@@ -100,6 +100,10 @@ components:
         description:
           type: string
           description: Описание
+        height:
+          $ref: '#/components/schemas/length'
+        materialKind:
+          $ref: '#/components/schemas/structureMaterialKind'
       required:
         - mRID
         - name
@@ -442,7 +446,7 @@ components:
     length:
       title: length
       type: object
-      description: Длина
+      description: ''
       properties:
         value:
           type: number
@@ -506,13 +510,7 @@ components:
           type: string
           description: Описание
         materialKind:
-          type: string
-          description: Material this structure is made of.
-          enum:
-            - wood
-            - steel
-            - concrete
-            - other
+          $ref: '#/components/schemas/structureMaterialKind'
         serialNumber:
           type: string
         height:
@@ -536,3 +534,12 @@ components:
       required:
         - value
         - unit
+    structureMaterialKind:
+      title: structureMaterialKind
+      type: string
+      enum:
+        - wood
+        - steel
+        - concrete
+        - other
+      description: Material this structure is made of.
