@@ -39,10 +39,20 @@ paths:
                       description: ID for source file
                 payload:
                   type: object
-                  description: Grid layout in CIM model.
+                  description: ''
                   properties:
                     geographicalRegion:
                       $ref: '#/components/schemas/geographicalRegion'
+                    asset:
+                      type: object
+                      description: "Grid's assets"
+                      properties:
+                        tower:
+                          type: array
+                          items:
+                            $ref: '#/components/schemas/tower'
+                      required:
+                        - tower
               required:
                 - header
                 - payload
@@ -61,7 +71,7 @@ components:
     geographicalRegion:
       title: geographicalRegion
       type: object
-      description: Root element for grid layout
+      description: Grid layout
       properties:
         description:
           type: string
@@ -104,6 +114,15 @@ components:
           $ref: '#/components/schemas/length'
         materialKind:
           $ref: '#/components/schemas/structureMaterialKind'
+        ACLineSegment:
+          type: array
+          description: 'Сегменты линии, которые на этой опоре.'
+          items:
+            type: object
+            properties:
+              mRID:
+                type: string
+                description: ID объекта сегмета линии (ACLineSegment).
       required:
         - mRID
         - name
@@ -127,7 +146,12 @@ components:
           type: array
           description: Опора
           items:
-            $ref: '#/components/schemas/tower'
+            type: object
+            properties:
+              mRID:
+                type: string
+            required:
+              - mRID
         description:
           type: string
           description: Описание
