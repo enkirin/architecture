@@ -114,8 +114,10 @@ components:
           items:
             $ref: '#/components/schemas/energyConsumer'
         tower:
-          type: object
+          type: array
           description: Опора
+          items:
+            $ref: '#/components/schemas/tower'
         description:
           type: string
           description: Описание
@@ -166,10 +168,49 @@ components:
         description:
           type: string
           description: Описание
+        length:
+          $ref: '#/components/schemas/length'
+        baseVoltage:
+          $ref: '#/components/schemas/baseVoltage'
+        terminal:
+          $ref: '#/components/schemas/terminal'
+        asset:
+          $ref: '#/components/schemas/asset'
+        PSRType:
+          type: string
+          enum:
+            - overhead
+            - underground
+          description: 'Тип сегмента линии: воздушная; кабель.'
+        overheadWireInfo:
+          type: object
+          properties:
+            material:
+              type: string
+              enum:
+                - cooper
+                - steel
+                - aluminum
+            radius:
+              $ref: '#/components/schemas/length'
+        cableInfo:
+          type: object
+          properties:
+            constructionKind:
+              type: string
+              enum:
+                - compacted
+                - compressed
+                - sector
+            diameterOverCore:
+              $ref: '#/components/schemas/length'
       required:
         - mRID
         - name
         - aliasName
+        - length
+        - baseVoltage
+        - terminal
     energyConsumer:
       title: energyConsumer
       type: object
@@ -326,6 +367,7 @@ components:
           properties:
             value:
               type: number
+              description: Значение
             unit:
               $ref: '#/components/schemas/unitSymbol'
       required:
@@ -364,7 +406,105 @@ components:
     unitSymbol:
       type: string
       title: UnitSymbol
+      description: В чем измеряется
       enum:
         - none
         - v
-      description: Еденицы измерения
+        - m
+    length:
+      title: length
+      type: object
+      description: Длина
+      properties:
+        value:
+          type: number
+          description: Значение
+        unit:
+          $ref: '#/components/schemas/unitSymbol'
+      required:
+        - value
+        - unit
+    terminal:
+      title: terminal
+      type: object
+      properties:
+        phases:
+          type: string
+          description: |-
+            Represents the normal network phasing condition.
+            If the attribute is missing three phases (ABC or ABCN) shall be assumed.
+          enum:
+            - ABC
+            - ABCN
+        connectivityNode:
+          $ref: '#/components/schemas/connectivityNode'
+      required:
+        - connectivityNode
+    connectivityNode:
+      title: connectivityNode
+      type: object
+      properties:
+        mRID:
+          type: string
+          description: ID
+        name:
+          type: string
+          description: Заводское наименование
+        aliasName:
+          type: string
+          description: Диспетчерское наименование
+        description:
+          type: string
+          description: Описание
+      required:
+        - mRID
+        - name
+        - aliasName
+    asset:
+      title: asset
+      type: object
+      description: Актив
+      properties:
+        mRID:
+          type: string
+          description: ID
+        name:
+          type: string
+          description: Заводское наименование
+        aliasName:
+          type: string
+          description: Диспетчерское наименование
+        description:
+          type: string
+          description: Описание
+        materialKind:
+          type: string
+          description: Material this structure is made of.
+          enum:
+            - wood
+            - steel
+            - concrete
+            - other
+        serialNumber:
+          type: string
+        height:
+          $ref: '#/components/schemas/height'
+        location:
+          $ref: '#/components/schemas/location'
+      required:
+        - mRID
+        - name
+        - aliasName
+    height:
+      title: height
+      type: object
+      description: Высота
+      properties:
+        value:
+          type: number
+          description: Значение
+        unit:
+          $ref: '#/components/schemas/unitSymbol'
+      required:
+        - value
+        - unit
