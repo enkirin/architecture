@@ -96,6 +96,99 @@ paths:
       description: Потери энергии в линии.
       operationId: LinePowerLosses
     parameters: []
+  /grid/consumer/getEnergyConsumerPowerLosses:
+    get:
+      summary: getEnergyConsumerPowerLosses
+      responses: {}
+      operationId: get-grid-energy-consumer-getEnergyConsumerPowerLosses
+      description: Потери энергии на абонентском участке (отпайке)
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: mRID
+          description: ID потребителя
+      tags:
+        - EnergyConsumer
+    parameters: []
+  /grid/consumer/getEnergyConsumerSubstationPowerLosses:
+    get:
+      summary: getEnergyConsumerSubstationPowerLosses
+      tags:
+        - EnergyConsumer
+      responses: {}
+      operationId: get-grid-consumer-getEnergyConsumerSubstationPowerLosses
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: mRIDEnergyConsumer
+          description: ID потребителя
+        - schema:
+            type: string
+          in: query
+          name: mRIDSubstation
+          description: ID Трансформаторной подстанции
+      description: Потери энергии от ТП до Абонента
+  '/grid/substation/getSubstationPowerLosses ':
+    get:
+      summary: Your GET endpoint
+      tags:
+        - Substation
+      responses: {}
+      operationId: get-grid-substation-get
+      description: Потери энергии в ТП (силовой трансформатор и шинопровод)
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: mRID
+          description: ID Трансформаторной подстанции
+    parameters: []
+  /grid/substation/getSubstaionBuswayPowerLosses:
+    get:
+      summary: Your GET endpoint
+      tags:
+        - Substation
+      responses: {}
+      operationId: get-grid-substation-getSubstaionBuswayPowerLosses
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: mRID
+          description: ID ТП
+      description: Потери энергии в шинопроводе
+  /grid/substation/getSubstaionPowerTransformerPowerLosses:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-grid-substation
+      description: Потери энергии в силовом трансформаторе
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: mRID
+          description: ID ТП
+    parameters: []
+  /grid/substation/getSubstaionEnergyOrigination:
+    get:
+      summary: getSubstaionEnergyOrigination
+      operationId: get-grid-substation-getSubstaionEnergyOrigination
+      responses:
+        '200':
+          description: OK
+      tags:
+        - Substation
+      description: Отданная энергия (для каждой фазы)
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: mRID
+          description: ID ТП
 components:
   schemas:
     powerLossesValue:
