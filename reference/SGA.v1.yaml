@@ -91,9 +91,12 @@ paths:
           in: query
           name: mRID
           description: Line ID
+          required: true
       tags:
         - Line
       summary: ''
+      description: Потери энергии в линии.
+      operationId: LinePowerLosses
     parameters: []
 components:
   schemas:
