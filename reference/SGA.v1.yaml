@@ -6,10 +6,11 @@ info:
 servers:
   - url: 'http://localhost:3000'
 paths:
-  '/grid/line/getLinePowerLosses/{mRID}':
+  /grid/line/getACLineSegmentPowerLosses:
     get:
       summary: Your GET endpoint
-      tags: []
+      tags:
+        - Line
       responses:
         '200':
           description: OK
@@ -45,13 +46,55 @@ paths:
                               '':
                                 type: string
       operationId: get-grid-line
-    parameters:
-      - schema:
-          type: string
-        name: mRID
-        in: path
-        required: true
-        description: ID Линии
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: mRID
+          description: Line ID
+    parameters: []
+  /grid/line/getLinePowerLosses:
+    get:
+      responses:
+        - content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  header:
+                    type: object
+                  response:
+                    type: object
+                    properties:
+                      line:
+                        type: object
+                        properties:
+                          mRID:
+                            type: string
+                          powerLosses:
+                            type: object
+                            properties:
+                              total:
+                                $ref: '#/components/schemas/powerLossesValue'
+                              phases:
+                                type: object
+                                properties:
+                                  A:
+                                    $ref: '#/components/schemas/powerLossesValue'
+                                  B:
+                                    $ref: '#/components/schemas/powerLossesValue'
+                                  C:
+                                    $ref: '#/components/schemas/powerLossesValue'
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: mRID
+          description: Line ID
+      tags:
+        - Line
+      summary: ''
+    parameters: []
 components:
   schemas:
     powerLossesValue:
