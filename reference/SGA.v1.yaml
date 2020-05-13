@@ -24,7 +24,7 @@ paths:
                   response:
                     type: object
                     properties:
-                      line:
+                      ACLineSegment:
                         type: object
                         properties:
                           mRID:
@@ -32,8 +32,6 @@ paths:
                           powerLosses:
                             type: object
                             properties:
-                              total:
-                                $ref: '#/components/schemas/powerLossesValue'
                               phases:
                                 type: object
                                 properties:
@@ -43,15 +41,13 @@ paths:
                                     $ref: '#/components/schemas/powerLossesValue'
                                   C:
                                     $ref: '#/components/schemas/powerLossesValue'
-                              '':
-                                type: string
       operationId: get-grid-line
       parameters:
         - schema:
             type: string
           in: query
           name: mRID
-          description: Line ID
+          description: ID сегмента линии
     parameters: []
   /grid/line/getLinePowerLosses:
     get:
@@ -85,12 +81,14 @@ paths:
                                     $ref: '#/components/schemas/powerLossesValue'
                                   C:
                                     $ref: '#/components/schemas/powerLossesValue'
+          description: Потери энергии для указанной Линии.
+        - description: ''
       parameters:
         - schema:
             type: string
           in: query
           name: mRID
-          description: Line ID
+          description: ID Линии
           required: true
       tags:
         - Line
