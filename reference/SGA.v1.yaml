@@ -5,6 +5,62 @@ info:
   description: API for Smart grid analyzer
 servers:
   - url: 'http://localhost:3000'
-paths: {}
+paths:
+  '/grid/line/getLinePowerLosses/{mRID}':
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  header:
+                    type: object
+                  response:
+                    type: object
+                    properties:
+                      line:
+                        type: object
+                        properties:
+                          mRID:
+                            type: string
+                          powerLosses:
+                            type: object
+                            properties:
+                              total:
+                                $ref: '#/components/schemas/powerLossesValue'
+                              phases:
+                                type: object
+                                properties:
+                                  A:
+                                    $ref: '#/components/schemas/powerLossesValue'
+                                  B:
+                                    $ref: '#/components/schemas/powerLossesValue'
+                                  C:
+                                    $ref: '#/components/schemas/powerLossesValue'
+                              '':
+                                type: string
+      operationId: get-grid-line
+    parameters:
+      - schema:
+          type: string
+        name: mRID
+        in: path
+        required: true
+        description: ID Линии
 components:
-  schemas: {}
+  schemas:
+    powerLossesValue:
+      title: powerLossesValue
+      type: array
+      items:
+        type: object
+        properties:
+          value:
+            type: number
+          unit:
+            type: string
