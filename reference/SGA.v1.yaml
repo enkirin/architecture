@@ -256,6 +256,27 @@ paths:
         in: path
         required: true
         description: Worker ID
+  /phasing/worker/list:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  response:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        worker:
+                          $ref: '#/components/schemas/phasing_worker'
+      operationId: get-phasing-worker-list
+      description: Список всех процессов созданных для фазировки для всей сети
 components:
   schemas:
     powerLossesValue:
@@ -331,3 +352,5 @@ components:
                   type: string
                 C:
                   type: string
+            mRID:
+              type: string
