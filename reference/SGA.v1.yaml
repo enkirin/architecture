@@ -162,7 +162,8 @@ paths:
   /grid/substation/getSubstaionPowerTransformerPowerLosses:
     get:
       summary: Your GET endpoint
-      tags: []
+      tags:
+        - Substation
       responses: {}
       operationId: get-grid-substation
       description: Потери энергии в силовом трансформаторе
@@ -189,6 +190,25 @@ paths:
           in: query
           name: mRID
           description: ID ТП
+  /phasing/startEnergyConsumerPhasing:
+    post:
+      summary: ''
+      operationId: post-phasing-startEnergyConsumerPhasing
+      responses:
+        '202':
+          description: Accepted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  response:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/phasing_worker'
+      description: Запустить сервис определения фаз для потребителей
+      tags:
+        - Phasing
 components:
   schemas:
     powerLossesValue:
@@ -201,3 +221,32 @@ components:
             type: number
           unit:
             type: string
+    phasing_worker:
+      title: phasing_worker
+      type: object
+      x-tags:
+        - Phasing
+      properties:
+        id:
+          type: string
+        start_time:
+          type: string
+          format: date-time
+          description: Время старта процесса
+        stop_time:
+          type: string
+          format: date-time
+          description: ' Время завершения расчета для статуса Finished и время отмены для статуса Cancelled'
+        status:
+          type: string
+          enum:
+            - running
+            - cancelled
+            - finished
+          description: 'Статус процесса: Running, Finished, Cancelled'
+        сancel_resone:
+          type: string
+          description: 'Причина отмены, если процесс расчета фаз был отменен (статус cancelled).'
+      required:
+        - id
+        - status
