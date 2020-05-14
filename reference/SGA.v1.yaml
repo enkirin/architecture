@@ -209,6 +209,53 @@ paths:
       description: Запустить сервис определения фаз для потребителей
       tags:
         - Phasing
+  /phasing/stopEnergyConsumerPhasing:
+    post:
+      summary: ''
+      operationId: post-phasing-stopEnergyConsumerPhasing
+      responses:
+        '202':
+          description: Accepted
+      description: Остановить службу определения фаз абонентов
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: reason
+          description: Описание причины остановки (отмены) работоющего процесса
+  '/phasing/worker/metrics/{id}':
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  response:
+                    type: object
+                    properties:
+                      metrics:
+                        $ref: '#/components/schemas/phasing_worker_metrics'
+                      workerId:
+                        type: string
+                      line:
+                        type: object
+                        properties:
+                          mRID:
+                            type: string
+      operationId: get-phasing-statistic
+      description: Показатели (метрика) работы процесса фазировки.
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: Worker ID
 components:
   schemas:
     powerLossesValue:
@@ -247,6 +294,40 @@ components:
         сancel_resone:
           type: string
           description: 'Причина отмены, если процесс расчета фаз был отменен (статус cancelled).'
+        metrics:
+          $ref: '#/components/schemas/phasing_worker_metrics'
       required:
         - id
         - status
+    phasing_worker_metrics:
+      title: phasing_worker_metrics
+      type: object
+      description: |
+        Метрика, показатели работы процесса.
+      properties:
+        energyConsumer:
+          type: object
+          properties:
+            phase_sum:
+              type: object
+              description: Суммы потерь электроэнергии по фазно для всех потребителей
+              properties:
+                A:
+                  type: string
+                B:
+                  type: string
+                C:
+                  type: string
+        line:
+          type: object
+          properties:
+            phase_sum:
+              type: object
+              description: Суммы потерь электроэнергии по фазно для Линии
+              properties:
+                A:
+                  type: string
+                B:
+                  type: string
+                C:
+                  type: string
