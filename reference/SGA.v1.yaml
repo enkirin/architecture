@@ -414,7 +414,7 @@ components:
       title: phasing_worker_metrics
       type: object
       description: |
-        Метрика, показатели работы процесса.
+        Метрика, показатели работы процесса (worker) определения фаз абонента
       properties:
         energyConsumer:
           type: object
@@ -444,6 +444,22 @@ components:
                   type: string
             mRID:
               type: string
+            phase_imbalance:
+              type: object
+              description: НБ по фазно
+              properties:
+                A:
+                  type: string
+                B:
+                  type: string
+                C:
+                  type: string
+        workerId:
+          type: string
+          description: ID процесса
+        iteration_count:
+          type: number
+          description: Число итераций
     phasing_worker:
       title: phasing_worker
       type: object
