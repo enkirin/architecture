@@ -277,6 +277,50 @@ paths:
                           $ref: '#/components/schemas/phasing_worker'
       operationId: get-phasing-worker-list
       description: Список всех процессов созданных для фазировки для всей сети
+  /phasing/result/list:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/phasing_result'
+              examples:
+                example-1: {}
+      operationId: get-phasing-result
+      description: ' Получить список всех результатов расчета соответствия фаз потребятелям'
+      parameters:
+        - schema:
+            type: string
+            format: date-time
+          in: query
+          name: date
+          description: Получить список все результатов для указанной даты
+    parameters: []
+  /phasing/result:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/phasing_result'
+      operationId: get-phasing-result
+      description: Получить результат расчета
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: id
+          description: ID результата расчета
 components:
   schemas:
     powerLossesValue:
@@ -354,3 +398,45 @@ components:
                   type: string
             mRID:
               type: string
+    phasing_result:
+      title: phasing_result
+      type: object
+      description: Результат определения фаз для потребителя
+      properties:
+        id:
+          type: string
+        energy_consumer_phasing:
+          type: object
+          required:
+            - mRID
+            - phasing
+          properties:
+            mRID:
+              type: string
+              description: ID потребителя
+            phasing:
+              type: object
+              description: Растановка соответствия входов потребителя фазам
+              required:
+                - L1
+                - L2
+                - L3
+              properties:
+                L1:
+                  type: string
+                L2:
+                  type: string
+                L3:
+                  type: string
+        date:
+          type: string
+          description: 'Дата, когда результат фазировки был расчитан'
+          format: date-time
+        '':
+          type: array
+          items:
+            type: object
+      required:
+        - id
+        - energy_consumer_phasing
+        - date
