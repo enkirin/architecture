@@ -209,20 +209,71 @@ paths:
       description: Запустить сервис определения фаз для потребителей
       tags:
         - Phasing
-  /phasing/stopEnergyConsumerPhasing:
-    post:
-      summary: ''
-      operationId: post-phasing-stopEnergyConsumerPhasing
+  /phasing/result:
+    get:
+      summary: Your GET endpoint
+      tags: []
       responses:
-        '202':
-          description: Accepted
-      description: Остановить службу определения фаз абонентов
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/phasing_result'
+      operationId: get-phasing-result
+      description: Получить результат расчета
       parameters:
         - schema:
             type: string
           in: query
-          name: reason
-          description: Описание причины остановки (отмены) работоющего процесса
+          name: id
+          description: ID результата расчета
+  /phasing/result/list:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/phasing_result'
+              examples:
+                example-1: {}
+      operationId: get-phasing-result
+      description: ' Получить список всех результатов расчета соответствия фаз потребятелям'
+      parameters:
+        - schema:
+            type: string
+            format: date-time
+          in: query
+          name: date
+          description: Получить список все результатов для указанной даты
+    parameters: []
+  /phasing/worker/list:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  response:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        worker:
+                          $ref: '#/components/schemas/phasing_worker'
+      operationId: get-phasing-worker-list
+      description: Список всех процессов созданных для фазировки для всей сети
   '/phasing/worker/metrics/{id}':
     get:
       summary: Your GET endpoint
@@ -256,71 +307,20 @@ paths:
         in: path
         required: true
         description: Worker ID
-  /phasing/worker/list:
-    get:
-      summary: Your GET endpoint
-      tags: []
+  /phasing/stopEnergyConsumerPhasing:
+    post:
+      summary: ''
+      operationId: post-phasing-stopEnergyConsumerPhasing
       responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  response:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        worker:
-                          $ref: '#/components/schemas/phasing_worker'
-      operationId: get-phasing-worker-list
-      description: Список всех процессов созданных для фазировки для всей сети
-  /phasing/result/list:
-    get:
-      summary: Your GET endpoint
-      tags: []
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/phasing_result'
-              examples:
-                example-1: {}
-      operationId: get-phasing-result
-      description: ' Получить список всех результатов расчета соответствия фаз потребятелям'
-      parameters:
-        - schema:
-            type: string
-            format: date-time
-          in: query
-          name: date
-          description: Получить список все результатов для указанной даты
-    parameters: []
-  /phasing/result:
-    get:
-      summary: Your GET endpoint
-      tags: []
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/phasing_result'
-      operationId: get-phasing-result
-      description: Получить результат расчета
+        '202':
+          description: Accepted
+      description: Остановить службу определения фаз абонентов
       parameters:
         - schema:
             type: string
           in: query
-          name: id
-          description: ID результата расчета
+          name: reason
+          description: Описание причины остановки (отмены) работоющего процесса
 components:
   schemas:
     powerLossesValue:
@@ -333,37 +333,69 @@ components:
             type: number
           unit:
             type: string
-    phasing_worker:
-      title: phasing_worker
+    phasing_result:
+      title: phasing_result
       type: object
-      x-tags:
-        - Phasing
+      description: Результат определения фаз для потребителя
       properties:
         id:
           type: string
-        start_time:
+          description: ID result
+        date:
           type: string
+          description: 'Дата, когда результат фазировки был расчитан'
           format: date-time
-          description: Время старта процесса
-        stop_time:
-          type: string
-          format: date-time
-          description: ' Время завершения расчета для статуса Finished и время отмены для статуса Cancelled'
-        status:
-          type: string
-          enum:
-            - running
-            - cancelled
-            - finished
-          description: 'Статус процесса: Running, Finished, Cancelled'
-        сancel_resone:
-          type: string
-          description: 'Причина отмены, если процесс расчета фаз был отменен (статус cancelled).'
-        metrics:
-          $ref: '#/components/schemas/phasing_worker_metrics'
+        line:
+          type: object
+          required:
+            - mRID
+            - energy_consumer_phasing
+          properties:
+            mRID:
+              type: string
+              description: ID Линии
+            energy_consumer_phasing:
+              type: array
+              description: Растановка входов потребителей линии в соответствии фазам линии
+              items:
+                type: object
+                properties:
+                  mRID:
+                    type: string
+                    description: ID потребителя для которого определены фазы
+                  phasing:
+                    type: object
+                    description: 'Растановка L1, L2, L3 потребителя по фазам'
+                    required:
+                      - A
+                      - B
+                      - C
+                    properties:
+                      A:
+                        type: string
+                        enum:
+                          - L1
+                          - L2
+                          - L3
+                      B:
+                        type: string
+                        enum:
+                          - L1
+                          - L2
+                          - L3
+                      C:
+                        type: string
+                        enum:
+                          - L1
+                          - L2
+                          - L3
+                required:
+                  - mRID
+                  - phasing
       required:
         - id
-        - status
+        - date
+        - line
     phasing_worker_metrics:
       title: phasing_worker_metrics
       type: object
@@ -398,45 +430,34 @@ components:
                   type: string
             mRID:
               type: string
-    phasing_result:
-      title: phasing_result
+    phasing_worker:
+      title: phasing_worker
       type: object
-      description: Результат определения фаз для потребителя
+      x-tags:
+        - Phasing
       properties:
         id:
           type: string
-        energy_consumer_phasing:
-          type: object
-          required:
-            - mRID
-            - phasing
-          properties:
-            mRID:
-              type: string
-              description: ID потребителя
-            phasing:
-              type: object
-              description: Растановка соответствия входов потребителя фазам
-              required:
-                - L1
-                - L2
-                - L3
-              properties:
-                L1:
-                  type: string
-                L2:
-                  type: string
-                L3:
-                  type: string
-        date:
+        start_time:
           type: string
-          description: 'Дата, когда результат фазировки был расчитан'
           format: date-time
-        '':
-          type: array
-          items:
-            type: object
+          description: Время старта процесса
+        stop_time:
+          type: string
+          format: date-time
+          description: ' Время завершения расчета для статуса Finished и время отмены для статуса Cancelled'
+        status:
+          type: string
+          enum:
+            - running
+            - cancelled
+            - finished
+          description: 'Статус процесса: Running, Finished, Cancelled'
+        сancel_resone:
+          type: string
+          description: 'Причина отмены, если процесс расчета фаз был отменен (статус cancelled).'
+        metrics:
+          $ref: '#/components/schemas/phasing_worker_metrics'
       required:
         - id
-        - energy_consumer_phasing
-        - date
+        - status
