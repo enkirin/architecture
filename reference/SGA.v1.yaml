@@ -212,7 +212,9 @@ paths:
   /phasing/result:
     get:
       summary: Your GET endpoint
-      tags: []
+      tags:
+        - Phasing
+        - Phasing result
       responses:
         '200':
           description: OK
@@ -231,7 +233,9 @@ paths:
   /phasing/result/list:
     get:
       summary: Your GET endpoint
-      tags: []
+      tags:
+        - Phasing
+        - Phasing result
       responses:
         '200':
           description: OK
@@ -256,7 +260,9 @@ paths:
   /phasing/worker/list:
     get:
       summary: Your GET endpoint
-      tags: []
+      tags:
+        - Phasing
+        - Phasing worker
       responses:
         '200':
           description: OK
@@ -277,7 +283,9 @@ paths:
   '/phasing/worker/metrics/{id}':
     get:
       summary: Your GET endpoint
-      tags: []
+      tags:
+        - Phasing
+        - Phasing worker
       responses:
         '200':
           description: OK
@@ -321,6 +329,8 @@ paths:
           in: query
           name: reason
           description: Описание причины остановки (отмены) работоющего процесса
+      tags:
+        - Phasing
 components:
   schemas:
     powerLossesValue:
@@ -336,11 +346,14 @@ components:
     phasing_result:
       title: phasing_result
       type: object
-      description: Результат определения фаз для потребителя
+      description: Результат определения фаз для потребителей линии
+      x-tags:
+        - Phasing
+        - Phasing result
       properties:
         id:
           type: string
-          description: ID result
+          description: ID результата
         date:
           type: string
           description: 'Дата, когда результат фазировки был расчитан'
@@ -350,6 +363,7 @@ components:
           required:
             - mRID
             - energy_consumer_phasing
+          description: Линия для чьих потребителей выполнен алгоритм определения фаз
           properties:
             mRID:
               type: string
