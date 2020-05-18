@@ -735,10 +735,16 @@ components:
     consumerDevice:
       title: consumerDevice
       type: object
-      description: Счетчик
+      description: Счетчик потребителя
       properties:
-        properties:
-          $ref: '#/components/schemas/IdentifiedObject'
-        deviceNumber:
+        utcNumber:
           type: string
           description: Номер счетчика
+        name:
+          type: string
+        description:
+          type: string
+        aliasName:
+          type: string
+        mRID:
+          type: string
