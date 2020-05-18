@@ -33,6 +33,36 @@ paths:
                             description: ID
                           powerLosses:
                             $ref: '#/components/schemas/powerLosses'
+              examples:
+                Пример:
+                  value:
+                    header: {}
+                    response:
+                      ACLineSegment:
+                        mRID: asd9sadsada
+                        powerLosses:
+                          phases:
+                            A:
+                              - value: 0.35088958366866474
+                                unit: '%'
+                              - value: 16800.924
+                                unit: 'кв*ч'
+                            B:
+                              - value: 0.35088958366866474
+                                unit: '%'
+                              - value: 16800.924
+                                unit: 'кв*ч'
+                            C:
+                              - value: 0.35088958366866474
+                                unit: '%'
+                              - value: 16800.924
+                                unit: 'кв*ч'
+                        total:
+                          value:
+                            - value: '0.35088958366866474'
+                              unit: '%'
+                            - value: '16800.924'
+                              unit: 'кв*ч'
       operationId: get-grid-line
       parameters:
         - schema:
@@ -445,7 +475,7 @@ components:
           format: date-time
         line:
           type: object
-          description: Линия, для которой выполнен алгоритм определения фаз потребителей
+          description: 'Линия, для которой выполнен алгоритм определения фаз потребителей'
           required:
             - mRID
             - energy_consumer_phasing
@@ -461,7 +491,7 @@ components:
                 properties:
                   mRID:
                     type: string
-                    description: ID потребителя, для которого определены фазы
+                    description: 'ID потребителя, для которого определены фазы'
                   phasing:
                     type: object
                     description: 'Растановка L1, L2, L3 потребителя по фазам'
@@ -692,13 +722,14 @@ components:
         lineMRID:
           type: string
           format: date-time
-          description: ID Линии, для которой процесс создан
+          description: 'ID Линии, для которой процесс создан'
       x-tags:
         - Phasing worker
         - Phasing
     powerLosses:
       title: PowerLosses
       type: object
+      description: Потери электроэнергии
       properties:
         phases:
           type: object
@@ -716,7 +747,6 @@ components:
           properties:
             value:
               $ref: '#/components/schemas/powerLossesValue'
-      description: Потери электроэнергии
     powerOrigination:
       title: PowerOrigination
       type: object
@@ -763,7 +793,7 @@ components:
         stopTime:
           type: string
           format: date-time
-          description: 'Время завершения расчета для статуса Finished и время отмены для статуса Cancelled'
+          description: Время завершения расчета для статуса Finished и время отмены для статуса Cancelled
         status:
           type: string
           description: "Статус процесса: \nRunning - Идет накопление данных;\nFinished - Расчет запущен и находится в процессе выполнения;\nCancelled - Расчет был остановлен и не доведен до конца;\nIdle - Идет накопление данных."
