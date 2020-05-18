@@ -44,26 +44,6 @@ paths:
     parameters: []
   /grid/line/getLinePowerLosses:
     get:
-      responses:
-        - content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  header:
-                    type: object
-                  response:
-                    type: object
-                    properties:
-                      line:
-                        type: object
-                        properties:
-                          mRID:
-                            type: string
-                            description: ID Линии
-                          powerLosses:
-                            $ref: '#/components/schemas/powerLosses'
-          description: Потери энергии для указанной Линии.
       parameters:
         - schema:
             type: string
@@ -76,6 +56,24 @@ paths:
       summary: ''
       description: Потери лектроэнергии для всей линии
       operationId: LinePowerLosses
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  header:
+                    type: object
+                  response:
+                    type: object
+                    properties:
+                      mRID:
+                        type: string
+                        description: ID Линиии
+                      powerLosses:
+                        $ref: '#/components/schemas/powerLosses'
     parameters: []
   /grid/consumer/getEnergyConsumerPowerLosses:
     get:
@@ -196,12 +194,6 @@ paths:
                             properties:
                               value:
                                 $ref: '#/components/schemas/powerLossesValue'
-        '':
-          content:
-            application/json:
-              schema:
-                type: object
-                properties: {}
       operationId: get-grid-substation-get
       description: Потери энергии в ТП (силовой трансформатор и шинопровод)
       parameters:
@@ -285,7 +277,7 @@ paths:
           description: ID результата расчета
   /phasing/result/list:
     get:
-      summary: Your GET endpoint
+      summary: Phasing result list
       tags:
         - Phasing
         - Phasing result
@@ -300,7 +292,7 @@ paths:
                   $ref: '#/components/schemas/phasing_result'
               examples:
                 example-1: {}
-      operationId: get-phasing-result
+      operationId: phasing-result-list
       description: ' Получить список всех результатов расчета соответствия фаз потребятелям'
       parameters:
         - schema:
