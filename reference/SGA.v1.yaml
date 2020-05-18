@@ -424,7 +424,7 @@ components:
           unit:
             type: string
             description: Единица измерения
-    phasing_result:
+    phasingResult:
       title: phasing_result
       type: object
       description: Результат определения фаз для потребителей линии
@@ -491,7 +491,7 @@ components:
         - id
         - date
         - line
-    phasing_worker_metrics:
+    phasingWorkerMetrics:
       title: phasing_worker
       type: object
       x-tags:
@@ -499,7 +499,7 @@ components:
       properties:
         metrics:
           $ref: '#/components/schemas/phasing_worker_metrics'
-    phasing_metrics:
+    phasingMetrics:
       title: phasing_worker_metrics
       type: object
       description: Показатели работы процесса определения фаз для потребителя линии
@@ -664,10 +664,10 @@ components:
             - overallImbalance
             - meanImbalance
             - delta
-    phasing_worker:
+    phasingWorker:
       title: phasing_worker
       type: object
-    phasing_worker_simple:
+    phasingWorkerSimple:
       title: phasing_worker_simple
       type: object
       properties:
