@@ -250,7 +250,7 @@ paths:
                   response:
                     type: array
                     items:
-                      $ref: '#/components/schemas/phasing_worker'
+                      $ref: '#/components/schemas/phasingWorker'
       description: Метод запускает сервис определения фаз для потребителей. Стартуют все процессы (workers)
       tags:
         - Phasing
@@ -266,7 +266,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/phasing_result'
+                $ref: '#/components/schemas/phasingResult'
       operationId: get-phasing-result
       description: Метод возвращает результат определения фаз потребителей линии
       parameters:
@@ -289,7 +289,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/phasing_result'
+                  $ref: '#/components/schemas/phasingResult'
               examples:
                 example-1: {}
       operationId: phasing-result-list
@@ -319,7 +319,7 @@ paths:
                   response:
                     type: array
                     items:
-                      $ref: '#/components/schemas/phasing_worker_simple'
+                      $ref: '#/components/schemas/phasingWorkerSimple'
       operationId: get-phasing-worker-list
       description: Метод возвращает список процессов (workers) выполняющих расчет фаз потребителей для всей сети
   '/phasing/worker/metrics/{id}':
@@ -340,9 +340,9 @@ paths:
                     type: object
                     properties:
                       worker:
-                        $ref: '#/components/schemas/phasing_worker_simple'
+                        $ref: '#/components/schemas/phasingWorkerSimple'
                       metrics:
-                        $ref: '#/components/schemas/phasing_metrics'
+                        $ref: '#/components/schemas/phasingMetrics'
                   header:
                     type: object
                     description: Служебная информация
@@ -396,7 +396,7 @@ paths:
                     type: object
                     properties:
                       worker:
-                        $ref: '#/components/schemas/phasing_worker_simple'
+                        $ref: '#/components/schemas/phasingWorkerSimple'
                       lineMRID:
                         type: string
                         description: ID Линии для которой данный процесс создан
@@ -498,7 +498,7 @@ components:
         - Phasing
       properties:
         metrics:
-          $ref: '#/components/schemas/phasing_worker_metrics'
+          $ref: '#/components/schemas/phasingWorkerMetrics'
     phasingMetrics:
       title: PhasingWorkerMetrics
       type: object
