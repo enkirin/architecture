@@ -8,7 +8,7 @@ servers:
 paths:
   /grid/create:
     post:
-      summary: create
+      summary: Загрузить топологию сети
       tags:
         - Grid
       responses:
@@ -65,7 +65,7 @@ paths:
                     aliasName: ''
                     description: ''
         description: Electric Grid layout (topology).
-      description: Load new grid popology.
+      description: 'Метод загружает объект, который описывает топологию сети'
   /grid/consumer/list:
     get:
       summary: Список потребителей
@@ -165,7 +165,7 @@ paths:
           name: name
   /device/consumer/list:
     get:
-      summary: Список счетчиков (реестр устройст)
+      summary: Список (реестр устройст) счетчиков потребителей
       tags: []
       responses:
         '200':
