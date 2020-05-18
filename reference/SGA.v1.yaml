@@ -306,6 +306,8 @@ paths:
                         properties:
                           mRID:
                             type: string
+              examples:
+                example-1: {}
       operationId: get-phasing-statistic
       description: Показатели (метрика) работы процесса фазировки.
     parameters:
@@ -415,6 +417,8 @@ components:
       type: object
       description: |
         Метрика, показатели работы процесса (worker) определения фаз абонента
+      x-examples:
+        example-1: {}
       properties:
         energyConsumer:
           type: object
@@ -454,12 +458,62 @@ components:
                   type: string
                 C:
                   type: string
-        workerId:
-          type: string
-          description: ID процесса
-        iteration_count:
-          type: number
-          description: Число итераций
+        totalDuration:
+          format: time
+          type: integer
+        samplingDepth:
+          type: integer
+        iterationCount:
+          type: integer
+        lineEnergyConsumers:
+          type: object
+          properties:
+            sumByPhase:
+              type: object
+              description: Сумма потерь по фазам для всех потребителей линии
+              properties:
+                A:
+                  type: number
+                B:
+                  type: number
+                C:
+                  type: number
+            energyConsumer:
+              type: object
+              properties:
+                mRID:
+                  type: string
+                phaseRotation:
+                  type: string
+                  enum:
+                    - counterclockwise
+                    - clockwise
+                loadBalance:
+                  type: object
+                  properties:
+                    A:
+                      type: string
+                    B:
+                      type: string
+                    C:
+                      type: string
+                errors:
+                  type: object
+                  properties:
+                    columnConflict:
+                      type: string
+                    incorrectPhaseRotation:
+                      type: string
+                    lowLoad:
+                      type: string
+                    lowColumnCC:
+                      type: string
+                    tooCloseColumnCC:
+                      type: string
+                    rowConflict:
+                      type: string
+                phaseArrangement:
+                  type: object
     phasing_worker:
       title: phasing_worker
       type: object
@@ -491,3 +545,114 @@ components:
       required:
         - id
         - status
+    phasing_worker_metrics2:
+      title: phasing_worker_metrics2
+      type: object
+      properties:
+        metrics:
+          type: object
+          properties:
+            totalDuration:
+              type: integer
+            samplingDepth:
+              type: integer
+            iterationCount:
+              type: integer
+            overallImbalance:
+              type: number
+            lineEnergyConsumers:
+              type: object
+              properties:
+                sumByPhase:
+                  type: object
+                  properties:
+                    A:
+                      type: number
+                    B:
+                      type: number
+                    C:
+                      type: number
+                energyConsumer:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      mRID:
+                        type: string
+                      phaseRotation:
+                        type: string
+                        enum:
+                          - counterclockwise
+                          - clockwise
+                      loadBalance:
+                        type: object
+                        properties:
+                          A:
+                            type: number
+                          B:
+                            type: number
+                          C:
+                            type: number
+                      errors:
+                        type: object
+                        properties:
+                          columnConflict:
+                            type: boolean
+                          incorrectPhaseRotation:
+                            type: boolean
+                          lowLoad:
+                            type: boolean
+                          lowColumnCC:
+                            type: boolean
+                          tooCloseColumnCC:
+                            type: boolean
+                          rowConflict:
+                            type: boolean
+                      corrMats:
+                        type: array
+                        items:
+                          type: number
+                      phaseArrangement:
+                        type: object
+                        properties:
+                          was:
+                            type: object
+                            properties:
+                              A:
+                                type: string
+                              B:
+                                type: string
+                              C:
+                                type: string
+                          became:
+                            type: object
+                            properties:
+                              A:
+                                type: string
+                              B:
+                                type: string
+                              C:
+                                type: string
+            line:
+              type: object
+              properties:
+                mRID:
+                  type: string
+                sumByPhase:
+                  type: object
+                  properties:
+                    A:
+                      type: number
+                    B:
+                      type: number
+                    C:
+                      type: number
+                imbalanceByPhase:
+                  type: object
+                  properties:
+                    A:
+                      type: number
+                    B:
+                      type: number
+                    C:
+                      type: number
