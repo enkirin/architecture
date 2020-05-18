@@ -6,7 +6,7 @@ info:
 servers:
   - url: 'http://localhost:3000'
 paths:
-  /grid/line/getACLineSegmentPowerLosses:
+  /grid/line/ACLineSegmentPowerLosses:
     get:
       summary: Потери электроэнергии в сегменте линии
       tags:
@@ -42,7 +42,7 @@ paths:
           description: ID сегмента линии
       description: Метод возвращает потери электроэнергии для сегмента линии
     parameters: []
-  /grid/line/getLinePowerLosses:
+  /grid/line/linePowerLosses:
     get:
       parameters:
         - schema:
@@ -75,7 +75,7 @@ paths:
                       powerLosses:
                         $ref: '#/components/schemas/powerLosses'
     parameters: []
-  /grid/consumer/getEnergyConsumerPowerLosses:
+  /grid/consumer/energyConsumerPowerLosses:
     get:
       summary: Потери электроэнергии на абоненском участке
       responses:
@@ -110,7 +110,7 @@ paths:
       tags:
         - EnergyConsumer
     parameters: []
-  /grid/consumer/getEnergyConsumerSubstationPowerLosses:
+  /grid/consumer/energyConsumerSubstationPowerLosses:
     get:
       summary: Потери электроэнергии от ТП до абонента
       tags:
@@ -155,7 +155,8 @@ paths:
           name: mRIDSubstation
           description: ID Трансформаторной подстанции
       description: Метод возвращает потери электроэнергии на участке ТП - потребитель
-  '/grid/substation/getSubstationPowerLosses ':
+    parameters: []
+  /grid/substation/substationPowerLosses:
     get:
       summary: Потери электроэнергии в ТП
       tags:
@@ -203,7 +204,7 @@ paths:
           name: mRID
           description: ID Трансформаторной подстанции
     parameters: []
-  /grid/substation/getSubstaionEnergyOrigination:
+  /grid/substation/substaionEnergyOrigination:
     get:
       summary: Количество отданной электроэнергии ТП
       operationId: get-grid-substation-getSubstaionEnergyOrigination
@@ -235,6 +236,7 @@ paths:
           name: mRID
           description: ID ТП
           required: true
+    parameters: []
   /phasing/startEnergyConsumerPhasing:
     post:
       summary: Запустить службу определения фаз потребителей
