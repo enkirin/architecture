@@ -102,7 +102,7 @@ paths:
         - schema:
             type: string
           in: query
-          name: geographicalRegion
+          name: geographicalRegionMRID
           description: ID Региона сети
         - schema:
             type: boolean
@@ -163,6 +163,58 @@ paths:
             type: string
           in: query
           name: name
+  /device/consumer/list:
+    get:
+      summary: Список счетчиков (реестр устройст)
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  header:
+                    type: object
+                  response:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/consumerDevice'
+      operationId: get-device-list
+      description: Метод возвращает список счетчиков потребителей
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: geographicalRegionMRID
+          description: ID сети
+    parameters: []
+  '/device/consumer/{id}':
+    get:
+      summary: Счетчик потребителя
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  header:
+                    type: object
+                  response:
+                    $ref: '#/components/schemas/consumerDevice'
+      operationId: get-device-consumer
+      description: Метод возвращает счетчик потребителя
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: ID счетчик
 components:
   schemas:
     geographicalRegion:
@@ -680,3 +732,37 @@ components:
     energyConsumerSimple:
       $ref: '#/components/schemas/IdentifiedObject'
       description: Упрощенный объект потребителя
+    device:
+      title: device
+      type: object
+      description: 'Устройство (счетчик потребителя, КМЭО и т.д.)'
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+        decription:
+          type: string
+        isActive:
+          type: boolean
+          description: Отключен/Включен
+        activeDate:
+          type: string
+          description: Дата последней активности (когда получены данные) устройства
+      required:
+        - id
+        - name
+        - type
+        - decription
+    consumerDevice:
+      title: consumerDevice
+      type: object
+      description: Счетчик
+      properties:
+        properties:
+          $ref: '#/components/schemas/device'
+        deviceNumber:
+          type: string
+          description: Номер счетчика
