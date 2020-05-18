@@ -69,7 +69,8 @@ paths:
   /grid/consumer/list:
     get:
       summary: Список потребителей
-      tags: []
+      tags:
+        - EnergyConsumer
       responses:
         '200':
           description: OK
@@ -122,7 +123,8 @@ paths:
   /grid/consumer:
     get:
       summary: Потребитель сети
-      tags: []
+      tags:
+        - EnergyConsumer
       responses:
         '200':
           description: OK
@@ -163,7 +165,6 @@ paths:
   /device/consumer/list:
     get:
       summary: Список (реестр устройст) счетчиков потребителей
-      tags: []
       responses:
         '200':
           description: OK
@@ -186,11 +187,14 @@ paths:
           in: query
           name: geographicalRegionMRID
           description: ID сети
+      tags:
+        - Device
     parameters: []
   '/device/consumer/{id}':
     get:
       summary: Счетчик потребителя
-      tags: []
+      tags:
+        - Device
       responses:
         '200':
           description: OK
