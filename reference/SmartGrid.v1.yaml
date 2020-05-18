@@ -66,6 +66,103 @@ paths:
                     description: ''
         description: Electric Grid layout (topology).
       description: Load new grid popology.
+  /grid/consumer/list:
+    get:
+      summary: Список потребителей
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  header:
+                    type: object
+                    properties:
+                      simpleModel:
+                        type: boolean
+                        enum:
+                          - simple
+                          - standard
+                        description: 'Тип подели потребителя, true - простая модель'
+                  response:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/energyConsumer'
+      operationId: get-grid-consumer-list
+      description: Метод возвращает список потребителей (EnergyConsumer)
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: lineMRID
+          description: ID Линии
+        - schema:
+            type: string
+          in: query
+          name: geographicalRegion
+          description: ID Региона сети
+        - schema:
+            type: boolean
+            enum: []
+          in: query
+          name: simpleModel
+          description: true - простая модель потребителя
+        - schema:
+            type: string
+          in: query
+          name: consumerName
+          description: Поиск потребителей по имени
+        - schema:
+            type: string
+          in: query
+          name: consumerAliasName
+          description: Поиск потребителей по AliasName
+  /grid/consumer:
+    get:
+      summary: Потребитель сети
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  header:
+                    type:
+                      - string
+                      - object
+                    properties:
+                      simpleModel:
+                        type: boolean
+                        description: 'Тип подели потребителя, true - простая модель'
+                  response:
+                    $ref: '#/components/schemas/energyConsumerSimple'
+                required:
+                  - header
+      operationId: get-grid-consumer
+      description: Метод возвращает потребителя
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: mRID
+        - schema:
+            type: boolean
+          in: query
+          name: simpleModel
+        - schema:
+            type: string
+          in: query
+          name: aliasName
+        - schema:
+            type: string
+          in: query
+          name: name
 components:
   schemas:
     geographicalRegion:
@@ -567,3 +664,19 @@ components:
         - concrete
         - other
       description: Material this structure is made of.
+    IdentifiedObject:
+      title: object
+      type: object
+      properties:
+        mRID:
+          type: string
+        aliasName:
+          type: string
+        description:
+          type: string
+        name:
+          type: string
+      description: ' Стандартные атрибуты'
+    energyConsumerSimple:
+      $ref: '#/components/schemas/IdentifiedObject'
+      description: Упрощенный объект потребителя
