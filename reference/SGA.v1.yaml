@@ -192,7 +192,7 @@ paths:
                                 $ref: '#/components/schemas/powerLossesValue'
                           powerTransformer:
                             type: object
-                            description: Потери силовом трансформаторе
+                            description: Потери в силовом трансформаторе
                             properties:
                               value:
                                 $ref: '#/components/schemas/powerLossesValue'
@@ -210,52 +210,6 @@ paths:
           in: query
           name: mRID
           description: ID Трансформаторной подстанции
-    parameters: []
-  /grid/substation/getSubstaionBuswayPowerLosses:
-    get:
-      summary: Your GET endpoint
-      tags:
-        - Substation
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  header:
-                    type: object
-                  response:
-                    type: object
-                    properties:
-                      mRID:
-                        type: string
-                        description: ID ТП
-                      powerLosses:
-                        $ref: '#/components/schemas/powerLossesValue'
-      operationId: get-grid-substation-getSubstaionBuswayPowerLosses
-      parameters:
-        - schema:
-            type: string
-          in: query
-          name: mRID
-          description: ID ТП
-      description: Потери энергии в шинопроводе ТП
-  /grid/substation/getSubstaionPowerTransformerPowerLosses:
-    get:
-      summary: Your GET endpoint
-      tags:
-        - Substation
-      responses: {}
-      operationId: get-grid-substation
-      description: Потери энергии в силовом трансформаторе
-      parameters:
-        - schema:
-            type: string
-          in: query
-          name: mRID
-          description: ID ТП
     parameters: []
   /grid/substation/getSubstaionEnergyOrigination:
     get:
