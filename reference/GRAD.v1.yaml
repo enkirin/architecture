@@ -732,37 +732,13 @@ components:
     energyConsumerSimple:
       $ref: '#/components/schemas/IdentifiedObject'
       description: Упрощенный объект потребителя
-    device:
-      title: device
-      type: object
-      description: 'Устройство (счетчик потребителя, КМЭО и т.д.)'
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        type:
-          type: string
-        decription:
-          type: string
-        isActive:
-          type: boolean
-          description: Отключен/Включен
-        activeDate:
-          type: string
-          description: Дата последней активности (когда получены данные) устройства
-      required:
-        - id
-        - name
-        - type
-        - decription
     consumerDevice:
       title: consumerDevice
       type: object
       description: Счетчик
       properties:
         properties:
-          $ref: '#/components/schemas/device'
+          $ref: '#/components/schemas/IdentifiedObject'
         deviceNumber:
           type: string
           description: Номер счетчика
