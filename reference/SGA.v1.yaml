@@ -386,7 +386,9 @@ paths:
   '/phasing/worker/{id}':
     get:
       summary: Phasing worker
-      tags: []
+      tags:
+        - Phasing
+        - Phasing worker
       responses:
         '200':
           description: OK
