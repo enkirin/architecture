@@ -440,6 +440,7 @@ components:
             - phases: none
               connectivityNode:
                 mRID: 00000000-0000-0000-0000-000000000021
+      description: Потребитель
       properties:
         baseVoltage:
           $ref: '#/components/schemas/baseVoltage'
@@ -448,7 +449,9 @@ components:
         terminal:
           $ref: '#/components/schemas/coordinateSystem'
         asset:
-          $ref: '#/components/schemas/asset'
+          type: array
+          items:
+            $ref: '#/components/schemas/consumerDevice'
         description:
           type: string
           description: Описание
@@ -690,6 +693,8 @@ components:
           $ref: '#/components/schemas/height'
         location:
           $ref: '#/components/schemas/location'
+        utcNumber:
+          type: string
       required:
         - mRID
         - name
@@ -730,16 +735,13 @@ components:
           type: string
       description: ' Стандартные атрибуты'
     energyConsumerSimple:
-      $ref: '#/components/schemas/IdentifiedObject'
-      description: Упрощенный объект потребителя
-    consumerDevice:
-      title: consumerDevice
       type: object
-      description: Счетчик потребителя
+      description: ' Потребитель (простая модель)'
       properties:
-        utcNumber:
-          type: string
-          description: Номер счетчика
+        asset:
+          type: array
+          items:
+            $ref: '#/components/schemas/consumerDevice'
         name:
           type: string
         description:
@@ -748,3 +750,31 @@ components:
           type: string
         mRID:
           type: string
+    consumerDevice:
+      title: consumerDevice
+      type: object
+      description: Счетчик потребителя (Железка)
+      properties:
+        utcNumber:
+          type: string
+          description: Номер счетчика
+        name:
+          type: string
+          description: Название счетчика
+        description:
+          type: string
+          description: Описание
+        aliasName:
+          type: string
+          description: Диспетчерское наименование
+        mRID:
+          type: string
+        serialNumber:
+          type: string
+          description: ''
+      required:
+        - utcNumber
+        - name
+        - aliasName
+        - mRID
+        - serialNumber
