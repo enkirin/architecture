@@ -275,6 +275,11 @@ paths:
           in: query
           name: id
           description: ID результата расчета
+        - schema:
+            type: string
+          in: query
+          name: energyConsumerMRID
+          description: ID потребителя
   /phasing/result/list:
     get:
       summary: Список всех результатов определения фаз
@@ -319,7 +324,7 @@ paths:
                   response:
                     type: array
                     items:
-                      $ref: '#/components/schemas/phasingWorkerSimple'
+                      $ref: '#/components/schemas/phasingWorker'
       operationId: get-phasing-worker-list
       description: Метод возвращает список процессов (workers) выполняющих расчет фаз потребителей для всей сети
   '/phasing/worker/metrics/{id}':
@@ -340,7 +345,7 @@ paths:
                     type: object
                     properties:
                       worker:
-                        $ref: '#/components/schemas/phasingWorkerSimple'
+                        $ref: '#/components/schemas/phasingWorkerProcess'
                       metrics:
                         $ref: '#/components/schemas/phasingMetrics'
                   header:
@@ -396,10 +401,7 @@ paths:
                     type: object
                     properties:
                       worker:
-                        $ref: '#/components/schemas/phasingWorkerSimple'
-                      lineMRID:
-                        type: string
-                        description: ID Линии для которой данный процесс создан
+                        $ref: '#/components/schemas/phasingWorker'
       operationId: get-phasing-worker
       description: Метод возвращает cвойства процесса расчета фазировки
     parameters:
@@ -667,33 +669,17 @@ components:
     phasingWorker:
       title: PhasingWorker
       type: object
-    phasingWorkerSimple:
-      title: PhasingWorkerSimple
-      type: object
+      description: Процесс определяющий фазировку потребителей для линии
       properties:
-        id:
-          type: string
-          description: ID процесса
-        сancel_resone:
-          type: string
-          description: 'Причина отмены, если процесс расчета фаз был отменен (статус cancelled).'
-        status:
-          type: string
-          description: "Статус процесса: \nRunning - Идет накопление данных;\nFinished - Расчет запущен и находится в процессе выполнения;\nCancelled - Расчет был остановлен и не доведен до конца;\nIdle - Идет накопление данных."
-          enum:
-            - running
-            - cancelled
-            - finished
-            - idle
-        stopTime:
+        process:
+          $ref: '#/components/schemas/phasingWorkerProcess'
+        lineMRID:
           type: string
           format: date-time
-          description: ' Время завершения расчета для статуса Finished и время отмены для статуса Cancelled'
-        startTime:
-          type: string
-          format: date-time
-          description: Время старта процесса
-      description: Свойства процесса
+          description: ID Линии для которой процесс создан
+      x-tags:
+        - Phasing worker
+        - Phasing
     powerLosses:
       title: PowerLosses
       type: object
@@ -747,3 +733,33 @@ components:
         unit:
           type: string
           description: Единица измерения
+    phasingWorkerProcess:
+      title: phasingWorkerProcess
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID процесса
+        startTime:
+          type: string
+          format: date-time
+          description: Время старта процесса
+        stopTime:
+          type: string
+          format: date-time
+          description: ' Время завершения расчета для статуса Finished и время отмены для статуса Cancelled'
+        status:
+          type: string
+          description: "Статус процесса: \nRunning - Идет накопление данных;\nFinished - Расчет запущен и находится в процессе выполнения;\nCancelled - Расчет был остановлен и не доведен до конца;\nIdle - Идет накопление данных."
+          enum:
+            - running
+            - cancelled
+            - finished
+            - idle
+        сancelReason:
+          type: string
+          description: 'Причина отмены, если процесс расчета фаз был отменен (статус cancelled).'
+      description: Worker - процесс выполняющий работу по определению фаз потребителя
+      x-tags:
+        - Phasing worker
+        - Phasing
