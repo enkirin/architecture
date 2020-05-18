@@ -412,7 +412,7 @@ paths:
 components:
   schemas:
     powerLossesValue:
-      title: powerLossesValue
+      title: PowerLossesValue
       type: array
       description: Значение потерь электроэнергии
       items:
@@ -425,7 +425,7 @@ components:
             type: string
             description: Единица измерения
     phasingResult:
-      title: phasing_result
+      title: PhasingResult
       type: object
       description: Результат определения фаз для потребителей линии
       x-tags:
@@ -492,7 +492,7 @@ components:
         - date
         - line
     phasingWorkerMetrics:
-      title: phasing_worker
+      title: PhasingWorker
       type: object
       x-tags:
         - Phasing
@@ -500,7 +500,7 @@ components:
         metrics:
           $ref: '#/components/schemas/phasing_worker_metrics'
     phasingMetrics:
-      title: phasing_worker_metrics
+      title: PhasingWorkerMetrics
       type: object
       description: Показатели работы процесса определения фаз для потребителя линии
       properties:
@@ -665,10 +665,10 @@ components:
             - meanImbalance
             - delta
     phasingWorker:
-      title: phasing_worker
+      title: PhasingWorker
       type: object
     phasingWorkerSimple:
-      title: phasing_worker_simple
+      title: PhasingWorkerSimple
       type: object
       properties:
         id:
@@ -695,7 +695,7 @@ components:
           description: Время старта процесса
       description: Свойства процесса
     powerLosses:
-      title: powerLosses
+      title: PowerLosses
       type: object
       properties:
         phases:
@@ -716,7 +716,7 @@ components:
               $ref: '#/components/schemas/powerLossesValue'
       description: Потери электроэнергии
     powerOrigination:
-      title: powerOrigination
+      title: PowerOrigination
       type: object
       properties:
         total:
@@ -735,8 +735,9 @@ components:
               $ref: '#/components/schemas/powerOriginationValue'
             C:
               $ref: '#/components/schemas/powerOriginationValue'
+      description: Количество отданной электроэнергии
     powerOriginationValue:
-      title: powerOriginationValue
+      title: PowerOriginationValue
       type: object
       description: Количество произведенной электроэнергии
       properties:
