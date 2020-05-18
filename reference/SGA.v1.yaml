@@ -455,7 +455,7 @@ components:
               description: ID Линии
             energy_consumer_phasing:
               type: array
-              description: Расстановка входов потребителей линии в соответствии фазам линии
+              description: Результат фазировки для потребителя
               items:
                 type: object
                 properties:
@@ -488,6 +488,20 @@ components:
                           - L1
                           - L2
                           - L3
+                  metrics:
+                    type: object
+                    description: Дополнительные показатели фазировки
+                    properties:
+                      loadBalance:
+                        type: object
+                        description: Доля нагрузки по фазно
+                        properties:
+                          A:
+                            $ref: '#/components/schemas/valueUnit'
+                          B:
+                            $ref: '#/components/schemas/valueUnit'
+                          C:
+                            $ref: '#/components/schemas/valueUnit'
                 required:
                   - mRID
                   - phasing
@@ -765,3 +779,14 @@ components:
       x-tags:
         - Phasing worker
         - Phasing
+    valueUnit:
+      title: valueUnit
+      type: object
+      description: Значение и в чем оно измеряется
+      properties:
+        value:
+          type: string
+          description: Значение
+        unit:
+          type: string
+          description: Единица измерения
