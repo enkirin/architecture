@@ -53,8 +53,8 @@ paths:
           required: true
       tags:
         - Line
-      summary: ''
-      description: Потери лектроэнергии для всей линии
+      summary: Потери электроэнергии в линии
+      description: Получить потери электроэнергии для всей линии
       operationId: LinePowerLosses
       responses:
         '200':
