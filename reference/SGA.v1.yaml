@@ -104,6 +104,35 @@ paths:
                         description: ID Линиии
                       powerLosses:
                         $ref: '#/components/schemas/powerLosses'
+              examples:
+                Пример:
+                  value:
+                    header: {}
+                    response:
+                      mRID: 5234356546fgfg
+                      powerLosses:
+                        phases:
+                          A:
+                            - value: 0.35088958366866474
+                              unit: '%'
+                            - value: 16800.924
+                              unit: 'кв*ч'
+                          B:
+                            - value: 0.35088958366866474
+                              unit: '%'
+                            - value: 16800.924
+                              unit: 'кв*ч'
+                          C:
+                            - value: 0.35088958366866474
+                              unit: '%'
+                            - value: 16800.924
+                              unit: 'кв*ч'
+                      total:
+                        value:
+                          - value: '0.35088958366866474'
+                            unit: '%'
+                          - value: '16800.924'
+                            unit: 'кв*ч'
     parameters: []
   /grid/consumer/energyConsumerPowerLosses:
     get:
@@ -225,6 +254,30 @@ paths:
                             properties:
                               value:
                                 $ref: '#/components/schemas/powerLossesValue'
+              examples:
+                Пример:
+                  value:
+                    header: {}
+                    response:
+                      powerLosses:
+                        total:
+                          value:
+                            - value: 16800.924
+                              unit: 'кв*ч'
+                            - value: 0.35088958366866474
+                              unit: '%'
+                        busway:
+                          value:
+                            - value: 16800.924
+                              unit: 'кв*ч'
+                            - value: 0.35088958366866474
+                              unit: '%'
+                        powerTransformer:
+                          value:
+                            - value: 16800.924
+                              unit: 'кв*ч'
+                            - value: 0.35088958366866474
+                              unit: '%'
       operationId: get-grid-substation-get
       description: Метод возвращает потери электроэнергии в ТП (силовой трансформатор и шинопровод)
       parameters:
@@ -248,7 +301,7 @@ paths:
                 properties:
                   header:
                     type: object
-                  respose:
+                  response:
                     type: object
                     properties:
                       mRID:
