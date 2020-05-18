@@ -427,7 +427,7 @@ components:
     phasingResult:
       title: PhasingResult
       type: object
-      description: Результат определения фаз для потребителей линии
+      description: Результат определения фаз для потребителя линии
       x-tags:
         - Phasing
         - Phasing result
@@ -441,7 +441,7 @@ components:
           format: date-time
         line:
           type: object
-          description: Линия для чьих потребителей выполнен алгоритм определения фаз
+          description: Линия для которой выполнен алгоритм определения фаз потребителей
           required:
             - mRID
             - energy_consumer_phasing
