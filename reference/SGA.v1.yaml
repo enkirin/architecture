@@ -77,7 +77,7 @@ paths:
     parameters: []
   /grid/consumer/energyConsumerPowerLosses:
     get:
-      summary: Потери электроэнергии на абоненском участке
+      summary: Потери электроэнергии на абонентском участке
       responses:
         '200':
           description: OK
@@ -373,13 +373,13 @@ paths:
       responses:
         '202':
           description: Accepted
-      description: Метод останавливает службу определения фаз потребителей. Будут остановленны все процессы (workers)
+      description: Метод останавливает службу определения фаз потребителей. Будут остановлены все процессы (workers)
       parameters:
         - schema:
             type: string
           in: query
           name: reason
-          description: Описание причины остановки (отмены) работоющего процесса
+          description: Описание причины остановки (отмены) работающего процесса
       tags:
         - Phasing
   '/phasing/worker/{id}':
@@ -405,7 +405,7 @@ paths:
                       worker:
                         $ref: '#/components/schemas/phasingWorker'
       operationId: get-phasing-worker
-      description: Метод возвращает cвойства процесса расчета фазировки
+      description: Метод возвращает свойство процесса расчета фазировки
     parameters:
       - schema:
           type: string
@@ -445,7 +445,7 @@ components:
           format: date-time
         line:
           type: object
-          description: Линия для которой выполнен алгоритм определения фаз потребителей
+          description: Линия, для которой выполнен алгоритм определения фаз потребителей
           required:
             - mRID
             - energy_consumer_phasing
@@ -461,7 +461,7 @@ components:
                 properties:
                   mRID:
                     type: string
-                    description: ID потребителя для которого определены фазы
+                    description: ID потребителя, для которого определены фазы
                   phasing:
                     type: object
                     description: 'Растановка L1, L2, L3 потребителя по фазам'
@@ -592,7 +592,7 @@ components:
                             description: 'Ротация фаз: прямая; обратная.'
                           loadBalance:
                             type: object
-                            description: 'Доля нагрузки (в %) по фазам в общем потреблении  '
+                            description: 'Доля нагрузки (в %) по фазам в общем потреблении'
                             properties:
                               A:
                                 type: number
@@ -662,7 +662,7 @@ components:
                           - phaseArrangement
                     consumerWight:
                       type: array
-                      description: Массив mRID петребителей - очередность перебора потребителей. Рассчитан по весу ошибок и доли нагрузки.
+                      description: Массив mRID потребителей - очередность перебора потребителей. Рассчитан по весу ошибок и доли нагрузки
                       items:
                         type: string
                   required:
@@ -692,7 +692,7 @@ components:
         lineMRID:
           type: string
           format: date-time
-          description: ID Линии для которой процесс создан
+          description: ID Линии, для которой процесс создан
       x-tags:
         - Phasing worker
         - Phasing
@@ -763,7 +763,7 @@ components:
         stopTime:
           type: string
           format: date-time
-          description: ' Время завершения расчета для статуса Finished и время отмены для статуса Cancelled'
+          description: 'Время завершения расчета для статуса Finished и время отмены для статуса Cancelled'
         status:
           type: string
           description: "Статус процесса: \nRunning - Идет накопление данных;\nFinished - Расчет запущен и находится в процессе выполнения;\nCancelled - Расчет был остановлен и не доведен до конца;\nIdle - Идет накопление данных."
@@ -774,7 +774,7 @@ components:
             - idle
         сancelReason:
           type: string
-          description: 'Причина отмены, если процесс расчета фаз был отменен (статус cancelled).'
+          description: 'Причина отмены, если процесс расчета фаз был отменен (статус cancelled)'
       description: Worker - процесс выполняющий работу по определению фаз потребителя
       x-tags:
         - Phasing worker
