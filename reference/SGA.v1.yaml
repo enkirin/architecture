@@ -304,7 +304,7 @@ paths:
     parameters: []
   /phasing/worker/list:
     get:
-      summary: Список в процессов определяющих фазы потребителей
+      summary: Список процессов определяющих фазы потребителей
       tags:
         - Phasing
         - Phasing worker
