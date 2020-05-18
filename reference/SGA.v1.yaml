@@ -560,79 +560,6 @@ components:
               type: integer
             overallImbalance:
               type: number
-            lineEnergyConsumers:
-              type: object
-              properties:
-                sumByPhase:
-                  type: object
-                  properties:
-                    A:
-                      type: number
-                    B:
-                      type: number
-                    C:
-                      type: number
-                energyConsumer:
-                  type: array
-                  items:
-                    type: object
-                    properties:
-                      mRID:
-                        type: string
-                      phaseRotation:
-                        type: string
-                        enum:
-                          - counterclockwise
-                          - clockwise
-                      loadBalance:
-                        type: object
-                        properties:
-                          A:
-                            type: number
-                          B:
-                            type: number
-                          C:
-                            type: number
-                      errors:
-                        type: object
-                        properties:
-                          columnConflict:
-                            type: boolean
-                          incorrectPhaseRotation:
-                            type: boolean
-                          lowLoad:
-                            type: boolean
-                          lowColumnCC:
-                            type: boolean
-                          tooCloseColumnCC:
-                            type: boolean
-                          rowConflict:
-                            type: boolean
-                      corrMats:
-                        type: array
-                        items:
-                          type: number
-                      phaseArrangement:
-                        type: object
-                        properties:
-                          was:
-                            type: object
-                            properties:
-                              A:
-                                type: string
-                              B:
-                                type: string
-                              C:
-                                type: string
-                          became:
-                            type: object
-                            properties:
-                              A:
-                                type: string
-                              B:
-                                type: string
-                              C:
-                                type: string
             line:
               type: object
               properties:
@@ -656,3 +583,76 @@ components:
                       type: number
                     C:
                       type: number
+                energyConsumers:
+                  type: object
+                  properties:
+                    sumByPhase:
+                      type: object
+                      properties:
+                        A:
+                          type: number
+                        B:
+                          type: number
+                        C:
+                          type: number
+                    energyConsumer:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          mRID:
+                            type: string
+                          phaseRotation:
+                            type: string
+                            enum:
+                              - counterclockwise
+                              - clockwise
+                          loadBalance:
+                            type: object
+                            properties:
+                              A:
+                                type: number
+                              B:
+                                type: number
+                              C:
+                                type: number
+                          errors:
+                            type: object
+                            properties:
+                              columnConflict:
+                                type: boolean
+                              incorrectPhaseRotation:
+                                type: boolean
+                              lowLoad:
+                                type: boolean
+                              lowColumnCC:
+                                type: boolean
+                              tooCloseColumnCC:
+                                type: boolean
+                              rowConflict:
+                                type: boolean
+                          corrMats:
+                            type: array
+                            items:
+                              type: number
+                          phaseArrangement:
+                            type: object
+                            properties:
+                              was:
+                                type: object
+                                properties:
+                                  A:
+                                    type: string
+                                  B:
+                                    type: string
+                                  C:
+                                    type: string
+                              became:
+                                type: object
+                                properties:
+                                  A:
+                                    type: string
+                                  B:
+                                    type: string
+                                  C:
+                                    type: string
