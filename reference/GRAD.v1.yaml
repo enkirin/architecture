@@ -2,7 +2,7 @@ openapi: 3.0.0
 info:
   title: SmartGrid
   version: 1.0.0
-  description: API for GA (Grid Analyzer) system
+  description: API GRAD (grid resources and devices)
 servers:
   - url: 'http://localhost:3000'
 paths:
