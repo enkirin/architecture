@@ -8,7 +8,7 @@ servers:
 paths:
   /grid/line/getACLineSegmentPowerLosses:
     get:
-      summary: Your GET endpoint
+      summary: Потери электроэнергии в сегменте линии
       tags:
         - Line
       responses:
@@ -40,7 +40,7 @@ paths:
           in: query
           name: mRID
           description: ID сегмента линии
-      description: ' Потери электроэнергии для сегмента линии'
+      description: Метод возвращает потери электроэнергии для сегмента линии
     parameters: []
   /grid/line/getLinePowerLosses:
     get:
@@ -54,7 +54,7 @@ paths:
       tags:
         - Line
       summary: Потери электроэнергии в линии
-      description: Получить потери электроэнергии для всей линии
+      description: Метод возвращает потери электроэнергии для всей линии
       operationId: LinePowerLosses
       responses:
         '200':
@@ -77,7 +77,7 @@ paths:
     parameters: []
   /grid/consumer/getEnergyConsumerPowerLosses:
     get:
-      summary: getEnergyConsumerPowerLosses
+      summary: Потери электроэнергии на абоненском участке
       responses:
         '200':
           description: OK
@@ -100,7 +100,7 @@ paths:
                           powerLosses:
                             $ref: '#/components/schemas/powerLosses'
       operationId: get-grid-energy-consumer-getEnergyConsumerPowerLosses
-      description: Потери энергии на абонентском участке (отпайке)
+      description: Метод возвращает потери электроэнергии на абонентском участке (отпайке)
       parameters:
         - schema:
             type: string
@@ -112,7 +112,7 @@ paths:
     parameters: []
   /grid/consumer/getEnergyConsumerSubstationPowerLosses:
     get:
-      summary: getEnergyConsumerSubstationPowerLosses
+      summary: Потери электроэнергии от ТП до абонента
       tags:
         - EnergyConsumer
       responses:
@@ -154,10 +154,10 @@ paths:
           in: query
           name: mRIDSubstation
           description: ID Трансформаторной подстанции
-      description: Потери электроэнергии от ТП до потребителя (абонента)
+      description: Метод возвращает потери электроэнергии на участке ТП - потребитель
   '/grid/substation/getSubstationPowerLosses ':
     get:
-      summary: Your GET endpoint
+      summary: Потери электроэнергии в ТП
       tags:
         - Substation
       responses:
@@ -195,7 +195,7 @@ paths:
                               value:
                                 $ref: '#/components/schemas/powerLossesValue'
       operationId: get-grid-substation-get
-      description: Потери энергии в ТП (силовой трансформатор и шинопровод)
+      description: Метод возвращает потери электроэнергии в ТП (силовой трансформатор и шинопровод)
       parameters:
         - schema:
             type: string
@@ -205,7 +205,7 @@ paths:
     parameters: []
   /grid/substation/getSubstaionEnergyOrigination:
     get:
-      summary: getSubstaionEnergyOrigination
+      summary: Количество отданной электроэнергии ТП
       operationId: get-grid-substation-getSubstaionEnergyOrigination
       responses:
         '200':
@@ -227,7 +227,7 @@ paths:
                         $ref: '#/components/schemas/powerOrigination'
       tags:
         - Substation
-      description: Количество отданной электроэнергии трансформаторной подстанцией
+      description: Метод возвращает количество отданной электроэнергии трансформаторной подстанцией
       parameters:
         - schema:
             type: string
@@ -237,7 +237,7 @@ paths:
           required: true
   /phasing/startEnergyConsumerPhasing:
     post:
-      summary: ''
+      summary: Запустить службу определения фаз потребителей
       operationId: post-phasing-startEnergyConsumerPhasing
       responses:
         '202':
@@ -251,12 +251,12 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/phasing_worker'
-      description: Запустить сервис определения фаз для потребителей
+      description: Метод запускает сервис определения фаз для потребителей. Стартуют все процессы (workers)
       tags:
         - Phasing
   /phasing/result:
     get:
-      summary: Your GET endpoint
+      summary: Результат определения фаз
       tags:
         - Phasing
         - Phasing result
@@ -268,7 +268,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/phasing_result'
       operationId: get-phasing-result
-      description: Получить результат расчета
+      description: Метод возвращает результат определения фаз потребителей линии
       parameters:
         - schema:
             type: string
@@ -277,7 +277,7 @@ paths:
           description: ID результата расчета
   /phasing/result/list:
     get:
-      summary: Phasing result list
+      summary: Список всех результатов определения фаз
       tags:
         - Phasing
         - Phasing result
@@ -293,7 +293,7 @@ paths:
               examples:
                 example-1: {}
       operationId: phasing-result-list
-      description: ' Получить список всех результатов расчета соответствия фаз потребятелям'
+      description: Метод возвращает список с результатами определения фаз потребителей линий всей сети
       parameters:
         - schema:
             type: string
@@ -304,7 +304,7 @@ paths:
     parameters: []
   /phasing/worker/list:
     get:
-      summary: Your GET endpoint
+      summary: Список в процессов определяющих фазы потребителей
       tags:
         - Phasing
         - Phasing worker
@@ -321,10 +321,10 @@ paths:
                     items:
                       $ref: '#/components/schemas/phasing_worker_simple'
       operationId: get-phasing-worker-list
-      description: Список всех процессов созданных для фазировки всей сети
+      description: Метод возвращает список процессов (workers) выполняющих расчет фаз потребителей для всей сети
   '/phasing/worker/metrics/{id}':
     get:
-      summary: Your GET endpoint
+      summary: Показатели (метрики) работы процесса (worker)
       tags:
         - Phasing
         - Phasing worker
@@ -351,7 +351,7 @@ paths:
               examples:
                 example-1: {}
       operationId: get-phasing-statistic
-      description: Показатели (метрика) работы процесса фазировки.
+      description: Метод возвращает показатели (метрики) работы процесса фазировки
     parameters:
       - schema:
           type: string
@@ -361,12 +361,12 @@ paths:
         description: Worker ID
   /phasing/stopEnergyConsumerPhasing:
     post:
-      summary: ''
+      summary: Остановить службу определения фаз потребителей
       operationId: post-phasing-stopEnergyConsumerPhasing
       responses:
         '202':
           description: Accepted
-      description: Остановить службу определения фаз абонентов
+      description: Метод останавливает службу определения фаз потребителей. Будут остановленны все процессы (workers)
       parameters:
         - schema:
             type: string
@@ -377,7 +377,7 @@ paths:
         - Phasing
   '/phasing/worker/{id}':
     get:
-      summary: Phasing worker
+      summary: Процесс (worker) фазировки
       tags:
         - Phasing
         - Phasing worker
@@ -401,7 +401,7 @@ paths:
                         type: string
                         description: ID Линии для которой данный процесс создан
       operationId: get-phasing-worker
-      description: Свойство процесса расчета фазировки
+      description: Метод возвращает cвойства процесса расчета фазировки
     parameters:
       - schema:
           type: string
