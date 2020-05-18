@@ -277,7 +277,7 @@ paths:
                       type: object
                       properties:
                         worker:
-                          $ref: '#/components/schemas/phasing_worker'
+                          $ref: '#/components/schemas/phasing_worker_simple'
       operationId: get-phasing-worker-list
       description: Список всех процессов созданных для фазировки для всей сети
   '/phasing/worker/metrics/{id}':
@@ -297,15 +297,10 @@ paths:
                   response:
                     type: object
                     properties:
+                      worker:
+                        $ref: '#/components/schemas/phasing_worker_simple'
                       metrics:
-                        $ref: '#/components/schemas/phasing_worker_metrics'
-                      workerId:
-                        type: string
-                      line:
-                        type: object
-                        properties:
-                          mRID:
-                            type: string
+                        $ref: '#/components/schemas/phasing_metrics'
               examples:
                 example-1: {}
       operationId: get-phasing-statistic
@@ -333,6 +328,37 @@ paths:
           description: Описание причины остановки (отмены) работоющего процесса
       tags:
         - Phasing
+  '/phasing/worker/{id}':
+    get:
+      summary: Phasing worker
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  header:
+                    type: object
+                  response:
+                    type: object
+                    properties:
+                      worker:
+                        $ref: '#/components/schemas/phasing_worker_simple'
+                      lineMRID:
+                        type: string
+                        description: ID Линии для которой данный процесс создан
+      operationId: get-phasing-worker
+      description: Свойство процесса расчета фазировки
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: ID Worker
 components:
   schemas:
     powerLossesValue:
@@ -412,38 +438,15 @@ components:
         - id
         - date
         - line
-    phasing_worker:
+    phasing_worker_metrics:
       title: phasing_worker
       type: object
       x-tags:
         - Phasing
       properties:
-        id:
-          type: string
-        start_time:
-          type: string
-          format: date-time
-          description: Время старта процесса
-        stop_time:
-          type: string
-          format: date-time
-          description: ' Время завершения расчета для статуса Finished и время отмены для статуса Cancelled'
-        status:
-          type: string
-          enum:
-            - running
-            - cancelled
-            - finished
-          description: 'Статус процесса: Running, Finished, Cancelled'
-        сancel_resone:
-          type: string
-          description: 'Причина отмены, если процесс расчета фаз был отменен (статус cancelled).'
         metrics:
           $ref: '#/components/schemas/phasing_worker_metrics'
-      required:
-        - id
-        - status
-    phasing_worker_metrics:
+    phasing_metrics:
       title: phasing_worker_metrics
       type: object
       description: Показатели работы процесса определения фаз для потребителя линии
@@ -554,10 +557,10 @@ components:
                               type: number
                           phaseArrangement:
                             type: object
+                            description: Растановка фаз к счетчику потребителя
                             required:
                               - was
                               - became
-                            description: Растановка фаз к счетчику потребителя
                             properties:
                               was:
                                 type: object
@@ -608,3 +611,33 @@ components:
             - overallImbalance
             - meanImbalance
             - delta
+    phasing_worker:
+      title: phasing_worker
+      type: object
+    phasing_worker_simple:
+      title: phasing_worker_simple
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID процесса
+        сancel_resone:
+          type: string
+          description: 'Причина отмены, если процесс расчета фаз был отменен (статус cancelled).'
+        status:
+          type: string
+          description: "Статус процесса: \nRunning - Идет накопление данных;\nFinished - Расчет запущен и находится в процессе выполнения;\nCancelled - Расчет был остановлен и не доведен до конца;\nIdle - Идет накопление данных."
+          enum:
+            - running
+            - cancelled
+            - finished
+            - idle
+        stopTime:
+          type: string
+          format: date-time
+          description: ' Время завершения расчета для статуса Finished и время отмены для статуса Cancelled'
+        startTime:
+          type: string
+          format: date-time
+          description: Время старта процесса
+      description: Свойства процесса
