@@ -162,7 +162,46 @@ paths:
       summary: Your GET endpoint
       tags:
         - Substation
-      responses: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  header:
+                    type: object
+                  response:
+                    type: object
+                    properties:
+                      powerLosses:
+                        type: object
+                        properties:
+                          total:
+                            type: object
+                            description: Потери в ТП
+                            properties:
+                              value:
+                                $ref: '#/components/schemas/powerLossesValue'
+                          busway:
+                            type: object
+                            description: Потери в шинопроводе
+                            properties:
+                              value:
+                                $ref: '#/components/schemas/powerLossesValue'
+                          powerTransformer:
+                            type: object
+                            description: Потери силовом трансформаторе
+                            properties:
+                              value:
+                                $ref: '#/components/schemas/powerLossesValue'
+        '':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
       operationId: get-grid-substation-get
       description: Потери энергии в ТП (силовой трансформатор и шинопровод)
       parameters:
@@ -177,7 +216,24 @@ paths:
       summary: Your GET endpoint
       tags:
         - Substation
-      responses: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  header:
+                    type: object
+                  response:
+                    type: object
+                    properties:
+                      mRID:
+                        type: string
+                        description: ID ТП
+                      powerLosses:
+                        $ref: '#/components/schemas/powerLossesValue'
       operationId: get-grid-substation-getSubstaionBuswayPowerLosses
       parameters:
         - schema:
@@ -185,7 +241,7 @@ paths:
           in: query
           name: mRID
           description: ID ТП
-      description: Потери энергии в шинопроводе
+      description: Потери энергии в шинопроводе ТП
   /grid/substation/getSubstaionPowerTransformerPowerLosses:
     get:
       summary: Your GET endpoint
@@ -208,15 +264,31 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  header:
+                    type: object
+                  respose:
+                    type: object
+                    properties:
+                      mRID:
+                        type: string
+                        description: ID ТП
+                      powerOrigination:
+                        $ref: '#/components/schemas/powerOrigination'
       tags:
         - Substation
-      description: Отданная энергия (для каждой фазы)
+      description: Количество отданной электроэнергии трансформаторной подстанцией
       parameters:
         - schema:
             type: string
           in: query
           name: mRID
           description: ID ТП
+          required: true
   /phasing/startEnergyConsumerPhasing:
     post:
       summary: ''
@@ -695,3 +767,34 @@ components:
             value:
               $ref: '#/components/schemas/powerLossesValue'
       description: Потери электроэнергии
+    powerOrigination:
+      title: powerOrigination
+      type: object
+      properties:
+        total:
+          type: object
+          description: Количество произведенной электроэнергии для всех фаз вместе
+          properties:
+            value:
+              $ref: '#/components/schemas/powerOriginationValue'
+        phases:
+          type: object
+          description: Количество произведенной электроэнергии для каждой фазы отдельно
+          properties:
+            A:
+              $ref: '#/components/schemas/powerOriginationValue'
+            B:
+              $ref: '#/components/schemas/powerOriginationValue'
+            C:
+              $ref: '#/components/schemas/powerOriginationValue'
+    powerOriginationValue:
+      title: powerOriginationValue
+      type: object
+      description: Количество произведенной электроэнергии
+      properties:
+        value:
+          type: number
+          description: Значение
+        unit:
+          type: string
+          description: Единица измерения
