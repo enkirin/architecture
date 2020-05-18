@@ -26,21 +26,13 @@ paths:
                     properties:
                       ACLineSegment:
                         type: object
+                        description: Сегмент линии
                         properties:
                           mRID:
                             type: string
+                            description: ID
                           powerLosses:
-                            type: object
-                            properties:
-                              phases:
-                                type: object
-                                properties:
-                                  A:
-                                    $ref: '#/components/schemas/powerLossesValue'
-                                  B:
-                                    $ref: '#/components/schemas/powerLossesValue'
-                                  C:
-                                    $ref: '#/components/schemas/powerLossesValue'
+                            $ref: '#/components/schemas/powerLosses'
       operationId: get-grid-line
       parameters:
         - schema:
@@ -48,6 +40,7 @@ paths:
           in: query
           name: mRID
           description: ID сегмента линии
+      description: ' Потери электроэнергии для сегмента линии'
     parameters: []
   /grid/line/getLinePowerLosses:
     get:
@@ -67,22 +60,10 @@ paths:
                         properties:
                           mRID:
                             type: string
+                            description: ID Линии
                           powerLosses:
-                            type: object
-                            properties:
-                              total:
-                                $ref: '#/components/schemas/powerLossesValue'
-                              phases:
-                                type: object
-                                properties:
-                                  A:
-                                    $ref: '#/components/schemas/powerLossesValue'
-                                  B:
-                                    $ref: '#/components/schemas/powerLossesValue'
-                                  C:
-                                    $ref: '#/components/schemas/powerLossesValue'
+                            $ref: '#/components/schemas/powerLosses'
           description: Потери энергии для указанной Линии.
-        - description: ''
       parameters:
         - schema:
             type: string
@@ -93,13 +74,33 @@ paths:
       tags:
         - Line
       summary: ''
-      description: Потери энергии в линии.
+      description: Потери лектроэнергии для всей линии
       operationId: LinePowerLosses
     parameters: []
   /grid/consumer/getEnergyConsumerPowerLosses:
     get:
       summary: getEnergyConsumerPowerLosses
-      responses: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  header:
+                    type: object
+                  response:
+                    type: object
+                    properties:
+                      energyConsumer:
+                        type: object
+                        properties:
+                          mRID:
+                            type: string
+                            description: ID Потребителя
+                          powerLosses:
+                            $ref: '#/components/schemas/powerLosses'
       operationId: get-grid-energy-consumer-getEnergyConsumerPowerLosses
       description: Потери энергии на абонентском участке (отпайке)
       parameters:
@@ -116,7 +117,33 @@ paths:
       summary: getEnergyConsumerSubstationPowerLosses
       tags:
         - EnergyConsumer
-      responses: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  header:
+                    type: object
+                  response:
+                    type: object
+                    properties:
+                      substation:
+                        type: object
+                        description: Трансформаторная подстанция
+                        properties:
+                          mRID:
+                            type: string
+                      powerLosses:
+                        $ref: '#/components/schemas/powerLosses'
+                      energyConsumer:
+                        type: object
+                        description: Потребитель
+                        properties:
+                          mRID:
+                            type: string
       operationId: get-grid-consumer-getEnergyConsumerSubstationPowerLosses
       parameters:
         - schema:
@@ -129,7 +156,7 @@ paths:
           in: query
           name: mRIDSubstation
           description: ID Трансформаторной подстанции
-      description: Потери энергии от ТП до Абонента
+      description: Потери электроэнергии от ТП до потребителя (абонента)
   '/grid/substation/getSubstationPowerLosses ':
     get:
       summary: Your GET endpoint
@@ -367,13 +394,16 @@ components:
     powerLossesValue:
       title: powerLossesValue
       type: array
+      description: Значение потерь электроэнергии
       items:
         type: object
         properties:
           value:
             type: number
+            description: Значение
           unit:
             type: string
+            description: Единица измерения
     phasing_result:
       title: phasing_result
       type: object
@@ -644,3 +674,24 @@ components:
           format: date-time
           description: Время старта процесса
       description: Свойства процесса
+    powerLosses:
+      title: powerLosses
+      type: object
+      properties:
+        phases:
+          type: object
+          description: Потери для каждой фазы отдельно
+          properties:
+            A:
+              $ref: '#/components/schemas/powerLossesValue'
+            B:
+              $ref: '#/components/schemas/powerLossesValue'
+            C:
+              $ref: '#/components/schemas/powerLossesValue'
+        total:
+          type: object
+          description: Потери для всех фаз вместе
+          properties:
+            value:
+              $ref: '#/components/schemas/powerLossesValue'
+      description: Потери электроэнергии
