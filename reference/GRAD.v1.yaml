@@ -106,7 +106,6 @@ paths:
           description: ID Региона сети
         - schema:
             type: boolean
-            enum: []
           in: query
           name: simpleModel
           description: true - простая модель потребителя
@@ -133,9 +132,7 @@ paths:
                 type: object
                 properties:
                   header:
-                    type:
-                      - string
-                      - object
+                    type: object
                     properties:
                       simpleModel:
                         type: boolean
