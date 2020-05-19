@@ -547,7 +547,7 @@ components:
                     description: 'ID потребителя, для которого определены фазы'
                   phasing:
                     type: object
-                    description: 'Растановка L1, L2, L3 потребителя по фазам'
+                    description: 'Расстановка L1, L2, L3 потребителя по фазам'
                     required:
                       - A
                       - B
