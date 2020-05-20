@@ -23,6 +23,8 @@ paths:
                     type: object
                   response:
                     $ref: '#/components/schemas/phasingResult'
+                required:
+                  - response
       operationId: get-phasing-result
       description: Метод возвращает результат фазировки
       parameters:
@@ -44,6 +46,12 @@ paths:
         - Phasing
       responses: {}
       operationId: get-phasing-result-list
+  /phasing/result/energyConsumer:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-phasing-result-energyConsumer
 components:
   schemas:
     phasingResult:
@@ -59,19 +67,19 @@ components:
           description: ID результата
         date:
           type: string
-          description: 'Дата и время, когда результат фазировки был расчитан'
+          description: 'Дата и время, когда результат фазировки был получен'
           format: date-time
         line:
           type: object
-          description: 'Линия, для которой выполнен алгоритм определения фаз потребителей'
+          description: 'Линия, для которой выполнена фазировка'
           required:
             - mRID
-            - energy_consumer_phasing
+            - energyConsumers
           properties:
             mRID:
               type: string
-              description: ID Линии
-            energy_consumer_phasing:
+              description: ID объекта линии
+            energyConsumers:
               type: array
               description: Результат фазировки для потребителя
               items:
@@ -127,3 +135,90 @@ components:
         - id
         - date
         - line
+    phasingResultEnergyConsumer:
+      title: energyConsumerPhasingResult
+      type: object
+      description: Результа фазировки для потребителя
+      properties:
+        energyConsumer:
+          type: object
+          required:
+            - mRID
+          description: Потребитель
+          properties:
+            mRID:
+              type: string
+              description: ID потребителя
+        phasingResult:
+          type: object
+          description: Результат определения расстановки фаз потребителя
+          required:
+            - A
+            - B
+            - C
+          properties:
+            A:
+              type: string
+              description: 'Соответствие фазы A входу (L1, L2, L3) потребителя'
+              enum:
+                - L1
+                - L2
+                - L3
+            B:
+              type: string
+              description: 'Соответствие фазы B входу (L1, L2, L3) потребителя'
+              enum:
+                - L1
+                - L2
+                - L3
+            C:
+              type: string
+              description: 'Соответствие фазы C входу (L1, L2, L3) потребителя'
+              enum:
+                - L1
+                - L2
+                - L3
+        metrics:
+          type: object
+          description: Дополнительные показатели фазировки
+          required:
+            - loadBalance
+          properties:
+            loadBalance:
+              type: object
+              description: Доля нагрузки по фазам
+              required:
+                - A
+                - B
+                - C
+              properties:
+                A:
+                  type: array
+                  description: Доля нагрузки для фазы A
+                  items:
+                    $ref: '#/components/schemas/valueUnit'
+                B:
+                  type: array
+                  description: Доля нагрузки для фазы B
+                  items:
+                    $ref: '#/components/schemas/valueUnit'
+                C:
+                  type: array
+                  description: Доля нагрузки для фазы C
+                  items:
+                    $ref: '#/components/schemas/valueUnit'
+      required:
+        - energyConsumer
+        - phasingResult
+        - metrics
+    valueUnit:
+      title: valueUnit
+      type: object
+      properties:
+        unit:
+          type: string
+          description: Единица измерения
+        value:
+          type: string
+          description: Значение
+      description: Значение и в чем оно измеряется
