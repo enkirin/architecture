@@ -1,0 +1,129 @@
+openapi: 3.0.0
+info:
+  title: SGA.v.1-draft
+  version: '1.0'
+  description: ''
+servers:
+  - url: 'http://localhost:3000'
+paths:
+  /phasing/result:
+    get:
+      summary: Результат фазировки
+      tags:
+        - Phasing
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  header:
+                    type: object
+                  response:
+                    $ref: '#/components/schemas/phasingResult'
+      operationId: get-phasing-result
+      description: Метод возвращает результат фазировки
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: id
+          description: ID объекта результата фазировки
+        - schema:
+            type: string
+          in: query
+          name: lineMRID
+          description: ID Линии - получить результат фазировки для Линии
+    parameters: []
+  /phasing/result/list:
+    get:
+      summary: Your GET endpoint
+      tags:
+        - Phasing
+      responses: {}
+      operationId: get-phasing-result-list
+components:
+  schemas:
+    phasingResult:
+      title: PhasingResult
+      type: object
+      description: Объект результата фазировки
+      x-tags:
+        - Phasing
+        - Phasing result
+      properties:
+        id:
+          type: string
+          description: ID результата
+        date:
+          type: string
+          description: 'Дата и время, когда результат фазировки был расчитан'
+          format: date-time
+        line:
+          type: object
+          description: 'Линия, для которой выполнен алгоритм определения фаз потребителей'
+          required:
+            - mRID
+            - energy_consumer_phasing
+          properties:
+            mRID:
+              type: string
+              description: ID Линии
+            energy_consumer_phasing:
+              type: array
+              description: Результат фазировки для потребителя
+              items:
+                type: object
+                properties:
+                  mRID:
+                    type: string
+                    description: 'ID потребителя, для которого определены фазы'
+                  phasing:
+                    type: object
+                    description: 'Расстановка L1, L2, L3 потребителя по фазам'
+                    required:
+                      - A
+                      - B
+                      - C
+                    properties:
+                      A:
+                        type: string
+                        enum:
+                          - L1
+                          - L2
+                          - L3
+                      B:
+                        type: string
+                        enum:
+                          - L1
+                          - L2
+                          - L3
+                      C:
+                        type: string
+                        enum:
+                          - L1
+                          - L2
+                          - L3
+                  metrics:
+                    type: object
+                    description: Дополнительные показатели фазировки
+                    properties:
+                      loadBalance:
+                        type: object
+                        description: Доля нагрузки по фазно
+                        properties:
+                          A:
+                            $ref: '#/components/schemas/valueUnit'
+                          B:
+                            $ref: '#/components/schemas/valueUnit'
+                          C:
+                            $ref: '#/components/schemas/valueUnit'
+                required:
+                  - mRID
+                  - phasing
+      required:
+        - id
+        - date
+        - line
