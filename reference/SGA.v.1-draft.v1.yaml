@@ -152,10 +152,12 @@ paths:
           in: query
           name: resultDate
           description: Результат фазировки за указанную дату
-  /phasing/worker:
+  '/phasing/worker/{id}':
     get:
-      summary: Your GET endpoint
-      tags: []
+      summary: Процесс для определения фаз потребителей линии
+      tags:
+        - Phasing
+        - PhasingWorking
       responses:
         '200':
           description: OK
@@ -167,14 +169,37 @@ paths:
                   header:
                     type: object
                   response:
-                    $ref: '#/components/schemas/PhasingWorker'
+                    $ref: '#/components/schemas/PhasingWorker'        
       operationId: get-phasing-worker
+      description: Метод возвращает процесс созданный для определения фаз потребителей линии
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
   /phasing/worker/list:
     get:
-      summary: Your GET endpoint
-      tags: []
-      responses: {}
+      summary: Список процессов для определения фаз потребителей линии
+      tags:
+        - Phasing
+        - PhasingWorking
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  header:
+                    type: object
+                  response:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/PhasingWorker'
       operationId: get-phasing-worker-list
+      description: Метод возвращает список процессов созданных для определения фаз потребителей линии
 components:
   schemas:
     ValueUnit:
@@ -376,6 +401,7 @@ components:
     PhasingWorkerProcess:
       title: PhasingWorkerProcess
       type: object
+      description: Системный объект процесса фазировки
       properties:
         id:
           type: string
@@ -399,14 +425,6 @@ components:
         сancelReason:
           type: string
           description: 'Причина отмены, если процесс расчета фаз был отменен (статус cancelled)'
-        line:
-          type: object
-          description: Линия для которой создан процесс
-          properties:
-            mRID:
-              type: string
-              description: ID  линии
-      description: Объект процесс выполняющий расчет фазировки для линии
     PhasingWorker:
       title: PhasingWorker
       type: object
@@ -444,3 +462,4 @@ components:
         - process
         - line
         - srcData
+      description: Объект процесса фазировки
