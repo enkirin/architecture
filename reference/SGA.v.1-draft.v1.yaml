@@ -187,9 +187,24 @@ components:
           description: Результат определения фаз потребителей линии
           items:
             $ref: '#/components/schemas/PhasingResultValueEnergyConsumer'
+        metrics:
+          type: object
+          description: Дополнительные показатели фазировки
+          required:
+            - loadBalance
+            - imbalance
+          properties:
+            loadBalance:
+              $ref: '#/components/schemas/LoadBalance'
+            imbalance:
+              type: array
+              description: Небаланс
+              items:
+                $ref: '#/components/schemas/ValueUnit'
       required:
         - line
         - values
+        - metrics
     PhasingResultValueEnergyConsumer:
       title: PhasingResultValueEnergyConsumer
       type: object
@@ -280,15 +295,18 @@ components:
         id:
           type: string
           description: ID результата
-        date:
+        endDate:
           type: string
           description: 'Дата и время, когда результат был получен'
         phasingResultValue:
           type: object
           description: Значение результата
+        startDate:
+          type: string
+          description: 'Дата и время, когда расчет был начат'
       required:
         - id
-        - date
+        - endDate
         - phasingResultValue
     PhasingResultEnergyConsumer:
       title: PhasingResultEnergyConsumer
@@ -312,3 +330,23 @@ components:
           required:
             - phasingResultValue
       description: Объект результата определения фаз потребителей линии
+    LoadBalance:
+      title: LoadBalance
+      type: object
+      properties:
+        A:
+          type: array
+          description: Доля нагрузки для фазы A
+          items:
+            $ref: '#/components/schemas/ValueUnit'
+        B:
+          type: array
+          description: Доля нагрузки для фазы B
+          items:
+            $ref: '#/components/schemas/ValueUnit'
+        C:
+          type: array
+          description: Доля нагрузки для фазы C
+          items:
+            $ref: '#/components/schemas/ValueUnit'
+      description: Доля нагрузки по фазам
