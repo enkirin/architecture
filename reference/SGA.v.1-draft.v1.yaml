@@ -9,7 +9,8 @@ paths:
   '/phasing/result/line/{id}':
     get:
       summary: Результат определения фаз потребителей линии
-      tags: []
+      tags:
+        - Phasing
       responses:
         '200':
           description: OK
@@ -21,7 +22,7 @@ paths:
                   header:
                     type: object
                   response:
-                    $ref: '#/components/schemas/PhasingResultLine'
+                    $ref: '#/components/schemas/PhasingResult'
                 required:
                   - response
       operationId: get-phasing-result-line
@@ -33,6 +34,34 @@ paths:
         in: path
         required: true
         description: ID линии
+  '/phasing/result/consumer/{id}':
+    get:
+      summary: Результат определения фаз потребителя
+      tags:
+        - Phasing
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  header:
+                    type: object
+                  response:
+                    $ref: '#/components/schemas/PhasingResult'
+                required:
+                  - response
+      operationId: get-phasing-result-consumer
+      description: Метод возвращает результат определения фаз потребителя
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: ID потребителя
 components:
   schemas:
     ValueUnit:
@@ -139,3 +168,24 @@ components:
         - energyConsumer
         - phasingResult
         - metrics
+    PhasingResult:
+      title: PhasingResult
+      type: object
+      description: Объект результат опеределения фаз
+      properties:
+        phasingResult:
+          oneOf:
+            - $ref: '#/components/schemas/PhasingResultLine'
+            - $ref: '#/components/schemas/PhasingResultEnergyConsumer'
+          description: Результат определения фаз
+        id:
+          type: string
+          description: ID результата
+        date:
+          type: string
+          description: 'Дата и время, когда результат был получен'
+          format: date-time
+      required:
+        - phasingResult
+        - id
+        - date
