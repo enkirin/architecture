@@ -22,7 +22,7 @@ paths:
                   header:
                     type: object
                   response:
-                    $ref: '#/components/schemas/PhasingResult'
+                    $ref: '#/components/schemas/PhasingResultLine'
                 required:
                   - response
       operationId: get-phasing-result-line
@@ -50,7 +50,7 @@ paths:
                   header:
                     type: object
                   response:
-                    $ref: '#/components/schemas/PhasingResult'
+                    $ref: '#/components/schemas/PhasingResultEnergyConsumer'
                 required:
                   - response
       operationId: get-phasing-result-consumer
@@ -67,6 +67,7 @@ components:
     ValueUnit:
       title: Value
       type: object
+      description: Значение и единица измерения
       properties:
         unit:
           type: string
@@ -74,8 +75,10 @@ components:
         value:
           type: string
           description: Значение
-      description: Значение и единица измерения
-    PhasingResultLine:
+      required:
+        - unit
+        - value
+    PhasingResultValueLine:
       title: PhasingResultLine
       type: object
       description: Объект результата определения фаз потребителей линии
@@ -83,17 +86,22 @@ components:
         line:
           type: object
           description: Линия
+          required:
+            - mRID
           properties:
             mRID:
               type: string
               description: ID Линии
-        phasingResultEnergyConsumers:
+        values:
           type: array
           description: Результат определения фаз потребителей линии
           items:
-            $ref: '#/components/schemas/PhasingResultEnergyConsumer'
-    PhasingResultEnergyConsumer:
-      title: PhasingResultEnergyConsumer
+            $ref: '#/components/schemas/PhasingResultValueEnergyConsumer'
+      required:
+        - line
+        - values
+    PhasingResultValueEnergyConsumer:
+      title: PhasingResultValueEnergyConsumer
       type: object
       description: Объект результата определения фаз потребителя
       properties:
@@ -106,86 +114,111 @@ components:
             mRID:
               type: string
               description: ID потребителя
-        phasingResult:
+        value:
           type: object
-          description: Результат определения расстановки фаз потребителя
+          description: Значение результата фазировки
           required:
-            - A
-            - B
-            - C
+            - phases
+            - metrics
           properties:
-            A:
-              type: string
-              description: 'Соответствие фазы A входу (L1, L2, L3) потребителя'
-              enum:
-                - L1
-                - L2
-                - L3
-            B:
-              type: string
-              description: 'Соответствие фазы B входу (L1, L2, L3) потребителя'
-              enum:
-                - L1
-                - L2
-                - L3
-            C:
-              type: string
-              description: 'Соответствие фазы C входу (L1, L2, L3) потребителя'
-              enum:
-                - L1
-                - L2
-                - L3
-        metrics:
-          type: object
-          description: Дополнительные показатели фазировки
-          required:
-            - loadBalance
-          properties:
-            loadBalance:
+            phases:
               type: object
-              description: Доля нагрузки по фазам
+              description: Расстановка фаз
               required:
                 - A
                 - B
                 - C
               properties:
                 A:
-                  type: array
-                  description: Доля нагрузки для фазы A
-                  items:
-                    $ref: '#/components/schemas/ValueUnit'
+                  type: string
+                  description: 'Соответствие фазы A входу (L1, L2, L3) потребителя'
+                  enum:
+                    - L1
+                    - L2
+                    - L3
                 B:
-                  type: array
-                  description: Доля нагрузки для фазы B
-                  items:
-                    $ref: '#/components/schemas/ValueUnit'
+                  type: string
+                  description: 'Соответствие фазы B входу (L1, L2, L3) потребителя'
+                  enum:
+                    - L1
+                    - L2
+                    - L3
                 C:
-                  type: array
-                  description: Доля нагрузки для фазы C
-                  items:
-                    $ref: '#/components/schemas/ValueUnit'
+                  type: string
+                  description: 'Соответствие фазы C входу (L1, L2, L3) потребителя'
+                  enum:
+                    - L1
+                    - L2
+                    - L3
+            metrics:
+              type: object
+              description: Дополнительные показатели фазировки
+              required:
+                - loadBalance
+              properties:
+                loadBalance:
+                  type: object
+                  description: Доля нагрузки по фазам
+                  required:
+                    - A
+                    - B
+                    - C
+                  properties:
+                    A:
+                      type: array
+                      description: Доля нагрузки для фазы A
+                      items:
+                        $ref: '#/components/schemas/ValueUnit'
+                    B:
+                      type: array
+                      description: Доля нагрузки для фазы B
+                      items:
+                        $ref: '#/components/schemas/ValueUnit'
+                    C:
+                      type: array
+                      description: Доля нагрузки для фазы C
+                      items:
+                        $ref: '#/components/schemas/ValueUnit'
       required:
         - energyConsumer
-        - phasingResult
-        - metrics
+        - value
     PhasingResult:
       title: PhasingResult
       type: object
-      description: Объект результат опеределения фаз
+      description: Объект результата фазировки
       properties:
-        phasingResult:
-          oneOf:
-            - $ref: '#/components/schemas/PhasingResultLine'
-            - $ref: '#/components/schemas/PhasingResultEnergyConsumer'
-          description: Результат определения фаз
         id:
           type: string
           description: ID результата
         date:
           type: string
           description: 'Дата и время, когда результат был получен'
-          format: date-time
+        phasingResultValue:
+          type: object
+          description: Значение результата
       required:
-        - phasingResult
         - id
         - date
+        - phasingResultValue
+    PhasingResultEnergyConsumer:
+      title: PhasingResultEnergyConsumer
+      allOf:
+        - $ref: '#/components/schemas/PhasingResult'
+        - type: object
+          properties:
+            phasingResultValue:
+              $ref: '#/components/schemas/PhasingResultValueEnergyConsumer'
+          required:
+            - phasingResultValue
+      description: Объект результата определения фаз для потребителя
+    PhasingResultLine:
+      title: PhasingResultLine
+      allOf:
+        - $ref: '#/components/schemas/PhasingResult'
+        - type: object
+          properties:
+            phasingResultValue:
+              $ref: '#/components/schemas/PhasingResultValueLine'
+          required:
+            - phasingResultValue
+      description: Объект результата определения фаз потребителей линии
