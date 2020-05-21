@@ -81,6 +81,8 @@ paths:
                     oneOf:
                       - $ref: '#/components/schemas/PhasingResultLine'
                       - $ref: '#/components/schemas/PhasingResultEnergyConsumer'
+                required:
+                  - response
       operationId: get-phasing-result
       description: Метод возвращает результат определения фаз по ID результата
       parameters: []
@@ -110,6 +112,8 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/PhasingResultLine'
+                required:
+                  - response
       operationId: get-phasing-result-line-list
       description: |
         Метод возвращает результаты определения фаз потребителей линий всей сети
@@ -138,6 +142,8 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/PhasingResultEnergyConsumer'
+                required:
+                  - response
       operationId: get-phasing-result-consumer-list
       description: Метод возвращает результаты определения фаз потребителей всей сети
       parameters:
