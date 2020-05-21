@@ -62,12 +62,96 @@ paths:
         in: path
         required: true
         description: ID потребителя
+  '/phasing/result/{id}':
+    get:
+      summary: Результат определения фаз
+      tags:
+        - Phasing
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  header:
+                    type: object
+                  response:
+                    oneOf:
+                      - $ref: '#/components/schemas/PhasingResultLine'
+                      - $ref: '#/components/schemas/PhasingResultEnergyConsumer'
+      operationId: get-phasing-result
+      description: Метод возвращает результат определения фаз по ID результата
+      parameters: []
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        description: ID результата фазировки
+        required: true
+  /phasing/result/line/list:
+    get:
+      summary: Список результатов определения фаз потребителей линии
+      tags:
+        - Phasing
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  header:
+                    type: object
+                  response:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/PhasingResultLine'
+      operationId: get-phasing-result-line-list
+      description: |
+        Метод возвращает результаты определения фаз потребителей линий всей сети
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: resultDate
+          description: Результат фазировки за указанную дату
+  /phasing/result/consumer/list:
+    get:
+      summary: Список результатов определения фаз потребителя
+      tags:
+        - Phasing
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  header:
+                    type: object
+                  response:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/PhasingResultEnergyConsumer'
+      operationId: get-phasing-result-consumer-list
+      description: Метод возвращает результаты определения фаз потребителей всей сети
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: resultDate
+          description: Результат фазировки за указанную дату
 components:
   schemas:
     ValueUnit:
       title: Value
       type: object
-      description: Значение и единица измерения
+      description: Объект значения и его единица измерения
       properties:
         unit:
           type: string
