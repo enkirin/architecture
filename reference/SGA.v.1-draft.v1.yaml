@@ -21,7 +21,7 @@ paths:
                   header:
                     type: object
                   response:
-                    $ref: '#/components/schemas/linePhasingResult'
+                    $ref: '#/components/schemas/phasingResultLine'
                 required:
                   - response
       operationId: get-phasing-result-line
@@ -45,35 +45,7 @@ components:
         value:
           type: string
           description: Значение
-      description: Значение и в чем оно измеряется
-    phasingResult:
-      title: PhasingResult
-      type: object
-      properties:
-        id:
-          type: string
-          description: ID результата
-        date:
-          type: string
-          format: date-time
-          description: 'Дата и время, когда результат фазировки был получен'
-        line:
-          type: object
-          properties:
-            mRID:
-              type: string
-              description: ID объекта линии
-          required:
-            - mRID
-          description: 'Линия, для которой выполнена фазировка'
-      required:
-        - id
-        - date
-        - line
-      x-tags:
-        - Phasing
-        - Phasing result
-      description: Объект результата фазировки
+      description: Значение и единица измерения
     phasingResultLine:
       title: PhasingResultLine
       type: object
@@ -90,74 +62,11 @@ components:
           description: Результат определения фаз потребителей линии
           items:
             $ref: '#/components/schemas/energyConsumerPhasingResult'
-      description: Резальтат определения фаз потребителей линии
-    energyConsumerPhasingResult:
-      title: energyConsumerPhasingResult
-      type: object
-      properties:
-        energyConsumer:
-          type: object
-          description: Потребитель
-          properties:
-            mRID:
-              type: string
-              description: ID потребителя
-        phasingResult:
-          type: object
-          description: Результат определения расстановки фаз потребителя
-          properties:
-            A:
-              type: string
-              description: 'Соответствие фазы A входу (L1, L2, L3) потребителя'
-            B:
-              type: string
-              description: 'Соответствие фазы B входу (L1, L2, L3) потребителя'
-            C:
-              type: string
-              description: 'Соответствие фазы C входу (L1, L2, L3) потребителя'
-        metrics:
-          type: object
-          description: Дополнительные показатели фазировки
-          properties:
-            loadBalance:
-              type: object
-              description: Доля нагрузки по фазам
-              properties:
-                A:
-                  type: array
-                  description: Доля нагрузки для фазы A
-                  items:
-                    $ref: './SGA.v1.yaml#/components/schemas/valueUnit'
-                B:
-                  type: array
-                  description: Доля нагрузки для фазы B
-                  items:
-                    $ref: './SGA.v1.yaml#/components/schemas/valueUnit'
-                C:
-                  type: array
-                  description: Доля нагрузки для фазы C
-                  items:
-                    $ref: './SGA.v1.yaml#/components/schemas/valueUnit'
-      description: Результат определения фаз потеребителя
-    PhasingResultConsumer:
-      title: PhasingResultConsumer
-      type: object
-      properties:
-        mRID:
-          type: string
-        phases:
-          type: object
-          properties:
-            A:
-              type: string
-            B:
-              type: string
-            C:
-              type: string
+      description: Объект результата определения фаз потребителей линии
     phasingResultEnergyConsumer:
-      title: energyConsumerPhasingResult
+      title: PhasingResultEnergyConsumer
       type: object
-      description: Результа определения фаз потребителя
+      description: Объект результата определения фаз потребителя
       properties:
         energyConsumer:
           type: object
