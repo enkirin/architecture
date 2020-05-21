@@ -35,8 +35,8 @@ paths:
         description: ID линии
 components:
   schemas:
-    valueUnit:
-      title: ValueUnit
+    ValueUnit:
+      title: Значение
       type: object
       properties:
         unit:
@@ -46,8 +46,8 @@ components:
           type: string
           description: Значение
       description: Значение и единица измерения
-    phasingResultLine:
-      title: PhasingResultLine
+    PhasingResultLine:
+      title: Результата определения фаз потребителей линии
       type: object
       properties:
         line:
@@ -63,16 +63,16 @@ components:
           items:
             $ref: '#/components/schemas/energyConsumerPhasingResult'
       description: Объект результата определения фаз потребителей линии
-    phasingResultEnergyConsumer:
-      title: PhasingResultEnergyConsumer
+    PhasingResultEnergyConsumer:
+      title: Результата определения фаз потребителя
       type: object
       description: Объект результата определения фаз потребителя
       properties:
         energyConsumer:
           type: object
+          description: Потребитель
           required:
             - mRID
-          description: Потребитель
           properties:
             mRID:
               type: string
@@ -124,17 +124,17 @@ components:
                   type: array
                   description: Доля нагрузки для фазы A
                   items:
-                    $ref: '#/components/schemas/valueUnit'
+                    $ref: '#/components/schemas/ValueUnit'
                 B:
                   type: array
                   description: Доля нагрузки для фазы B
                   items:
-                    $ref: '#/components/schemas/valueUnit'
+                    $ref: '#/components/schemas/ValueUnit'
                 C:
                   type: array
                   description: Доля нагрузки для фазы C
                   items:
-                    $ref: '#/components/schemas/valueUnit'
+                    $ref: '#/components/schemas/ValueUnit'
       required:
         - energyConsumer
         - phasingResult
