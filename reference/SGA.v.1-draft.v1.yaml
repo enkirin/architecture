@@ -169,7 +169,7 @@ paths:
                   header:
                     type: object
                   response:
-                    $ref: '#/components/schemas/PhasingWorker'        
+                    $ref: '#/components/schemas/PhasingWorker'
       operationId: get-phasing-worker
       description: Метод возвращает процесс созданный для определения фаз потребителей линии
     parameters:
@@ -200,6 +200,31 @@ paths:
                       $ref: '#/components/schemas/PhasingWorker'
       operationId: get-phasing-worker-list
       description: Метод возвращает список процессов созданных для определения фаз потребителей линии
+  /phasing/worker/metrics:
+    get:
+      summary: Показатели (метрики) работы алгоритма
+      tags:
+        - Phasing
+        - PhasingWorking
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  header:
+                    type: object
+                  response:
+                    type: object
+                    properties:
+                      worker:
+                        $ref: '#/components/schemas/PhasingWorker'
+                      metrics:
+                        $ref: '#/components/schemas/PhasingWorkerMetrics'
+      operationId: get-phasing-worker-metrics
+      description: Метод возвращает показатели (метрики) работы алгоритма
 components:
   schemas:
     ValueUnit:
@@ -463,3 +488,158 @@ components:
         - line
         - srcData
       description: Объект процесса фазировки
+    PhasingWorkerMetrics:
+      title: PhasingWorkerMetrics
+      type: object
+      properties:
+        totalDuration:
+          type: integer
+          description: Длительность расчета в миллисекундах
+        samplingDepth:
+          type: integer
+          description: Количество отсчетов (кол. накопленных данных)
+        iterationCount:
+          type: integer
+          description: Количество итераций алгоритма
+        overallImbalance:
+          type: number
+          description: '%НБ - Общий процент небаланса. 1 = 100%'
+        line:
+          type: object
+          properties:
+            mRID:
+              type: string
+              description: ID Линии
+            sumByPhase:
+              type: object
+              description: 'Сумма энергий (кв*ч) фидера по фазам'
+              properties:
+                A:
+                  type: number
+                B:
+                  type: number
+                C:
+                  type: number
+            imbalanceByPhase:
+              type: object
+              description: '% небаланса по фазам'
+              properties:
+                A:
+                  type: number
+                B:
+                  type: number
+                C:
+                  type: number
+            energyConsumers:
+              type: object
+              properties:
+                sumByPhase:
+                  type: object
+                  description: 'Сумма энергий (кв*ч) потребителей по фазам'
+                  properties:
+                    A:
+                      type: number
+                    B:
+                      type: number
+                    C:
+                      type: number
+                energyConsumer:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      mRID:
+                        type: string
+                        description: ID потребителя
+                      phaseRotation:
+                        type: string
+                        enum:
+                          - counterclockwise
+                          - clockwise
+                        description: 'Ротация фаз: прямая; обратная.'
+                      loadBalance:
+                        type: object
+                        description: 'Доля нагрузки (в %) по фазам в общем потреблении'
+                        properties:
+                          A:
+                            type: number
+                          B:
+                            type: number
+                          C:
+                            type: number
+                      errors:
+                        type: object
+                        description: 'События (конфликты) '
+                        properties:
+                          columnConflict:
+                            type: boolean
+                            description: Конфликт по столбцам
+                          incorrectPhaseRotation:
+                            type: boolean
+                            description: Неправильное ЧФ
+                          lowLoad:
+                            type: boolean
+                            description: Низкая доля нагрузки
+                          lowColumnCC:
+                            type: boolean
+                            description: Низкий КК
+                          tooCloseColumnCC:
+                            type: boolean
+                            description: Очень близкие КК в столбце
+                          rowConflict:
+                            type: boolean
+                            description: Конфликт по строкам
+                      corrMats:
+                        type: array
+                        items:
+                          type: number
+                      phaseArrangement:
+                        type: object
+                        description: Растановка фаз к счетчику потребителя
+                        required:
+                          - was
+                          - became
+                        properties:
+                          was:
+                            type: object
+                            description: Исходное соотношение входа счетчика к фазе
+                            properties:
+                              A:
+                                type: string
+                              B:
+                                type: string
+                              C:
+                                type: string
+                          became:
+                            type: object
+                            description: Определенное соотношение входа счетчика к фазе
+                            properties:
+                              A:
+                                type: string
+                              B:
+                                type: string
+                              C:
+                                type: string
+                    required:
+                      - mRID
+                      - phaseRotation
+                      - loadBalance
+                      - errors
+                      - corrMats
+                      - phaseArrangement
+                consumerWight:
+                  type: array
+                  description: Массив mRID потребителей - очередность перебора потребителей. Рассчитан по весу ошибок и доли нагрузки
+                  items:
+                    type: string
+              required:
+                - consumerWight
+          required:
+            - sumByPhase
+        meanImbalance:
+          type: number
+          description: Средний небаланс
+        delta:
+          type: number
+          description: Доверительный интервал
+      description: Показатели работы алгоритма определения фаз потребителя
