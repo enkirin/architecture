@@ -21,7 +21,7 @@ paths:
                   header:
                     type: object
                   response:
-                    $ref: '#/components/schemas/phasingResultLine'
+                    $ref: '#/components/schemas/PhasingResultLine'
                 required:
                   - response
       operationId: get-phasing-result-line
@@ -36,7 +36,7 @@ paths:
 components:
   schemas:
     ValueUnit:
-      title: Значение
+      title: Value
       type: object
       properties:
         unit:
@@ -47,8 +47,9 @@ components:
           description: Значение
       description: Значение и единица измерения
     PhasingResultLine:
-      title: Результата определения фаз потребителей линии
+      title: PhasingResultLine
       type: object
+      description: Объект результата определения фаз потребителей линии
       properties:
         line:
           type: object
@@ -57,14 +58,13 @@ components:
             mRID:
               type: string
               description: ID Линии
-        comsumerPhasingResults:
+        phasingResultEnergyConsumers:
           type: array
           description: Результат определения фаз потребителей линии
           items:
-            $ref: '#/components/schemas/energyConsumerPhasingResult'
-      description: Объект результата определения фаз потребителей линии
+            $ref: '#/components/schemas/PhasingResultEnergyConsumer'
     PhasingResultEnergyConsumer:
-      title: Результата определения фаз потребителя
+      title: PhasingResultEnergyConsumer
       type: object
       description: Объект результата определения фаз потребителя
       properties:
