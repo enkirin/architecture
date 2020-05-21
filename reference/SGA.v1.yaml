@@ -835,6 +835,10 @@ components:
     phasingWorkerProcess:
       title: phasingWorkerProcess
       type: object
+      description: Worker - процесс выполняющий работу по определению фаз потребителя
+      x-tags:
+        - Phasing worker
+        - Phasing
       properties:
         id:
           type: string
@@ -858,10 +862,6 @@ components:
         сancelReason:
           type: string
           description: 'Причина отмены, если процесс расчета фаз был отменен (статус cancelled)'
-      description: Worker - процесс выполняющий работу по определению фаз потребителя
-      x-tags:
-        - Phasing worker
-        - Phasing
     valueUnit:
       title: valueUnit
       type: object

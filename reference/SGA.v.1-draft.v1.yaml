@@ -152,6 +152,29 @@ paths:
           in: query
           name: resultDate
           description: Результат фазировки за указанную дату
+  /phasing/worker:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  header:
+                    type: object
+                  response:
+                    $ref: '#/components/schemas/PhasingWorker'
+      operationId: get-phasing-worker
+  /phasing/worker/list:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-phasing-worker-list
 components:
   schemas:
     ValueUnit:
@@ -350,3 +373,74 @@ components:
           items:
             $ref: '#/components/schemas/ValueUnit'
       description: Доля нагрузки по фазам
+    PhasingWorkerProcess:
+      title: PhasingWorkerProcess
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID процесса
+        startTime:
+          type: string
+          format: date-time
+          description: Время старта процесса
+        stopTime:
+          type: string
+          format: date-time
+          description: Время завершения расчета для статуса Finished и время отмены для статуса Cancelled
+        status:
+          type: string
+          description: "Статус процесса: \nRunning - Идет накопление данных;\nFinished - Расчет запущен и находится в процессе выполнения;\nCancelled - Расчет был остановлен и не доведен до конца;\nIdle - Идет накопление данных."
+          enum:
+            - running
+            - cancelled
+            - finished
+            - idle
+        сancelReason:
+          type: string
+          description: 'Причина отмены, если процесс расчета фаз был отменен (статус cancelled)'
+        line:
+          type: object
+          description: Линия для которой создан процесс
+          properties:
+            mRID:
+              type: string
+              description: ID  линии
+      description: Объект процесс выполняющий расчет фазировки для линии
+    PhasingWorker:
+      title: PhasingWorker
+      type: object
+      properties:
+        process:
+          $ref: '#/components/schemas/PhasingWorkerProcess'
+        line:
+          type: object
+          description: Линия для которой создан процесс
+          required:
+            - mRID
+          properties:
+            mRID:
+              type: string
+              description: ID  линии
+        srcData:
+          type: object
+          description: Данные для расчета фазировки
+          required:
+            - completenessStatus
+            - limit
+          properties:
+            completenessStatus:
+              type: object
+              description: Готовность данных для старта расчета
+              properties:
+                progress:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/ValueUnit'
+            limit:
+              type: integer
+              description: Размер ряда
+      required:
+        - process
+        - line
+        - srcData
