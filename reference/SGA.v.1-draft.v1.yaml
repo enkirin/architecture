@@ -225,6 +225,40 @@ paths:
                         $ref: '#/components/schemas/PhasingWorkerMetrics'
       operationId: get-phasing-worker-metrics
       description: Метод возвращает показатели (метрики) работы алгоритма
+  /phasing/test/data/input:
+    parameters: []
+    post:
+      summary: Тестовые данные для расчета фазировки
+      operationId: post-phasing-test
+      responses:
+        '202':
+          description: Accepted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  header:
+                    type: object
+                  response:
+                    $ref: '#/components/schemas/PhasingWorkerProcess'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                header:
+                  type: string
+                payload:
+                  type: object
+                  properties:
+                    line:
+                      $ref: '#/components/schemas/Line'
+        description: Объект с тестовыми данными
+      description: Метод принимает тестовые данные для расчета фазировки. Используется в целях тестирования работы алгоритма
+      tags:
+        - Test
 components:
   schemas:
     ValueUnit:
@@ -623,3 +657,89 @@ components:
           type: number
           description: Доверительный интервал
       description: Показатели работы алгоритма определения фаз потребителя
+    DeviceDataSource:
+      title: DeviceDataSource
+      type: object
+      description: 'Данные поступающие с устройства '
+      x-tags:
+        - Test
+      properties:
+        id:
+          type: string
+          description: ID источника данных
+        dataSet:
+          $ref: '#/components/schemas/DataSet'
+      required:
+        - id
+        - dataSet
+    DataSet:
+      title: DataSet
+      type: object
+      x-tags:
+        - Test
+      description: Данные
+      properties:
+        dataPackages:
+          type: array
+          items:
+            $ref: '#/components/schemas/DataPackage'
+    DataPackage:
+      title: DataPackage
+      type: object
+      x-tags:
+        - Test
+      description: Пакет данных (неделимая единица)
+      properties:
+        A:
+          type: array
+          description: Приращение энергии для фазы A
+          items:
+            $ref: '#/components/schemas/ValueUnit'
+        B:
+          type: array
+          description: Приращение энергии для фазы B
+          items:
+            $ref: '#/components/schemas/ValueUnit'
+        C:
+          type: array
+          description: Приращение энергии для фазы C
+          items:
+            $ref: '#/components/schemas/ValueUnit'
+        time:
+          type: integer
+          description: 'Приращение времени, когда данные были отправленны'
+    EnergyConsumer:
+      title: EnergyConsumer
+      type: object
+      x-tags:
+        - Test
+      properties:
+        mRID:
+          type: string
+        dataSource:
+          $ref: '#/components/schemas/DeviceDataSource'
+        phaseRotation:
+          type: string
+          enum:
+            - counterclockwise
+            - clockwise
+          description: 'Ротация фаз: прямая; обратная.'
+      description: Объект потребителя
+    TestData:
+      title: TestData
+      type: object
+    Line:
+      title: Line
+      type: object
+      x-tags:
+        - Test
+      properties:
+        mRID:
+          type: string
+        dataSource:
+          $ref: '#/components/schemas/DeviceDataSource'
+        energyConsumers:
+          type: array
+          items:
+            $ref: '#/components/schemas/EnergyConsumer'
+      description: Объект линии

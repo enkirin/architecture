@@ -353,7 +353,7 @@ components:
     ACLineSegment:
       title: ACLineSegment
       type: object
-      description: Конечный потребитель.
+      description: Сегмент линии
       properties:
         mRID:
           type: string
