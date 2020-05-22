@@ -363,7 +363,7 @@ components:
     PhasingResult:
       title: PhasingResult
       type: object
-      description: Объект результата фазировки
+      description: Базовый объект результата определения фаз потребителя
       properties:
         id:
           type: string
@@ -381,6 +381,7 @@ components:
         - id
         - endDate
         - phasingResultValue
+        - startDate
     PhasingResultEnergyConsumer:
       title: PhasingResultEnergyConsumer
       allOf:
