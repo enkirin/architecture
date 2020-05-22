@@ -2,7 +2,7 @@ openapi: 3.0.0
 info:
   title: SGA.v.1-draft
   version: '1.0'
-  description: ''
+  description: Система для расчета показателей сети
 servers:
   - url: 'http://localhost:3000'
 paths:
@@ -171,7 +171,7 @@ paths:
                   response:
                     $ref: '#/components/schemas/PhasingWorker'
       operationId: get-phasing-worker
-      description: Метод возвращает процесс созданный для определения фаз потребителей линии
+      description: 'Метод возвращает процесс, созданный для определения фаз потребителей линии'
     parameters:
       - schema:
           type: string
@@ -458,13 +458,13 @@ components:
           $ref: '#/components/schemas/PhasingWorkerProcess'
         line:
           type: object
-          description: Линия для которой создан процесс
+          description: 'Линия, для которой создан процесс'
           required:
             - mRID
           properties:
             mRID:
               type: string
-              description: ID  линии
+              description: ID линии
         srcData:
           type: object
           description: Данные для расчета фазировки
@@ -595,7 +595,7 @@ components:
                           type: number
                       phaseArrangement:
                         type: object
-                        description: Растановка фаз к счетчику потребителя
+                        description: Расстановка фаз к счетчику потребителя
                         required:
                           - was
                           - became
