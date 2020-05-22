@@ -241,8 +241,8 @@ components:
       required:
         - unit
         - value
-    PhasingResultValueLine:
-      title: PhasingResultValueLine
+    PhasingResultLineValue:
+      title: PhasingResultLineValue
       type: object
       description: Объект результата определения фаз потребителей линии
       properties:
@@ -259,7 +259,7 @@ components:
           type: array
           description: Результат определения фаз потребителей линии
           items:
-            $ref: '#/components/schemas/PhasingResultValueEnergyConsumer'
+            $ref: '#/components/schemas/PhasingResultEnergyConsumerValue'
         metrics:
           type: object
           description: Дополнительные показатели фазировки
@@ -278,8 +278,8 @@ components:
         - line
         - values
         - metrics
-    PhasingResultValueEnergyConsumer:
-      title: PhasingResultValueEnergyConsumer
+    PhasingResultEnergyConsumerValue:
+      title: PhasingResultEnergyConsumerValue
       type: object
       description: Объект результата определения фаз потребителя
       properties:
@@ -389,7 +389,7 @@ components:
         - type: object
           properties:
             phasingResultValue:
-              $ref: '#/components/schemas/PhasingResultValueEnergyConsumer'
+              $ref: '#/components/schemas/PhasingResultEnergyConsumerValue'
           required:
             - phasingResultValue
       description: Объект результата определения фаз для потребителя
@@ -400,7 +400,7 @@ components:
         - type: object
           properties:
             phasingResultValue:
-              $ref: '#/components/schemas/PhasingResultValueLine'
+              $ref: '#/components/schemas/PhasingResultLineValue'
           required:
             - phasingResultValue
       description: Объект результата определения фаз потребителей линии
