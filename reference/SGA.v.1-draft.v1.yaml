@@ -335,28 +335,7 @@ components:
                 - loadBalance
               properties:
                 loadBalance:
-                  type: object
-                  description: Доля нагрузки по фазам
-                  required:
-                    - A
-                    - B
-                    - C
-                  properties:
-                    A:
-                      type: array
-                      description: Доля нагрузки для фазы A
-                      items:
-                        $ref: '#/components/schemas/ValueUnit'
-                    B:
-                      type: array
-                      description: Доля нагрузки для фазы B
-                      items:
-                        $ref: '#/components/schemas/ValueUnit'
-                    C:
-                      type: array
-                      description: Доля нагрузки для фазы C
-                      items:
-                        $ref: '#/components/schemas/ValueUnit'
+                  $ref: '#/components/schemas/LoadBalance'
       required:
         - energyConsumer
         - value
