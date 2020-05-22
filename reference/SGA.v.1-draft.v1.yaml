@@ -242,7 +242,7 @@ components:
         - unit
         - value
     PhasingResultValueLine:
-      title: PhasingResultLine
+      title: PhasingResultValueLine
       type: object
       description: Объект результата определения фаз потребителей линии
       properties:
