@@ -2,7 +2,7 @@ openapi: 3.0.0
 info:
   title: SGA.v.1-draft
   version: '1.0'
-  description: Система для расчета показателей сети
+  description: Система расчета показателей сети
 servers:
   - url: 'http://localhost:3000'
 paths:
