@@ -736,25 +736,17 @@ components:
           type: string
       description: ' Стандартные атрибуты'
     energyConsumerSimple:
-      type: object
       description: ' Потребитель (простая модель)'
-      properties:
-        asset:
-          type: array
-          items:
-            $ref: '#/components/schemas/consumerDevice'
-        name:
-          type: string
-        description:
-          type: string
-        aliasName:
-          type: string
-        mRID:
-          type: string
+      allOf:
+        - $ref: '#/components/schemas/IdentifiedObject'
+        - type: object
+          properties:
+            asset:
+              $ref: '#/components/schemas/consumerDevice'
     consumerDevice:
       title: consumerDevice
       type: object
-      description: Счетчик потребителя (Железка)
+      description: Счетчик потребителя
       properties:
         utcNumber:
           type: string
@@ -770,6 +762,7 @@ components:
           description: Диспетчерское наименование
         mRID:
           type: string
+          description: ID устройства
         serialNumber:
           type: string
           description: ''

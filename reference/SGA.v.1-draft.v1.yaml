@@ -669,6 +669,9 @@ components:
           description: ID источника данных
         dataSet:
           $ref: '#/components/schemas/DataSet'
+        deviceId:
+          type: string
+          description: 'ID устройства, которому принадлежит источник данных'
       required:
         - id
         - dataSet
