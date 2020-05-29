@@ -570,6 +570,7 @@ components:
                         enum:
                           - counterclockwise
                           - clockwise
+                          - unknown
                         description: 'Ротация фаз: прямая; обратная.'
                       loadBalance:
                         type: object
@@ -726,6 +727,7 @@ components:
           enum:
             - counterclockwise
             - clockwise
+            - unknown
           description: 'Ротация фаз: прямая; обратная.'
       description: Объект потребителя
     TestData:
