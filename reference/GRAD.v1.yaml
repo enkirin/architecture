@@ -178,7 +178,7 @@ paths:
                   response:
                     type: array
                     items:
-                      $ref: '#/components/schemas/consumerDevice'
+                      $ref: '#/components/schemas/DeviceConsumer'
       operationId: get-device-list
       description: Метод возвращает список счетчиков потребителей
       parameters:
@@ -206,7 +206,7 @@ paths:
                   header:
                     type: object
                   response:
-                    $ref: '#/components/schemas/consumerDevice'
+                    $ref: '#/components/schemas/DeviceConsumer'
       operationId: get-device-consumer
       description: Метод возвращает счетчик потребителя
     parameters:
@@ -452,7 +452,7 @@ components:
         asset:
           type: array
           items:
-            $ref: '#/components/schemas/consumerDevice'
+            $ref: '#/components/schemas/DeviceConsumer'
         description:
           type: string
           description: Описание
@@ -742,33 +742,20 @@ components:
         - type: object
           properties:
             asset:
-              $ref: '#/components/schemas/consumerDevice'
-    consumerDevice:
-      title: consumerDevice
-      type: object
+              $ref: '#/components/schemas/DeviceConsumer'
+    DeviceConsumer:
+      title: DeviceСonsumer
       description: Счетчик потребителя
-      properties:
-        utcNumber:
-          type: string
-          description: Номер счетчика
-        name:
-          type: string
-          description: Название счетчика
-        description:
-          type: string
-          description: Описание
-        aliasName:
-          type: string
-          description: Диспетчерское наименование
-        mRID:
-          type: string
-          description: ID устройства
-        serialNumber:
-          type: string
-          description: ''
-      required:
-        - utcNumber
-        - name
-        - aliasName
-        - mRID
-        - serialNumber
+      allOf:
+        - $ref: '#/components/schemas/IdentifiedObject'
+        - type: object
+          properties:
+            utcNumber:
+              type: string
+              description: Номер счетчика
+            serialNumber:
+              type: string
+              description: Серийный номер
+            dataSourceId:
+              type: string
+              description: ID источника данных
