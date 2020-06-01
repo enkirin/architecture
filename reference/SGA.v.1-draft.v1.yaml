@@ -352,6 +352,7 @@ paths:
                       powerLossesMetrics:
                         $ref: '#/components/schemas/PowerLossesMetrics'
       operationId: get-powerlosses-substation
+      description: Метод возвращает потери электроэнергии в ТП
     parameters:
       - schema:
           type: string
@@ -361,7 +362,7 @@ paths:
         description: ID объекта трансформаторной подстанции
   '/powerlosses/consumer/{id}':
     get:
-      summary: Потери электроэнергии на
+      summary: Потери электроэнергии на...
       tags: []
       responses:
         '200':
@@ -384,6 +385,7 @@ paths:
                       powerLossesMetrics:
                         $ref: '#/components/schemas/PowerLossesMetrics'
       operationId: get-powerlosses-consumer
+      description: Метод возвращает потери электроэнергии ...
     parameters:
       - schema:
           type: string
@@ -397,6 +399,74 @@ paths:
       tags: []
       responses: {}
       operationId: get-powerlosses-grid
+  '/powerlosses/substation/powerTransformer/{id}':
+    get:
+      summary: Потери электроэнергии в трансформатор
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  header:
+                    type: object
+                  response:
+                    type: object
+                    properties:
+                      powerLossesMetrics:
+                        $ref: '#/components/schemas/PowerLossesMetrics'
+                      powerTransformer:
+                        type: object
+                        description: Трансформатор
+                        properties:
+                          mRID:
+                            type: string
+      operationId: get-powerlosses-substation-123
+      description: Метод возвращает потери электроэнергии в трансофрматоре
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: ID объекта трансформатора
+  '/powerlosses/substation/busbarsection/{id}':
+    get:
+      summary: Потери электроэнергии секции шин
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ' header':
+                    type: object
+                  response:
+                    type: object
+                    properties:
+                      busbarSection:
+                        type: object
+                        description: Объект секции шин
+                        properties:
+                          mRID:
+                            type: string
+                      powerLossesMetrics:
+                        $ref: '#/components/schemas/PowerLossesMetrics'
+      operationId: get-powerlosses-substation-busbarsection
+      description: Метод возвращает потери электроэнергии секции шин
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: ID объекта секции шин
 components:
   schemas:
     ValueUnit:
