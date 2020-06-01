@@ -265,7 +265,7 @@ paths:
       tags: []
       responses: {}
       operationId: get-powerlosses-line
-      description: Метод возвращает потери электроэнергии в линии
+      description: Метод возвращает потери электроэнергии для линии
       requestBody:
         content:
           application/json:
@@ -277,16 +277,14 @@ paths:
                 response:
                   type: object
                   properties:
-                    techPowerLosses:
-                      $ref: '#/components/schemas/PowerLosses'
-                    commercePowerLosses:
-                      $ref: '#/components/schemas/PowerLosses'
                     line:
                       type: object
                       description: Объект линии для которой произведен расчет потерь
                       properties:
                         mRID:
                           type: string
+                    powerLossesMetrics:
+                      $ref: '#/components/schemas/PowerLossesMetrics'
         description: ''
     parameters:
       - schema:
@@ -295,18 +293,63 @@ paths:
         in: path
         required: true
         description: mRID объекта линии
-  /powerlosses/line/segment:
+  '/powerlosses/line/segment/{id}':
     get:
-      summary: Your GET endpoint
+      summary: Потери электроэнергии на участке линии
       tags: []
-      responses: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  header:
+                    type: object
+                  response:
+                    type: object
+                    properties:
+                      ACLineSegment:
+                        type: object
+                        properties:
+                          mRID:
+                            type: string
+                      powerLossesMetrics:
+                        $ref: '#/components/schemas/PowerLossesMetrics'
       operationId: get-powerlosses-line-segment
-  /powerlosses/substation:
+      description: Метод возвращает потери электроэнергии на участке линии
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: ID объекта сегмента линии
+  '/powerlosses/substation/{id}':
     get:
       summary: Your GET endpoint
       tags: []
-      responses: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  header:
+                    type: object
+                  response:
+                    type: object
       operationId: get-powerlosses-substation
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: ID объекта трансформаторной подстанции
   /powerlosses/consumer:
     get:
       summary: Your GET endpoint
@@ -850,3 +893,43 @@ components:
           $ref: '#/components/schemas/PowerLossesValue'
         phaseC:
           $ref: '#/components/schemas/PowerLossesValue'
+    PowerLossesMetrics:
+      title: PowerLossesMetrics
+      type: object
+      description: Показатели потерь электроэнергии
+      properties:
+        powerLosses:
+          $ref: '#/components/schemas/PowerLosses'
+        powerLossesCommerce:
+          $ref: '#/components/schemas/PowerLosses'
+        powerOrigination:
+          $ref: '#/components/schemas/PowerOrigination'
+    PowerOrigination:
+      title: PowerOrigination
+      type: object
+      description: Объект произведенной (отданной) электроэнергии
+      properties:
+        total:
+          $ref: '#/components/schemas/PowerOriginationValue'
+        byPhases:
+          $ref: '#/components/schemas/PowerOriginationValuePhases'
+    PowerOriginationValue:
+      title: PowerOriginationValue
+      type: object
+      description: Количество произведенной (отданной) электроэнергии
+      properties:
+        value:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValueUnit'
+    PowerOriginationValuePhases:
+      title: PowerOriginationValuePhases
+      type: object
+      properties:
+        phaseA:
+          $ref: '#/components/schemas/PowerOriginationValue'
+        phaseB:
+          $ref: '#/components/schemas/PowerOriginationValue'
+        phaseC:
+          $ref: '#/components/schemas/PowerOriginationValue'
+      description: Показатели произведённой (отданной) электроэнергии по фазно
