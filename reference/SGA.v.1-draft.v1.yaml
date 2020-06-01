@@ -328,7 +328,7 @@ paths:
         description: ID объекта сегмента линии
   '/powerlosses/substation/{id}':
     get:
-      summary: Your GET endpoint
+      summary: Потери электроэнергии в ТП
       tags: []
       responses:
         '200':
@@ -361,7 +361,7 @@ paths:
         description: ID объекта трансформаторной подстанции
   '/powerlosses/consumer/{id}':
     get:
-      summary: Your GET endpoint
+      summary: Потери электроэнергии на
       tags: []
       responses:
         '200':
@@ -898,6 +898,9 @@ components:
         id:
           type: string
           description: ID результата расчета потерь
+        date:
+          type: string
+          description: 'Дата и время, когда результат был получен'
     PowerLossesValue:
       title: PowerLossesValue
       type: object
@@ -948,6 +951,9 @@ components:
           $ref: '#/components/schemas/PowerOriginationValue'
         byPhases:
           $ref: '#/components/schemas/PowerOriginationValuePhases'
+        date:
+          type: string
+          description: 'Дата и время, когда значения были зафиксированы'
     PowerOriginationValue:
       title: PowerOriginationValue
       type: object
