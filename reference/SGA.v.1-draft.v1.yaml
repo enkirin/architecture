@@ -342,6 +342,15 @@ paths:
                     type: object
                   response:
                     type: object
+                    properties:
+                      substation:
+                        type: object
+                        description: ТП
+                        properties:
+                          mRID:
+                            type: string
+                      powerLossesMetrics:
+                        $ref: '#/components/schemas/PowerLossesMetrics'
       operationId: get-powerlosses-substation
     parameters:
       - schema:
@@ -350,12 +359,38 @@ paths:
         in: path
         required: true
         description: ID объекта трансформаторной подстанции
-  /powerlosses/consumer:
+  '/powerlosses/consumer/{id}':
     get:
       summary: Your GET endpoint
       tags: []
-      responses: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  header:
+                    type: object
+                  response:
+                    type: object
+                    properties:
+                      energyConsumer:
+                        type: object
+                        properties:
+                          mRID:
+                            type: string
+                      powerLossesMetrics:
+                        $ref: '#/components/schemas/PowerLossesMetrics'
       operationId: get-powerlosses-consumer
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: ID объекта потребителя электроэнергии
   /powerlosses/grid:
     get:
       summary: Your GET endpoint
