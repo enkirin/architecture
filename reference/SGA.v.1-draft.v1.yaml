@@ -259,6 +259,66 @@ paths:
       description: Метод принимает тестовые данные для расчета фазировки. Используется в целях тестирования работы алгоритма
       tags:
         - Test
+  '/powerlosses/line/{id}':
+    get:
+      summary: Потери электроэнергии в линии
+      tags: []
+      responses: {}
+      operationId: get-powerlosses-line
+      description: Метод возвращает потери электроэнергии в линии
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                header:
+                  type: object
+                response:
+                  type: object
+                  properties:
+                    techPowerLosses:
+                      $ref: '#/components/schemas/PowerLosses'
+                    commercePowerLosses:
+                      $ref: '#/components/schemas/PowerLosses'
+                    line:
+                      type: object
+                      description: Объект линии для которой произведен расчет потерь
+                      properties:
+                        mRID:
+                          type: string
+        description: ''
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: mRID объекта линии
+  /powerlosses/line/segment:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-powerlosses-line-segment
+  /powerlosses/substation:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-powerlosses-substation
+  /powerlosses/consumer:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-powerlosses-consumer
+  /powerlosses/grid:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-powerlosses-grid
 components:
   schemas:
     ValueUnit:
@@ -748,3 +808,45 @@ components:
           items:
             $ref: '#/components/schemas/EnergyConsumer'
       description: Объект линии
+    PowerLosses:
+      title: PowerLosses
+      type: object
+      description: Потери электроэнерги
+      properties:
+        total:
+          $ref: '#/components/schemas/PowerLossesValue'
+        byPhases:
+          $ref: '#/components/schemas/PowerLossesValuePhases'
+        id:
+          type: string
+          description: ID результата расчета потерь
+    PowerLossesValue:
+      title: PowerLossesValue
+      type: object
+      description: ''
+      properties:
+        imbalance:
+          type: array
+          description: Небаланс
+          items:
+            $ref: './SGA.v1.yaml#/components/schemas/valueUnit'
+        losses:
+          type: array
+          description: Количество потерь (соотношение отданное энергии и небаланса) электроэнергии
+          items:
+            $ref: '#/components/schemas/ValueUnit'
+        origination:
+          type: array
+          description: Количество произведенной (отданной) электроэнергии
+          items:
+            $ref: '#/components/schemas/ValueUnit'
+    PowerLossesValuePhases:
+      title: PowerLossesValuePhases
+      type: object
+      properties:
+        phaseA:
+          $ref: '#/components/schemas/PowerLossesValue'
+        phaseB:
+          $ref: '#/components/schemas/PowerLossesValue'
+        phaseC:
+          $ref: '#/components/schemas/PowerLossesValue'
