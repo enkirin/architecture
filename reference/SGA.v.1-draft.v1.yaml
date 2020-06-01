@@ -262,7 +262,8 @@ paths:
   '/powerlosses/line/{id}':
     get:
       summary: Потери электроэнергии в линии
-      tags: []
+      tags:
+        - PowerLosses
       responses: {}
       operationId: get-powerlosses-line
       description: Метод возвращает потери электроэнергии для линии
@@ -296,7 +297,8 @@ paths:
   '/powerlosses/line/segment/{id}':
     get:
       summary: Потери электроэнергии на участке линии
-      tags: []
+      tags:
+        - PowerLosses
       responses:
         '200':
           description: OK
@@ -329,7 +331,8 @@ paths:
   '/powerlosses/substation/{id}':
     get:
       summary: Потери электроэнергии в ТП
-      tags: []
+      tags:
+        - PowerLosses
       responses:
         '200':
           description: OK
@@ -363,7 +366,8 @@ paths:
   '/powerlosses/consumer/{id}':
     get:
       summary: Потери электроэнергии на...
-      tags: []
+      tags:
+        - PowerLosses
       responses:
         '200':
           description: OK
@@ -396,13 +400,15 @@ paths:
   /powerlosses/grid:
     get:
       summary: Your GET endpoint
-      tags: []
+      tags:
+        - PowerLosses
       responses: {}
       operationId: get-powerlosses-grid
   '/powerlosses/substation/powerTransformer/{id}':
     get:
       summary: Потери электроэнергии в трансформатор
-      tags: []
+      tags:
+        - PowerLosses
       responses:
         '200':
           description: OK
@@ -436,7 +442,8 @@ paths:
   '/powerlosses/substation/busbarsection/{id}':
     get:
       summary: Потери электроэнергии секции шин
-      tags: []
+      tags:
+        - PowerLosses
       responses:
         '200':
           description: OK
@@ -467,6 +474,41 @@ paths:
         in: path
         required: true
         description: ID объекта секции шин
+  /powerlosses:
+    get:
+      summary: Потери электроэнергии
+      tags:
+        - PowerLosses
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  header:
+                    type: object
+                  response:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/PowerLossesMetrics'
+      operationId: get-powerlosses
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: dateFrom
+        - schema:
+            type: string
+          in: query
+          name: dateTo
+        - schema:
+            type: string
+          in: query
+          name: date
+      description: Метод возвращает потери электроэнергии
+    parameters: []
 components:
   schemas:
     ValueUnit:
