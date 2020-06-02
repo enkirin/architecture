@@ -276,16 +276,7 @@ paths:
                 header:
                   type: object
                 response:
-                  type: object
-                  properties:
-                    line:
-                      type: object
-                      description: Объект линии для которой произведен расчет потерь
-                      properties:
-                        mRID:
-                          type: string
-                    powerLossesMetrics:
-                      $ref: '#/components/schemas/PowerLossesMetrics'
+                  $ref: '#/components/schemas/PowerLossesLine'
         description: ''
     parameters:
       - schema:
@@ -310,15 +301,7 @@ paths:
                   header:
                     type: object
                   response:
-                    type: object
-                    properties:
-                      ACLineSegment:
-                        type: object
-                        properties:
-                          mRID:
-                            type: string
-                      powerLossesMetrics:
-                        $ref: '#/components/schemas/PowerLossesMetrics'
+                    $ref: '#/components/schemas/PowerLossesACLineSegment'
       operationId: get-powerlosses-line-segment
       description: Метод возвращает потери электроэнергии на участке линии
     parameters:
@@ -344,16 +327,7 @@ paths:
                   header:
                     type: object
                   response:
-                    type: object
-                    properties:
-                      substation:
-                        type: object
-                        description: ТП
-                        properties:
-                          mRID:
-                            type: string
-                      powerLossesMetrics:
-                        $ref: '#/components/schemas/PowerLossesMetrics'
+                    $ref: '#/components/schemas/PowerLossesSubstation'
       operationId: get-powerlosses-substation
       description: Метод возвращает потери электроэнергии в ТП
     parameters:
@@ -379,15 +353,7 @@ paths:
                   header:
                     type: object
                   response:
-                    type: object
-                    properties:
-                      energyConsumer:
-                        type: object
-                        properties:
-                          mRID:
-                            type: string
-                      powerLossesMetrics:
-                        $ref: '#/components/schemas/PowerLossesMetrics'
+                    $ref: '#/components/schemas/PowerLossesEnergyConsumer'
       operationId: get-powerlosses-consumer
       description: Метод возвращает потери электроэнергии на абонентском участке (отпайке)
     parameters:
@@ -404,7 +370,7 @@ paths:
         - PowerLosses
       responses: {}
       operationId: get-powerlosses-grid
-  '/powerlosses/substation/powerTransformer/{id}':
+  '/powerlosses/substation/transformer/{id}':
     get:
       summary: Потери электроэнергии в трансформатор
       tags:
@@ -420,16 +386,7 @@ paths:
                   header:
                     type: object
                   response:
-                    type: object
-                    properties:
-                      powerLossesMetrics:
-                        $ref: '#/components/schemas/PowerLossesMetrics'
-                      powerTransformer:
-                        type: object
-                        description: Трансформатор
-                        properties:
-                          mRID:
-                            type: string
+                    $ref: '#/components/schemas/PowerLossesPowerTransformer'
       operationId: get-powerlosses-substation-123
       description: Метод возвращает потери электроэнергии в трансофрматоре
     parameters:
@@ -455,16 +412,7 @@ paths:
                   ' header':
                     type: object
                   response:
-                    type: object
-                    properties:
-                      busbarSection:
-                        type: object
-                        description: Объект секции шин
-                        properties:
-                          mRID:
-                            type: string
-                      powerLossesMetrics:
-                        $ref: '#/components/schemas/PowerLossesMetrics'
+                    $ref: '#/components/schemas/PowerLossesSubstation'
       operationId: get-powerlosses-substation-busbarsection
       description: Метод возвращает потери электроэнергии секции шин
     parameters:
@@ -490,9 +438,11 @@ paths:
                   header:
                     type: object
                   response:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/PowerLossesMetrics'
+                    anyOf:
+                      - $ref: '#/components/schemas/PowerLossesLine'
+                      - $ref: '#/components/schemas/PowerLossesACLineSegment'
+                      - $ref: '#/components/schemas/PowerLossesSubstation'
+                      - $ref: '#/components/schemas/PowerLossesEnergyConsumer'
       operationId: get-powerlosses
       parameters:
         - schema:
@@ -1086,3 +1036,71 @@ components:
         phaseC:
           $ref: '#/components/schemas/PowerOriginationValue'
       description: Показатели произведённой (отданной) электроэнергии по фазно
+    PowerLossesLine:
+      title: PowerLossesLine
+      type: object
+      description: ''
+      properties:
+        line:
+          type: object
+          description: Линия для которой произведен расчет потерь
+          properties:
+            mRID:
+              type: string
+        powerLossesMetrics:
+          $ref: '#/components/schemas/PowerLossesMetrics'
+    PowerLossesEnergyConsumer:
+      title: PwerLossesEnergyConsumer
+      type: object
+      properties:
+        energyConsumer:
+          type: object
+          properties:
+            mRID:
+              type: string
+        powerLossesMetrics:
+          $ref: '#/components/schemas/PowerLossesMetrics'
+    PowerLossesSubstation:
+      title: PowerLossesSubstation
+      type: object
+      properties:
+        substation:
+          type: object
+          properties:
+            mRID:
+              type: string
+        powerLossesMetrics:
+          $ref: '#/components/schemas/PowerLossesMetrics'
+    PowerLossesACLineSegment:
+      title: PowerLossesACLineSegment
+      type: object
+      properties:
+        ACLineSegment:
+          type: object
+          properties:
+            mRID:
+              type: string
+        powerLossesMetrics:
+          $ref: '#/components/schemas/PowerLossesMetrics'
+    PowerLossesPowerTransformer:
+      title: PowerLossesPowerTransformer
+      type: object
+      properties:
+        powerTransformer:
+          type: object
+          properties:
+            mRID:
+              type: string
+        powerLossesMetrics:
+          $ref: '#/components/schemas/PowerLossesMetrics'
+    PowerLossesBusbarSection:
+      title: PowerLossesBusbarSection
+      type: object
+      properties:
+        busbarSection:
+          type: object
+          properties:
+            mRID:
+              type: string
+        powerLossesMetrics:
+          $ref: '#/components/schemas/PowerLossesMetrics'
