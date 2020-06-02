@@ -365,7 +365,7 @@ paths:
         description: ID объекта трансформаторной подстанции
   '/powerlosses/consumer/{id}':
     get:
-      summary: Потери электроэнергии на...
+      summary: Потери электроэнергии на абонентском участке
       tags:
         - PowerLosses
       responses:
@@ -389,7 +389,7 @@ paths:
                       powerLossesMetrics:
                         $ref: '#/components/schemas/PowerLossesMetrics'
       operationId: get-powerlosses-consumer
-      description: Метод возвращает потери электроэнергии ...
+      description: Метод возвращает потери электроэнергии на абонентском участке (отпайке)
     parameters:
       - schema:
           type: string
