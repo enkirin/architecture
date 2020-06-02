@@ -363,13 +363,63 @@ paths:
         in: path
         required: true
         description: ID объекта потребителя электроэнергии
-  /powerlosses/grid:
+  '/powerlosses/grid/{id}':
     get:
-      summary: Your GET endpoint
+      summary: Потери электроэнергии в сети
       tags:
         - PowerLosses
-      responses: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  header:
+                    type: object
+                  response:
+                    type: object
+                    properties:
+                      lines:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/PowerLossesLine'
+                      ACLineSegment:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/PowerLossesACLineSegment'
+                      energyConsumer:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/PowerLossesEnergyConsumer'
+                      substation:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/PowerLossesSubstation'
+                      powerTransformer:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/PowerLossesPowerTransformer'
+                      busbarSection:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/PowerLossesSubstation'
+                      grid:
+                        type: object
+                        description: Сеть
+                        properties:
+                          mRID:
+                            type: string
       operationId: get-powerlosses-grid
+      description: Метод возвращает потери электроэнергии для всей сети
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: ID сети. Объект в модели CIM = GeographicalRegion
   '/powerlosses/substation/transformer/{id}':
     get:
       summary: Потери электроэнергии в трансформатор
@@ -957,12 +1007,6 @@ components:
           $ref: '#/components/schemas/PowerLossesValue'
         byPhases:
           $ref: '#/components/schemas/PowerLossesValuePhases'
-        id:
-          type: string
-          description: ID результата расчета потерь
-        date:
-          type: string
-          description: 'Дата и время, когда результат был получен'
     PowerLossesValue:
       title: PowerLossesValue
       type: object
@@ -973,11 +1017,6 @@ components:
           description: Небаланс
           items:
             $ref: './SGA.v1.yaml#/components/schemas/valueUnit'
-        losses:
-          type: array
-          description: Количество потерь (соотношение отданное энергии и небаланса) электроэнергии
-          items:
-            $ref: '#/components/schemas/ValueUnit'
         origination:
           type: array
           description: Количество произведенной (отданной) электроэнергии
@@ -998,12 +1037,29 @@ components:
       type: object
       description: Показатели потерь электроэнергии
       properties:
-        powerLosses:
-          $ref: '#/components/schemas/PowerLosses'
+        powerLossesTech:
+          allOf:
+            - $ref: '#/components/schemas/PowerLosses'
+            - type: object
+              properties:
+                structure:
+                  $ref: '#/components/schemas/PowerLossesStructure'
         powerLossesCommerce:
+          $ref: '#/components/schemas/PowerLosses'
+        powerLossesGeneral:
           $ref: '#/components/schemas/PowerLosses'
         powerOrigination:
           $ref: '#/components/schemas/PowerOrigination'
+        id:
+          type: string
+          description: ID рузультат
+        date:
+          type: string
+          description: 'Дата и время, когда результат был получен'
+      required:
+        - powerLossesCommerce
+        - powerLossesGeneral
+        - powerOrigination
     PowerOrigination:
       title: PowerOrigination
       type: object
@@ -1104,3 +1160,15 @@ components:
               type: string
         powerLossesMetrics:
           $ref: '#/components/schemas/PowerLossesMetrics'
+    PowerLossesStructure:
+      title: PowerLossesStructure
+      type: object
+      properties:
+        reactivePower:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValueUnit'
+        activePower:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValueUnit'
