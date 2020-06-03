@@ -259,6 +259,7 @@ paths:
       description: Метод принимает тестовые данные для расчета фазировки. Используется в целях тестирования работы алгоритма
       tags:
         - Test
+        - Phasing
   '/powerlosses/line/{id}':
     get:
       summary: Потери электроэнергии в линии
@@ -341,7 +342,7 @@ paths:
         description: ID объекта трансформаторной подстанции
   '/powerlosses/consumer/{id}':
     get:
-      summary: Потери электроэнергии на абонентском участке
+      summary: Потери электроэнергии на абонентском участке (Deprecated)
       tags:
         - PowerLosses
       responses:
@@ -491,7 +492,7 @@ paths:
         description: ID объекта секции шин
   /powerlosses:
     get:
-      summary: Потери электроэнергии
+      summary: Потери электроэнергии за период времени
       tags:
         - PowerLosses
       responses:
@@ -527,8 +528,54 @@ paths:
             type: string
           in: query
           name: date
-      description: Метод возвращает потери электроэнергии
+      description: Метод возвращает потери электроэнергии за указанный период времени
     parameters: []
+  /powerlosses/test:
+    post:
+      summary: Тестовые данные для расчета потерь
+      operationId: post-powerlosses-test
+      responses:
+        '200':
+          description: OK
+      tags:
+        - PowerLosses
+        - Test
+      description: Метод принимает тестовые данные для расчета потерь. Используется в целях тестирования работы алгоритма
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                header:
+                  type: object
+                payload:
+                  type: object
+                  properties:
+                    '':
+                      type: string
+        description: Объект с тестовыми данными
+  /powerlosses/test/consumer:
+    post:
+      summary: Тестовые данные для модуля Абонент
+      operationId: post-powerlosses-test-consumer
+      responses:
+        '200':
+          description: OK
+      description: ''
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                header:
+                  type: object
+                payload:
+                  type: object
+                  properties:
+                    '':
+                      type: string
 components:
   schemas:
     ValueUnit:
@@ -1129,7 +1176,7 @@ components:
         powerLossesMetrics:
           $ref: '#/components/schemas/PowerLossesMetrics'
     PowerLossesEnergyConsumer:
-      title: PwerLossesEnergyConsumer
+      title: PowerLossesEnergyConsumer
       type: object
       properties:
         energyConsumer:
@@ -1195,3 +1242,42 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ValueUnit'
+      description: Объект структуры технических потерь
+    TestPowerLossesConsumerPayload:
+      title: TestPowerLossesConsumerPayload
+      type: object
+      properties:
+        id:
+          type: string
+      description: Входные данные для модуля Абонент
+    TestPowerLossesConsumerResponse:
+      title: TestPowerLossesConsumerResponse
+      type: object
+      description: Объект ответа для модуля Абонент
+      properties:
+        TotalActivePowerLoss:
+          type: string
+        ActivePowerLoss:
+          type: string
+        RealCurrent:
+          type: string
+        ImaginaryCurrent:
+          type: string
+        PhasesActivePowerLoss:
+          type: object
+        PhasesRealCurrent:
+          type: object
+        PhasesImaginaryCurrent:
+          type: object
+    Phases:
+      title: Phases
+      type: object
+      properties:
+        A:
+          type: string
+        B:
+          type: string
+        C:
+          type: string
+        neutral:
+          type: string
