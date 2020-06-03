@@ -264,20 +264,20 @@ paths:
       summary: Потери электроэнергии в линии
       tags:
         - PowerLosses
-      responses: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  header:
+                    type: object
+                  response:
+                    $ref: '#/components/schemas/PowerLossesLine'
       operationId: get-powerlosses-line
       description: Метод возвращает потери электроэнергии для линии
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                header:
-                  type: object
-                response:
-                  $ref: '#/components/schemas/PowerLossesLine'
-        description: ''
     parameters:
       - schema:
           type: string
@@ -302,6 +302,8 @@ paths:
                     type: object
                   response:
                     $ref: '#/components/schemas/PowerLossesACLineSegment'
+                required:
+                  - response
       operationId: get-powerlosses-line-segment
       description: Метод возвращает потери электроэнергии на участке линии
     parameters:
@@ -310,7 +312,7 @@ paths:
         name: id
         in: path
         required: true
-        description: ID объекта сегмента линии
+        description: mRID объекта сегмента линии
   '/powerlosses/substation/{id}':
     get:
       summary: Потери электроэнергии в ТП
@@ -381,36 +383,39 @@ paths:
                   response:
                     type: object
                     properties:
-                      lines:
-                        type: array
-                        items:
-                          $ref: '#/components/schemas/PowerLossesLine'
-                      ACLineSegment:
-                        type: array
-                        items:
-                          $ref: '#/components/schemas/PowerLossesACLineSegment'
-                      energyConsumer:
-                        type: array
-                        items:
-                          $ref: '#/components/schemas/PowerLossesEnergyConsumer'
-                      substation:
-                        type: array
-                        items:
-                          $ref: '#/components/schemas/PowerLossesSubstation'
-                      powerTransformer:
-                        type: array
-                        items:
-                          $ref: '#/components/schemas/PowerLossesPowerTransformer'
-                      busbarSection:
-                        type: array
-                        items:
-                          $ref: '#/components/schemas/PowerLossesSubstation'
                       grid:
                         type: object
                         description: Сеть
                         properties:
                           mRID:
                             type: string
+                      powerLossesMetrics:
+                        type: object
+                        properties:
+                          lines:
+                            type: array
+                            items:
+                              $ref: '#/components/schemas/PowerLossesLine'
+                          ACLineSegments:
+                            type: array
+                            items:
+                              $ref: '#/components/schemas/PowerLossesACLineSegment'
+                          energyConsumers:
+                            type: array
+                            items:
+                              $ref: '#/components/schemas/PowerLossesEnergyConsumer'
+                          substations:
+                            type: array
+                            items:
+                              $ref: '#/components/schemas/PowerLossesSubstation'
+                          powerTransformers:
+                            type: array
+                            items:
+                              $ref: '#/components/schemas/PowerLossesPowerTransformer'
+                          busbarSections:
+                            type: array
+                            items:
+                              $ref: '#/components/schemas/PowerLossesBusbarSection'
       operationId: get-powerlosses-grid
       description: Метод возвращает потери электроэнергии для всей сети
     parameters:
@@ -1052,7 +1057,7 @@ components:
           $ref: '#/components/schemas/PowerOrigination'
         id:
           type: string
-          description: ID рузультат
+          description: ID рузультата
         date:
           type: string
           description: 'Дата и время, когда результат был получен'
@@ -1060,6 +1065,8 @@ components:
         - powerLossesCommerce
         - powerLossesGeneral
         - powerOrigination
+        - id
+        - date
     PowerOrigination:
       title: PowerOrigination
       type: object
@@ -1103,6 +1110,7 @@ components:
           properties:
             mRID:
               type: string
+              description: ID линии
         powerLossesMetrics:
           $ref: '#/components/schemas/PowerLossesMetrics'
     PowerLossesEnergyConsumer:
