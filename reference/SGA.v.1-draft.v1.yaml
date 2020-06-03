@@ -386,11 +386,20 @@ paths:
                       grid:
                         type: object
                         description: Сеть
+                        required:
+                          - mRID
                         properties:
                           mRID:
                             type: string
                       powerLossesMetrics:
                         type: object
+                        required:
+                          - lines
+                          - ACLineSegments
+                          - energyConsumers
+                          - substations
+                          - powerTransformers
+                          - busbarSections
                         properties:
                           lines:
                             type: array
@@ -416,6 +425,9 @@ paths:
                             type: array
                             items:
                               $ref: '#/components/schemas/PowerLossesBusbarSection'
+                    required:
+                      - grid
+                      - powerLossesMetrics
       operationId: get-powerlosses-grid
       description: Метод возвращает потери электроэнергии для всей сети
     parameters:
@@ -493,11 +505,14 @@ paths:
                   header:
                     type: object
                   response:
-                    anyOf:
-                      - $ref: '#/components/schemas/PowerLossesLine'
-                      - $ref: '#/components/schemas/PowerLossesACLineSegment'
-                      - $ref: '#/components/schemas/PowerLossesSubstation'
-                      - $ref: '#/components/schemas/PowerLossesEnergyConsumer'
+                    type: array
+                    items:
+                      anyOf:
+                        - $ref: '#/components/schemas/PowerLossesLine'
+                        - $ref: '#/components/schemas/PowerLossesACLineSegment'
+                        - $ref: '#/components/schemas/PowerLossesSubstation'
+                        - $ref: '#/components/schemas/PowerLossesBusbarSection'
+                        - $ref: '#/components/schemas/PowerLossesEnergyConsumer'
       operationId: get-powerlosses
       parameters:
         - schema:
