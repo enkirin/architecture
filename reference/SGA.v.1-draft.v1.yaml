@@ -1264,20 +1264,28 @@ components:
         ImaginaryCurrent:
           type: string
         PhasesActivePowerLoss:
-          type: object
+          $ref: '#/components/schemas/PhasesValue'
         PhasesRealCurrent:
-          type: object
+          $ref: '#/components/schemas/PhasesValue'
         PhasesImaginaryCurrent:
-          type: object
-    Phases:
-      title: Phases
+          $ref: '#/components/schemas/PhasesValue'
+    PhasesValue:
+      title: PhasesValue
       type: object
       properties:
         A:
-          type: string
+          type: array
+          items:
+            $ref: '#/components/schemas/ValueUnit'
         B:
-          type: string
+          type: array
+          items:
+            $ref: '#/components/schemas/ValueUnit'
         C:
-          type: string
+          type: array
+          items:
+            $ref: '#/components/schemas/ValueUnit'
         neutral:
-          type: string
+          type: array
+          items:
+            $ref: '#/components/schemas/ValueUnit'
