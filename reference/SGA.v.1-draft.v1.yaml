@@ -1354,3 +1354,81 @@ components:
       properties:
         power:
           $ref: '#/components/schemas/ComplexPowerValue'
+    TestPowerLossesMethodPayload:
+      title: TestPowerLossesMethodPayload
+      type: object
+      properties:
+        environmentZone:
+          type: object
+          description: Окружающая Среда Зоны (информация о погодных условиях в зоне наблюдения)
+          properties:
+            ambientTemperature:
+              type: object
+              description: Температура окружающей среды
+            groundTemperature:
+              type: string
+              description: Температура грунта
+            month:
+              type: string
+              description: Season in CIM model
+        wire:
+          type: object
+          description: '  Характеристики провода'
+          properties:
+            type:
+              type: string
+              description: Тип провода
+            properties:
+              type: object
+              description: Характеристики
+              properties:
+                twistingCoef:
+                  type: string
+                continuousTemp:
+                  type: string
+                continuousCurrent:
+                  type: string
+                tempResCoef:
+                  type: string
+        geoID:
+          type: string
+        city:
+          type: string
+        resistance:
+          $ref: '#/components/schemas/ComplexResistanceValue'
+    TestPowerLossesMethodResponse:
+      title: TestPowerLossesMethodResponse
+      type: object
+      description: Потери в проводе
+      properties:
+        wire:
+          type: object
+          description: Провод
+          properties:
+            temperature:
+              allOf:
+                - $ref: '#/components/schemas/ValueUnit'
+              description: Температура провода
+            losses:
+              type: object
+              description: Потери в проводе
+              properties:
+                activePowerLoss:
+                  allOf:
+                    - $ref: '#/components/schemas/ValueUnit'
+                  description: Потери активной мощности в проводе
+                voltageLoss:
+                  allOf:
+                    - $ref: '#/components/schemas/ValueUnit'
+                  description: Потери напряжения в проводе
+            resistance:
+              allOf:
+                - $ref: '#/components/schemas/ValueUnit'
+              description: |
+                Сопротивление провода при значениях тока и текущей температуры окр. среды
+            сontinuousCurrent:
+              allOf:
+                - $ref: '#/components/schemas/ValueUnit'
+              description: Длительно-допустимый ток провода для текущей температуры окр. среды
+            id:
+              type: string
