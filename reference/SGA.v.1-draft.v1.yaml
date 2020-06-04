@@ -1494,3 +1494,61 @@ components:
           properties:
             '':
               $ref: '#/components/schemas/PhasesValue'
+    TestPowerLossesGridPayload:
+      title: TestPowerLossesGridPayload
+      type: object
+      properties:
+        line:
+          type: object
+          properties:
+            mRID:
+              type: string
+            ACLineSegments:
+              type: array
+              items:
+                type: object
+                properties:
+                  mRID:
+                    type: string
+                  wireInfo:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                      properties:
+                        type: object
+                        properties:
+                          activeResistance:
+                            type: object
+                            properties:
+                              phase:
+                                $ref: '#/components/schemas/ValueUnit'
+                              neutral:
+                                $ref: '#/components/schemas/ValueUnit'
+                          reactiveResistance:
+                            type: object
+                            properties:
+                              phase:
+                                $ref: '#/components/schemas/ValueUnit'
+                              neutral:
+                                $ref: '#/components/schemas/ValueUnit'
+                  length:
+                    $ref: '#/components/schemas/ValueUnit'
+                  location:
+                    type: object
+                    properties:
+                      positionPoint:
+                        type: object
+                        properties:
+                          xPosition:
+                            type: string
+                          yPosition:
+                            type: string
+                          zPosition:
+                            type: string
+    TestPowerLossesGridResponse:
+      title: TestPowerLossesGridResponse
+      type: object
+      properties:
+        id:
+          type: string

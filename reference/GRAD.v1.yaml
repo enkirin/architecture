@@ -543,11 +543,11 @@ components:
           type: string
           description: ID
       required:
-        - mRID
-        - name
-        - aliasName
         - xPosition
         - yPosition
+        - aliasName
+        - name
+        - mRID
     baseVoltage:
       title: baseVoltage
       type: object
