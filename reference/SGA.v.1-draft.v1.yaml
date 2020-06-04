@@ -1246,10 +1246,24 @@ components:
     TestPowerLossesConsumerPayload:
       title: TestPowerLossesConsumerPayload
       type: object
-      properties:
-        id:
-          type: string
       description: Входные данные для модуля Абонент
+      properties:
+        resistance:
+          $ref: '#/components/schemas/ComplexResistanceValue'
+        energyConsumer:
+          type: object
+          properties:
+            mRID:
+              type: string
+            dataSource:
+              $ref: '#/components/schemas/DeviceDataSource'
+        substation:
+          type: object
+          properties:
+            mRID:
+              type: string
+            dataSource:
+              $ref: '#/components/schemas/DeviceDataSource'
     TestPowerLossesConsumerResponse:
       title: TestPowerLossesConsumerResponse
       type: object
@@ -1273,15 +1287,15 @@ components:
       title: PhasesValue
       type: object
       properties:
-        A:
+        phaseA:
           type: array
           items:
             $ref: '#/components/schemas/ValueUnit'
-        B:
+        phaseB:
           type: array
           items:
             $ref: '#/components/schemas/ValueUnit'
-        C:
+        phaseC:
           type: array
           items:
             $ref: '#/components/schemas/ValueUnit'
@@ -1289,3 +1303,54 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ValueUnit'
+    ComplexPowerValue:
+      title: ComplexPowerValue
+      type: object
+      properties:
+        total:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValueUnit'
+        active:
+          oneOf:
+            - $ref: '#/components/schemas/PhaseValue'
+            - $ref: '#/components/schemas/PhasesValue'
+        reactive:
+          oneOf:
+            - $ref: '#/components/schemas/PhaseValue'
+            - $ref: '#/components/schemas/PhasesValue'
+    ComplexResistanceValue:
+      title: ComplexResistanceValue
+      type: object
+      properties:
+        total:
+          type: object
+          properties:
+            '':
+              $ref: '#/components/schemas/ValueUnit'
+        active:
+          oneOf:
+            - $ref: '#/components/schemas/PhaseValue'
+            - $ref: '#/components/schemas/PhasesValue'
+          description: Активная составляющая
+        reactive:
+          oneOf:
+            - $ref: '#/components/schemas/PhaseValue'
+            - $ref: '#/components/schemas/PhasesValue'
+          description: Реактивная составляющая
+    PhaseValue:
+      title: PhaseValue
+      type: object
+      properties:
+        phase:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValueUnit'
+        neutral:
+          $ref: '#/components/schemas/ValueUnit'
+    DataPackageEnergyConsumer:
+      title: DataPackageEnergyConsumer
+      type: object
+      properties:
+        power:
+          $ref: '#/components/schemas/ComplexPowerValue'
