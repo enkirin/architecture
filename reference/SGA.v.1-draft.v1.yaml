@@ -1287,17 +1287,17 @@ components:
       title: PhasesValue
       type: object
       properties:
-        phaseA:
+        A:
           type: array
           description: Фаза A
           items:
             $ref: '#/components/schemas/ValueUnit'
-        phaseB:
+        B:
           type: array
           description: Фаза B
           items:
             $ref: '#/components/schemas/ValueUnit'
-        phaseC:
+        C:
           type: array
           description: Фаза C
           items:
@@ -1308,9 +1308,9 @@ components:
           items:
             $ref: '#/components/schemas/ValueUnit'
       required:
-        - phaseA
-        - phaseB
-        - phaseC
+        - A
+        - B
+        - C
     ComplexPowerValue:
       title: ComplexPowerValue
       type: object
@@ -1468,15 +1468,23 @@ components:
         losses:
           type: object
           properties:
-            powerLosses:
-              $ref: '#/components/schemas/ComplexPowerValue'
+            total:
+              type:
+                - string
+                - array
+              description: Потери во всей Линии (общии и относительные значения)
+              items:
+                $ref: '#/components/schemas/ValueUnit'
         current:
-          type: string
+          $ref: '#/components/schemas/phasesAggragateValue'
         load:
-          type: string
+          $ref: '#/components/schemas/phasesAggragateValue'
         asymmetry:
-          type: string
-        ' power': {}
+          $ref: '#/components/schemas/phasesAggragateValue'
+        voltage:
+          $ref: '#/components/schemas/phasesAggragateValue'
+        cosF:
+          $ref: '#/components/schemas/phasesAggragateValue'
     ComplexCurrentValue:
       title: ComplexCurrentValue
       type: object
@@ -1552,3 +1560,13 @@ components:
       properties:
         id:
           type: string
+    phasesAggragateValue:
+      title: phasesAggragateValue
+      type: object
+      properties:
+        aggragateValue:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValueUnit'
+        phaseValue:
+          $ref: '#/components/schemas/PhasesValue'
