@@ -1511,7 +1511,7 @@ components:
             month:
               type: string
               description: Season in CIM model
-        wire:
+        wireInfo:
           type: object
           description: '  Характеристики провода'
           properties:
@@ -1535,7 +1535,7 @@ components:
         city:
           type: string
         resistance:
-          $ref: '#/components/schemas/ComplexResistanceValue'
+          $ref: '#/components/schemas/SimpleResistanceValue'
     TestPowerLossesMethodResponse:
       title: TestPowerLossesMethodResponse
       type: object
@@ -1639,7 +1639,7 @@ components:
           properties:
             mRID:
               type: string
-            ACLineSegments:
+            ACLineSegment:
               type: array
               items:
                 type: object
@@ -1654,20 +1654,8 @@ components:
                       properties:
                         type: object
                         properties:
-                          activeResistance:
-                            type: object
-                            properties:
-                              phase:
-                                $ref: '#/components/schemas/ValueUnit'
-                              neutral:
-                                $ref: '#/components/schemas/ValueUnit'
-                          reactiveResistance:
-                            type: object
-                            properties:
-                              phase:
-                                $ref: '#/components/schemas/ValueUnit'
-                              neutral:
-                                $ref: '#/components/schemas/ValueUnit'
+                          resistance:
+                            $ref: '#/components/schemas/SimpleResistanceValue'
                   length:
                     $ref: '#/components/schemas/ValueUnit'
                   location:
@@ -1699,41 +1687,19 @@ components:
                   mRID:
                     type: string
                   resistance:
-                    type: object
-                    properties:
-                      active:
-                        type: object
-                        properties:
-                          phase:
-                            $ref: '#/components/schemas/ValueUnit'
-                          neutral:
-                            $ref: '#/components/schemas/ValueUnit'
-                      reactive:
-                        type: object
-                        properties:
-                          phase:
-                            $ref: '#/components/schemas/ValueUnit'
-                          neutral:
-                            $ref: '#/components/schemas/ValueUnit'
+                    $ref: '#/components/schemas/SimpleResistanceValue'
+                required:
+                  - mRID
+                  - resistance
             resistance:
-              type: object
-              properties:
-                active:
-                  type: object
-                  properties:
-                    phase:
-                      $ref: '#/components/schemas/ValueUnit'
-                    neutral:
-                      $ref: '#/components/schemas/ValueUnit'
-                reactive:
-                  type: object
-                  properties:
-                    phase:
-                      $ref: '#/components/schemas/ValueUnit'
-                    neutral:
-                      $ref: '#/components/schemas/ValueUnit'
+              $ref: '#/components/schemas/SimpleResistanceValue'
             meridianAngle:
               $ref: '#/components/schemas/ValueUnit'
+          required:
+            - mRID
+            - ACLineSegment
+            - resistance
+            - meridianAngle
     phasesAggragateValue:
       title: phasesAggragateValue
       type: object
@@ -1774,3 +1740,47 @@ components:
         - total
         - active
         - reactive
+    SimpleResistanceValue:
+      title: SimpleResistanceValue
+      type: object
+      properties:
+        active:
+          type: object
+          description: Активное сопротивление
+          properties:
+            phase:
+              type: array
+              description: Сопротивление фазного провода
+              items:
+                $ref: '#/components/schemas/ValueUnit'
+            neutral:
+              type: array
+              description: Сопротивление нетрального провода
+              items:
+                $ref: '#/components/schemas/ValueUnit'
+        reactive:
+          type: object
+          description: Реактивное сопротивление
+          properties:
+            phase:
+              type: array
+              description: Сопротивление фазного провода
+              items:
+                $ref: '#/components/schemas/ValueUnit'
+            neutral:
+              type: array
+              description: Сопротивление нетрального провода
+              items:
+                $ref: '#/components/schemas/ValueUnit'
+    SimpleAggregateResistanceValue:
+      title: SimpleAggregateResistanceValue
+      allOf:
+        - $ref: '#/components/schemas/SimpleResistanceValue'
+        - type: object
+          properties:
+            total:
+              type: array
+              description: Полное сопротивление
+              items:
+                $ref: '#/components/schemas/ValueUnit'
+      description: ''
