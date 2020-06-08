@@ -605,7 +605,12 @@ paths:
                 header:
                   type: object
                 payload:
-                  $ref: '#/components/schemas/TestPowerLossesConsumerPayload'
+                  type: object
+                  properties:
+                    method:
+                      $ref: '#/components/schemas/TestPowerLossesMethodPayload'
+                    consumer:
+                      $ref: '#/components/schemas/TestPowerLossesConsumerPayload'
   /powerlosses/test/method:
     post:
       summary: ''
@@ -647,7 +652,7 @@ paths:
                 properties:
                   header:
                     type: object
-                  payload:
+                  response:
                     $ref: '#/components/schemas/TestPowerLossesACLineSegmentResponse'
       requestBody:
         content:
@@ -658,7 +663,12 @@ paths:
                 header:
                   type: object
                 payload:
-                  $ref: '#/components/schemas/TestPowerLossesACLineSegmentPayload'
+                  type: object
+                  properties:
+                    method:
+                      $ref: '#/components/schemas/TestPowerLossesMethodPayload'
+                    segment:
+                      $ref: '#/components/schemas/TestPowerLossesACLineSegmentPayload'
         description: ''
   /powerlosses/test/grid:
     post:
@@ -667,6 +677,15 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  header:
+                    type: object
+                  response:
+                    $ref: '#/components/schemas/TestPowerLossesGridResponse'
         '':
           content:
             application/json:
