@@ -537,6 +537,24 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  header:
+                    type: object
+                  response:
+                    type: object
+                    properties:
+                      consumer:
+                        $ref: '#/components/schemas/TestPowerLossesConsumerResponse'
+                      segment:
+                        $ref: '#/components/schemas/TestPowerLossesACLineSegmentResponse'
+                      grid:
+                        $ref: '#/components/schemas/TestPowerLossesGridResponse'
+                      method:
+                        $ref: '#/components/schemas/TestPowerLossesMethodResponse'
       tags:
         - PowerLosses
         - Test
@@ -552,8 +570,14 @@ paths:
                 payload:
                   type: object
                   properties:
-                    '':
-                      type: string
+                    consumer:
+                      $ref: '#/components/schemas/TestPowerLossesConsumerPayload'
+                    segment:
+                      $ref: '#/components/schemas/TestPowerLossesACLineSegmentPayload'
+                    grid:
+                      $ref: '#/components/schemas/TestPowerLossesGridPayload'
+                    method:
+                      $ref: '#/components/schemas/TestPowerLossesMethodPayload'
         description: Объект с тестовыми данными
   /powerlosses/test/consumer:
     post:
