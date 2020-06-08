@@ -1389,6 +1389,20 @@ components:
               type: string
             dataSource:
               $ref: '#/components/schemas/DeviceDataSource'
+            dataSource2:
+              type: object
+              properties:
+                id:
+                  type: string
+                deviceId:
+                  type: string
+                dataSet:
+                  type: object
+                  properties:
+                    dataPackages:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/ComplexAggregatePhasesValue'
         substation:
           type: object
           description: 'СШ-0,4 кВ в ТП (передает МАРС)'
@@ -1881,3 +1895,11 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/ValueUnit'
+    ComplexAggregatePhasesValue:
+      title: ComplexAggregatePhasesValue
+      type: object
+      properties:
+        aggregateValue:
+          $ref: '#/components/schemas/PhasesValue'
+        phaseValue:
+          $ref: '#/components/schemas/ComplexPhasesValue'
