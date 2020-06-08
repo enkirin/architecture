@@ -1481,11 +1481,17 @@ components:
       type: object
       properties:
         phase:
+          allOf:
+            - items:
+                $ref: '#/components/schemas/ValueUnit'
+          description: Значение фазного провода
           type: array
-          items:
-            $ref: '#/components/schemas/ValueUnit'
         neutral:
-          $ref: '#/components/schemas/ValueUnit'
+          allOf:
+            - items:
+                $ref: '#/components/schemas/ValueUnit'
+          description: Значение нетрального провода
+          type: array
       required:
         - phase
     DataPackageEnergyConsumer:
@@ -1587,10 +1593,7 @@ components:
         current:
           $ref: '#/components/schemas/ComplexCurrentValue'
         power:
-          description: Мощность
-          type: array
-          items:
-            $ref: '#/components/schemas/ComplexPowerValue'
+          $ref: '#/components/schemas/ComplexValue'
     TestPowerLossesACLineSegmentResponse:
       title: TestPowerLossesACLineSegmentResponse
       type: object
@@ -1784,3 +1787,23 @@ components:
               items:
                 $ref: '#/components/schemas/ValueUnit'
       description: ''
+    ComplexPhaseValue:
+      title: ComplexPhaseValue
+      type: object
+      properties:
+        active:
+          description: Активная составляющая
+          allOf:
+            - $ref: '#/components/schemas/PhaseValue'
+        reactive:
+          description: Реактивноя состовляющая
+          allOf:
+            - $ref: '#/components/schemas/PhaseValue'
+    ComplexPhasesValue:
+      title: ComplexPhasesValue
+      type: object
+      properties:
+        active:
+          $ref: '#/components/schemas/PhasesValue'
+        reactive:
+          $ref: '#/components/schemas/PhasesValue'
