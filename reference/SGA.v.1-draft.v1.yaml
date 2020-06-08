@@ -1449,7 +1449,7 @@ components:
     TestPowerLossesConsumerResponse:
       title: TestPowerLossesConsumerResponse
       type: object
-      description: Объект ответа для модуля Абонент
+      description: Объект ответа модуля Абонент
       properties:
         current:
           allOf:
@@ -1610,7 +1610,7 @@ components:
     TestPowerLossesMethodResponse:
       title: TestPowerLossesMethodResponse
       type: object
-      description: Объект ответа для модуля Метод
+      description: Объект ответа модуля Метод
       properties:
         wire:
           type: object
@@ -1688,7 +1688,7 @@ components:
           $ref: '#/components/schemas/phasesAggragateValue'
         power:
           $ref: '#/components/schemas/ComplexAggragateValue'
-      description: Объект ответа для модуля Магистраль
+      description: Объект ответа модуля Магистраль
     ComplexCurrentValue:
       title: ComplexCurrentValue
       type: object
@@ -1777,7 +1777,7 @@ components:
             - mRID
             - ACLineSegment
             - meridianAngle
-      description: Объект ответа для модуля Сеть
+      description: Объект ответа модуля Сеть
     phasesAggragateValue:
       title: phasesAggragateValue
       type: object
