@@ -1379,7 +1379,9 @@ components:
       description: Входные данные для модуля Абонент
       properties:
         resistance:
-          $ref: '#/components/schemas/ComplexResistanceValue'
+          allOf:
+            - $ref: '#/components/schemas/ComplexPhaseValue'
+          description: ' Сопротивление'
         energyConsumer:
           type: object
           properties:
@@ -1698,14 +1700,15 @@ components:
                   mRID:
                     type: string
                   resistance:
-                    $ref: '#/components/schemas/SimpleResistanceValue'
+                    allOf:
+                      - $ref: '#/components/schemas/ComplexPhaseValue'
+                    description: Сопротивление сегмента линии
                 required:
                   - mRID
-                  - resistance
             resistance:
               allOf:
                 - $ref: '#/components/schemas/ComplexPhaseValue'
-              description: Сопротивление
+              description: Сопротивление линии
             meridianAngle:
               $ref: '#/components/schemas/ValueUnit'
           required:
