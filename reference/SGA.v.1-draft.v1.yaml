@@ -1384,13 +1384,18 @@ components:
           description: ' Сопротивление'
         energyConsumer:
           type: object
+          required:
+            - mRID
+            - dataSource
           properties:
             mRID:
               type: string
             dataSource:
-              $ref: '#/components/schemas/DeviceDataSource'
-            dataSource2:
               type: object
+              required:
+                - id
+                - deviceId
+                - dataSet
               properties:
                 id:
                   type: string
@@ -1398,22 +1403,34 @@ components:
                   type: string
                 dataSet:
                   type: object
+                  required:
+                    - dataPackages
                   properties:
                     dataPackages:
                       type: array
+                      description: 'Фазная мощность абонента (активная, реактивная, полная)'
                       items:
                         $ref: '#/components/schemas/ComplexAggregatePhasesValue'
         substation:
           type: object
           description: 'СШ-0,4 кВ в ТП (передает МАРС)'
+          required:
+            - mRID
+            - dataSource
           properties:
             mRID:
               type: string
             dataSource:
               type: object
+              required:
+                - dataSet
+                - id
+                - deviceId
               properties:
                 dataSet:
                   type: object
+                  required:
+                    - dataPackages
                   properties:
                     dataPackages:
                       type: array
@@ -1426,6 +1443,9 @@ components:
                 deviceId:
                   type: string
                   description: 'ID устройства, которому принадлежит источник данных'
+      required:
+        - energyConsumer
+        - substation
     TestPowerLossesConsumerResponse:
       title: TestPowerLossesConsumerResponse
       type: object
