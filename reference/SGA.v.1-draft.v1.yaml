@@ -613,7 +613,7 @@ paths:
                       $ref: '#/components/schemas/TestPowerLossesConsumerPayload'
   /powerlosses/test/method:
     post:
-      summary: ''
+      summary: Тестовые данные для модуля Метод
       operationId: post-powerlosses-test-method
       responses:
         '200':
@@ -640,7 +640,7 @@ paths:
         description: ''
   /powerlosses/test/segment:
     post:
-      summary: ''
+      summary: Тестовые данные для модуля Магистраль
       operationId: post-powerlosses-test-segment
       responses:
         '200':
@@ -672,7 +672,7 @@ paths:
         description: ''
   /powerlosses/test/grid:
     post:
-      summary: ''
+      summary: Тестовые данные для модуля Сеть
       operationId: post-powerlosses-test-grid
       responses:
         '200':
