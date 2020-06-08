@@ -1725,7 +1725,9 @@ components:
                         type: object
                         properties:
                           resistance:
-                            $ref: '#/components/schemas/SimpleResistanceValue'
+                            allOf:
+                              - $ref: '#/components/schemas/ComplexPhaseValue'
+                            description: Сопротивление
                   length:
                     $ref: '#/components/schemas/ValueUnit'
                   location:
