@@ -506,14 +506,28 @@ paths:
                   header:
                     type: object
                   response:
-                    type: array
-                    items:
-                      anyOf:
-                        - $ref: '#/components/schemas/PowerLossesLine'
-                        - $ref: '#/components/schemas/PowerLossesACLineSegment'
-                        - $ref: '#/components/schemas/PowerLossesSubstation'
-                        - $ref: '#/components/schemas/PowerLossesBusbarSection'
-                        - $ref: '#/components/schemas/PowerLossesEnergyConsumer'
+                    type: object
+                    properties:
+                      line:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/PowerLossesLine'
+                      ACLineSegment:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/PowerLossesACLineSegment'
+                      substation:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/PowerLossesSubstation'
+                      busbarSection:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/PowerLossesBusbarSection'
+                      energyConsumer:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/PowerLossesEnergyConsumer'
       operationId: get-powerlosses
       parameters:
         - schema:
