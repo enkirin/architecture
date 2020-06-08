@@ -562,6 +562,15 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  header:
+                    type: object
+                  response:
+                    $ref: '#/components/schemas/TestPowerLossesConsumerResponse'
       description: ''
       requestBody:
         content:
@@ -572,10 +581,88 @@ paths:
                 header:
                   type: object
                 payload:
+                  $ref: '#/components/schemas/TestPowerLossesConsumerPayload'
+  /powerlosses/test/method:
+    post:
+      summary: ''
+      operationId: post-powerlosses-test-method
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  header:
+                    type: object
+                  response:
+                    $ref: '#/components/schemas/TestPowerLossesMethodResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                header:
                   type: object
-                  properties:
-                    '':
-                      type: string
+                payload:
+                  $ref: '#/components/schemas/TestPowerLossesMethodPayload'
+        description: ''
+  /powerlosses/test/segment:
+    post:
+      summary: ''
+      operationId: post-powerlosses-test-segment
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  header:
+                    type: object
+                  payload:
+                    $ref: '#/components/schemas/TestPowerLossesACLineSegmentResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                header:
+                  type: object
+                payload:
+                  $ref: '#/components/schemas/TestPowerLossesACLineSegmentPayload'
+        description: ''
+  /powerlosses/test/grid:
+    post:
+      summary: ''
+      operationId: post-powerlosses-test-grid
+      responses:
+        '200':
+          description: OK
+        '':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  header:
+                    type: object
+                  response:
+                    $ref: '#/components/schemas/TestPowerLossesGridResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                header:
+                  type: object
+                payload:
+                  $ref: '#/components/schemas/TestPowerLossesGridPayload'
 components:
   schemas:
     ValueUnit:
@@ -1270,13 +1357,13 @@ components:
       description: Объект ответа для модуля Абонент
       properties:
         TotalActivePowerLoss:
-          type: string
+          $ref: '#/components/schemas/ValueUnit'
         ActivePowerLoss:
-          type: string
+          $ref: '#/components/schemas/ValueUnit'
         RealCurrent:
-          type: string
+          $ref: '#/components/schemas/ValueUnit'
         ImaginaryCurrent:
-          type: string
+          $ref: '#/components/schemas/ValueUnit'
         PhasesActivePowerLoss:
           $ref: '#/components/schemas/PhasesValue'
         PhasesRealCurrent:
@@ -1556,8 +1643,54 @@ components:
       title: TestPowerLossesGridResponse
       type: object
       properties:
-        id:
-          type: string
+        line:
+          type: object
+          properties:
+            mRID:
+              type: string
+            ACLineSegment:
+              type: array
+              items:
+                type: object
+                properties:
+                  mRID:
+                    type: string
+                  resistance:
+                    type: object
+                    properties:
+                      active:
+                        type: object
+                        properties:
+                          phase:
+                            $ref: '#/components/schemas/ValueUnit'
+                          neutral:
+                            $ref: '#/components/schemas/ValueUnit'
+                      reactive:
+                        type: object
+                        properties:
+                          phase:
+                            $ref: '#/components/schemas/ValueUnit'
+                          neutral:
+                            $ref: '#/components/schemas/ValueUnit'
+            resistance:
+              type: object
+              properties:
+                active:
+                  type: object
+                  properties:
+                    phase:
+                      $ref: '#/components/schemas/ValueUnit'
+                    neutral:
+                      $ref: '#/components/schemas/ValueUnit'
+                reactive:
+                  type: object
+                  properties:
+                    phase:
+                      $ref: '#/components/schemas/ValueUnit'
+                    neutral:
+                      $ref: '#/components/schemas/ValueUnit'
+            meridianAngle:
+              $ref: '#/components/schemas/ValueUnit'
     phasesAggragateValue:
       title: phasesAggragateValue
       type: object
