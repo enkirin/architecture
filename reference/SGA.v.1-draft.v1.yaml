@@ -1399,22 +1399,30 @@ components:
       type: object
       description: Объект ответа для модуля Абонент
       properties:
-        TotalActivePowerLoss:
-          $ref: '#/components/schemas/ValueUnit'
-        ActivePowerLoss:
-          $ref: '#/components/schemas/ValueUnit'
-        RealCurrent:
-          $ref: '#/components/schemas/ValueUnit'
-        ImaginaryCurrent:
-          $ref: '#/components/schemas/ValueUnit'
-        PhasesActivePowerLoss:
-          $ref: '#/components/schemas/PhasesValue'
-        PhasesRealCurrent:
-          $ref: '#/components/schemas/PhasesValue'
-        PhasesImaginaryCurrent:
-          $ref: '#/components/schemas/PhasesValue'
-        '':
-          type: string
+        current:
+          allOf:
+            - $ref: '#/components/schemas/ComplexAggregateCurrentValue'
+        losses:
+          type: object
+          description: Потери
+          properties:
+            power:
+              type: object
+              description: ' Потреи мощности'
+              properties:
+                active:
+                  description: Активная мощность
+                  type: object
+                  properties:
+                    aggregateValue:
+                      type: array
+                      description: Общие потери активной мощности
+                      items:
+                        $ref: '#/components/schemas/ValueUnit'
+                    phaseValue:
+                      allOf:
+                        - $ref: '#/components/schemas/PhasesValue'
+                      description: ' Потери в проводах'
     PhasesValue:
       title: PhasesValue
       type: object
@@ -1808,3 +1816,28 @@ components:
           $ref: '#/components/schemas/PhasesValue'
         reactive:
           $ref: '#/components/schemas/PhasesValue'
+    ComplexAggregateCurrentValue:
+      title: ComplexAggregateCurrentValue
+      type: object
+      description: ' Ток'
+      properties:
+        real:
+          type: object
+          description: Действительная часть
+          properties:
+            aggregateValue:
+              type: array
+              items:
+                $ref: '#/components/schemas/ValueUnit'
+            phaseValue:
+              $ref: '#/components/schemas/PhasesValue'
+        imaginary:
+          type: object
+          description: Мнимая часть
+          properties:
+            aggregateValue:
+              type: array
+              items:
+                $ref: '#/components/schemas/ValueUnit'
+            phaseValue:
+              $ref: '#/components/schemas/PhasesValue'
