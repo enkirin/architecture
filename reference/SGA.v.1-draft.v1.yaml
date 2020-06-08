@@ -1467,24 +1467,22 @@ components:
       properties:
         losses:
           type: object
+          description: Потери активное мощности и потери напряжения в линии
           properties:
-            total:
-              type:
-                - string
-                - array
-              description: Потери во всей Линии (общии и относительные значения)
-              items:
-                $ref: '#/components/schemas/ValueUnit'
+            power:
+              $ref: '#/components/schemas/phasesAggragateValue'
+            voltage:
+              $ref: '#/components/schemas/phasesAggragateValue'
         current:
           $ref: '#/components/schemas/phasesAggragateValue'
         load:
           $ref: '#/components/schemas/phasesAggragateValue'
         asymmetry:
           $ref: '#/components/schemas/phasesAggragateValue'
-        voltage:
-          $ref: '#/components/schemas/phasesAggragateValue'
         cosF:
           $ref: '#/components/schemas/phasesAggragateValue'
+        power:
+          $ref: '#/components/schemas/ComplexAggragateValue'
     ComplexCurrentValue:
       title: ComplexCurrentValue
       type: object
@@ -1570,3 +1568,33 @@ components:
             $ref: '#/components/schemas/ValueUnit'
         phaseValue:
           $ref: '#/components/schemas/PhasesValue'
+    ComplexAggragateValue:
+      title: ComplexAggragateValue
+      type: object
+      description: ''
+      properties:
+        aggregateValue:
+          $ref: '#/components/schemas/ActiveReactiveTotal'
+        phaseValue:
+          type: object
+          properties:
+            A:
+              $ref: '#/components/schemas/ActiveReactiveTotal'
+            B:
+              $ref: '#/components/schemas/ActiveReactiveTotal'
+            C:
+              $ref: '#/components/schemas/ActiveReactiveTotal'
+    ActiveReactiveTotal:
+      title: ActiveReactiveTotal
+      type: object
+      properties:
+        total:
+          $ref: '#/components/schemas/ValueUnit'
+        active:
+          $ref: '#/components/schemas/ValueUnit'
+        reactive:
+          $ref: '#/components/schemas/ValueUnit'
+      required:
+        - total
+        - active
+        - reactive
