@@ -1391,11 +1391,27 @@ components:
               $ref: '#/components/schemas/DeviceDataSource'
         substation:
           type: object
+          description: 'СШ-0,4 кВ в ТП (передает МАРС)'
           properties:
             mRID:
               type: string
             dataSource:
-              $ref: '#/components/schemas/DeviceDataSource'
+              type: object
+              properties:
+                dataSet:
+                  type: object
+                  properties:
+                    dataPackages:
+                      type: array
+                      description: 'Напряжение "фаза-ноль" СШ-0,4 кВ ТП'
+                      items:
+                        $ref: '#/components/schemas/MARSVoltagePhasesNeutral'
+                id:
+                  type: string
+                  description: ID источника данных
+                deviceId:
+                  type: string
+                  description: 'ID устройства, которому принадлежит источник данных'
     TestPowerLossesConsumerResponse:
       title: TestPowerLossesConsumerResponse
       type: object
@@ -1844,3 +1860,24 @@ components:
                 $ref: '#/components/schemas/ValueUnit'
             phaseValue:
               $ref: '#/components/schemas/PhasesValue'
+    MARSVoltagePhasesNeutral:
+      title: MARSVoltagePhasesNeutral
+      type: object
+      description: ' Напряжение "фаза-ноль" СШ-0,4 кВ ТП'
+      properties:
+        phases:
+          allOf:
+            - $ref: '#/components/schemas/PhasesValue'
+          description: 'Усредненное значение напряжения U(a,b,c)0'
+        phaseAngle:
+          type: object
+          description: Межфазный угол между напряжениями
+          properties:
+            AB:
+              type: array
+              items:
+                $ref: '#/components/schemas/ValueUnit'
+            AC:
+              type: array
+              items:
+                $ref: '#/components/schemas/ValueUnit'
