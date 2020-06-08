@@ -1593,7 +1593,9 @@ components:
         current:
           $ref: '#/components/schemas/ComplexCurrentValue'
         power:
-          $ref: '#/components/schemas/ComplexValue'
+          description: Мощность
+          allOf:
+            - $ref: '#/components/schemas/ComplexPhaseValue'
     TestPowerLossesACLineSegmentResponse:
       title: TestPowerLossesACLineSegmentResponse
       type: object
@@ -1623,16 +1625,12 @@ components:
       properties:
         real:
           description: Действительная часть
-          type: object
-          properties:
-            '':
-              $ref: '#/components/schemas/PhasesValue'
+          allOf:
+            - $ref: '#/components/schemas/PhasesValue'
         imaginary:
           description: Мнимая часть
-          type: object
-          properties:
-            '':
-              $ref: '#/components/schemas/PhasesValue'
+          allOf:
+            - $ref: '#/components/schemas/PhasesValue'
     TestPowerLossesGridPayload:
       title: TestPowerLossesGridPayload
       type: object
@@ -1695,13 +1693,14 @@ components:
                   - mRID
                   - resistance
             resistance:
-              $ref: '#/components/schemas/SimpleResistanceValue'
+              allOf:
+                - $ref: '#/components/schemas/ComplexPhaseValue'
+              description: Сопротивление
             meridianAngle:
               $ref: '#/components/schemas/ValueUnit'
           required:
             - mRID
             - ACLineSegment
-            - resistance
             - meridianAngle
     phasesAggragateValue:
       title: phasesAggragateValue
