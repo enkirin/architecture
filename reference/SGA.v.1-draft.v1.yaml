@@ -1603,7 +1603,9 @@ components:
         city:
           type: string
         resistance:
-          $ref: '#/components/schemas/SimpleResistanceValue'
+          allOf:
+            - $ref: '#/components/schemas/ComplexPhaseValue'
+          description: Сопротивление
     TestPowerLossesMethodResponse:
       title: TestPowerLossesMethodResponse
       type: object
@@ -1621,14 +1623,21 @@ components:
               type: object
               description: Потери в проводе
               properties:
-                activePowerLoss:
-                  allOf:
-                    - $ref: '#/components/schemas/ValueUnit'
-                  description: Потери активной мощности в проводе
-                voltageLoss:
-                  allOf:
-                    - $ref: '#/components/schemas/ValueUnit'
+                power:
+                  description: ''
+                  type: object
+                  properties:
+                    active:
+                      type: array
+                      description: Потери активной мощности в проводе
+                      items:
+                        $ref: '#/components/schemas/ValueUnit'
+                voltage:
                   description: Потери напряжения в проводе
+                  allOf:
+                    - items:
+                        $ref: '#/components/schemas/ValueUnit'
+                  type: array
             resistance:
               allOf:
                 - $ref: '#/components/schemas/ValueUnit'
@@ -1638,8 +1647,6 @@ components:
               allOf:
                 - $ref: '#/components/schemas/ValueUnit'
               description: Длительно-допустимый ток провода для текущей температуры окр. среды
-            id:
-              type: string
     TestPowerLossesACLineSegmentPayload:
       title: TestPowerLossesACLineSegmentPayload
       type: object
