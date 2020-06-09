@@ -1532,22 +1532,6 @@ components:
         - B
         - C
       description: 'Значение для каждой фазы, плюс значение нетрального провода'
-    ComplexPowerValue:
-      title: ComplexPowerValue
-      type: object
-      properties:
-        total:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValueUnit'
-        active:
-          oneOf:
-            - $ref: '#/components/schemas/PhaseValue'
-            - $ref: '#/components/schemas/PhasesValue'
-        reactive:
-          oneOf:
-            - $ref: '#/components/schemas/PhaseValue'
-            - $ref: '#/components/schemas/PhasesValue'
     PhaseValue:
       title: PhaseValue
       type: object
@@ -1565,12 +1549,6 @@ components:
       required:
         - phase
       description: 'Обобщённое (одинаковое для всех фаз) значение фаз, плюс значение нетрального провод'
-    DataPackageEnergyConsumer:
-      title: DataPackageEnergyConsumer
-      type: object
-      properties:
-        power:
-          $ref: '#/components/schemas/ComplexPowerValue'
     TestPowerLossesMethodPayload:
       title: TestPowerLossesMethodPayload
       type: object
@@ -1955,28 +1933,39 @@ components:
     ComplexAggregateCurrentValue:
       title: ComplexAggregateCurrentValue
       type: object
-      description: ' Ток'
+      description: ' Комплексное значение тока для каждой фазы, плюс значение агрегационной функции'
       properties:
         real:
           type: object
           description: Действительная часть
+          required:
+            - aggregateValue
+            - phasesValue
           properties:
             aggregateValue:
               type: array
+              description: Значение агрегационной функции
               items:
                 $ref: '#/components/schemas/ValueUnit'
-            phaseValue:
+            phasesValue:
               $ref: '#/components/schemas/PhasesValue'
         imaginary:
           type: object
           description: Мнимая часть
+          required:
+            - aggregateValue
+            - phasesValue
           properties:
             aggregateValue:
               type: array
+              description: Значение агрегационной функции
               items:
                 $ref: '#/components/schemas/ValueUnit'
-            phaseValue:
+            phasesValue:
               $ref: '#/components/schemas/PhasesValue'
+      required:
+        - real
+        - imaginary
     MARSVoltagePhasesNeutral:
       title: MARSVoltagePhasesNeutral
       type: object
