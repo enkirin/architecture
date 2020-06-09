@@ -1235,6 +1235,8 @@ components:
       required:
         - total
         - byPhases
+      x-tags:
+        - PowerLosses
     PowerLossesValue:
       title: PowerLossesValue
       type: object
@@ -1245,11 +1247,13 @@ components:
           description: Небаланс
           items:
             $ref: '#/components/schemas/ValueUnit'
-        general:
+        powerOrigination:
           type: array
           description: Количество произведенной (отданной) электроэнергии
           items:
             $ref: '#/components/schemas/GeneralValue'
+      x-tags:
+        - PowerLosses
     PowerLossesValuePhases:
       title: PowerLossesValuePhases
       type: object
@@ -1264,6 +1268,8 @@ components:
           description: Количество произведенной (отданной) электроэнергии
       required:
         - imbalance
+      x-tags:
+        - PowerLosses
     PowerLossesMetrics:
       title: PowerLossesMetrics
       type: object
@@ -1302,38 +1308,8 @@ components:
         - powerOrigination
         - id
         - date
-    PowerOrigination:
-      title: PowerOrigination
-      type: object
-      description: Объект произведенной (отданной) электроэнергии
-      properties:
-        total:
-          $ref: '#/components/schemas/PowerOriginationValue'
-        byPhases:
-          $ref: '#/components/schemas/PowerOriginationValuePhases'
-        date:
-          type: string
-          description: 'Дата и время, когда значения были зафиксированы'
-    PowerOriginationValue:
-      title: PowerOriginationValue
-      type: object
-      description: Количество произведенной (отданной) электроэнергии
-      properties:
-        value:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValueUnit'
-    PowerOriginationValuePhases:
-      title: PowerOriginationValuePhases
-      type: object
-      properties:
-        phaseA:
-          $ref: '#/components/schemas/PowerOriginationValue'
-        phaseB:
-          $ref: '#/components/schemas/PowerOriginationValue'
-        phaseC:
-          $ref: '#/components/schemas/PowerOriginationValue'
-      description: Показатели произведённой (отданной) электроэнергии по фазно
+      x-tags:
+        - PowerLosses
     PowerLossesLine:
       title: PowerLossesLine
       type: object
@@ -1348,6 +1324,8 @@ components:
               description: ID линии
         powerLossesMetrics:
           $ref: '#/components/schemas/PowerLossesMetrics'
+      x-tags:
+        - PowerLosses
     PowerLossesEnergyConsumer:
       title: PowerLossesEnergyConsumer
       type: object
@@ -1359,6 +1337,8 @@ components:
               type: string
         powerLossesMetrics:
           $ref: '#/components/schemas/PowerLossesMetrics'
+      x-tags:
+        - PowerLosses
     PowerLossesSubstation:
       title: PowerLossesSubstation
       type: object
@@ -1370,6 +1350,8 @@ components:
               type: string
         powerLossesMetrics:
           $ref: '#/components/schemas/PowerLossesMetrics'
+      x-tags:
+        - PowerLosses
     PowerLossesACLineSegment:
       title: PowerLossesACLineSegment
       type: object
@@ -1381,6 +1363,8 @@ components:
               type: string
         powerLossesMetrics:
           $ref: '#/components/schemas/PowerLossesMetrics'
+      x-tags:
+        - PowerLosses
     PowerLossesPowerTransformer:
       title: PowerLossesPowerTransformer
       type: object
@@ -1392,6 +1376,8 @@ components:
               type: string
         powerLossesMetrics:
           $ref: '#/components/schemas/PowerLossesMetrics'
+      x-tags:
+        - PowerLosses
     PowerLossesBusbarSection:
       title: PowerLossesBusbarSection
       type: object
@@ -1403,6 +1389,8 @@ components:
               type: string
         powerLossesMetrics:
           $ref: '#/components/schemas/PowerLossesMetrics'
+      x-tags:
+        - PowerLosses
     PowerLossesStructure:
       title: PowerLossesStructure
       type: object
@@ -1424,6 +1412,8 @@ components:
                 $ref: '#/components/schemas/ValueUnit'
       required:
         - power
+      x-tags:
+        - PowerLosses
     TestPowerLossesConsumerPayload:
       title: TestPowerLossesConsumerPayload
       type: object
@@ -2065,7 +2055,7 @@ components:
       type: object
       description: 'Абсолютное значение - ориентир, для понимания происхождения относительного значения'
       properties:
-        value:
+        general:
           description: Абсолютное значение
           type: array
           items:
@@ -2079,6 +2069,6 @@ components:
           format: date-time
           description: 'Дата и время, когда значение было зафиксировано'
       required:
-        - value
+        - general
         - phases
         - '  date'
