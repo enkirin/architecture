@@ -1232,6 +1232,9 @@ components:
           $ref: '#/components/schemas/PowerLossesValue'
         byPhases:
           $ref: '#/components/schemas/PowerLossesValuePhases'
+      required:
+        - total
+        - byPhases
     PowerLossesValue:
       title: PowerLossesValue
       type: object
@@ -1242,11 +1245,11 @@ components:
           description: Небаланс
           items:
             $ref: '#/components/schemas/ValueUnit'
-        origination:
+        general:
           type: array
           description: Количество произведенной (отданной) электроэнергии
           items:
-            $ref: '#/components/schemas/ValueUnit'
+            $ref: '#/components/schemas/GeneralValue'
     PowerLossesValuePhases:
       title: PowerLossesValuePhases
       type: object
@@ -2029,26 +2032,28 @@ components:
       description: 'Абсолютное значение - ориентир, для понимания происхождения относительного значения'
       type: object
       properties:
-        total:
-          allOf:
-            - $ref: '#/components/schemas/ValueUnit'
-          description: Значение
+        value:
+          description: Абсолютное значение
+          type: array
+          items:
+            $ref: '#/components/schemas/ValueUnit'
         date:
           type: string
           description: 'Дата и время, когда значение было зафиксировано'
           format: date-time
       required:
-        - total
+        - value
         - date
     GeneralValuePhases:
       title: GeneralValuePhases
       type: object
       description: 'Абсолютное значение - ориентир, для понимания происхождения относительного значения'
       properties:
-        total:
-          allOf:
-            - $ref: '#/components/schemas/ValueUnit'
+        value:
           description: Абсолютное значение
+          type: array
+          items:
+            $ref: '#/components/schemas/ValueUnit'
         phases:
           allOf:
             - $ref: '#/components/schemas/PhasesValue'
@@ -2058,6 +2063,6 @@ components:
           format: date-time
           description: 'Дата и время, когда значение было зафиксировано'
       required:
-        - total
+        - value
         - phases
         - '  date'
