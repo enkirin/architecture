@@ -2020,3 +2020,40 @@ components:
           $ref: '#/components/schemas/PhasesValue'
         phaseValue:
           $ref: '#/components/schemas/ComplexPhasesValue'
+    TotalValue:
+      title: TotalValue
+      description: 'Абсолютное значение - ориентир, для понимания происхождения относительного значения'
+      type: object
+      properties:
+        total:
+          allOf:
+            - $ref: '#/components/schemas/ValueUnit'
+          description: Значение
+        date:
+          type: string
+          description: 'Дата и время, когда значение было зафиксировано'
+          format: date-time
+      required:
+        - total
+        - date
+    TotalValuePhases:
+      title: TotalValuePhases
+      type: object
+      description: 'Абсолютное значение - ориентир, для понимания происхождения относительного значения'
+      properties:
+        total:
+          allOf:
+            - $ref: '#/components/schemas/ValueUnit'
+          description: Абсолютное значение
+        phases:
+          allOf:
+            - $ref: '#/components/schemas/PhasesValue'
+          description: Абсолютное значение по фазно
+        '  date':
+          type: string
+          format: date-time
+          description: 'Дата и время, когда значение было зафиксировано'
+      required:
+        - total
+        - phases
+        - '  date'
