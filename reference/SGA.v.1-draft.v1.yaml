@@ -1251,12 +1251,16 @@ components:
       title: PowerLossesValuePhases
       type: object
       properties:
-        phaseA:
-          $ref: '#/components/schemas/PowerLossesValue'
-        phaseB:
-          $ref: '#/components/schemas/PowerLossesValue'
-        phaseC:
-          $ref: '#/components/schemas/PowerLossesValue'
+        imbalance:
+          allOf:
+            - $ref: '#/components/schemas/PhasesValue'
+          description: Небаланс
+        general:
+          allOf:
+            - $ref: '#/components/schemas/GeneralValuePhases'
+          description: Количество произведенной (отданной) электроэнергии
+      required:
+        - imbalance
     PowerLossesMetrics:
       title: PowerLossesMetrics
       type: object
@@ -2020,8 +2024,8 @@ components:
           $ref: '#/components/schemas/PhasesValue'
         phaseValue:
           $ref: '#/components/schemas/ComplexPhasesValue'
-    TotalValue:
-      title: TotalValue
+    GeneralValue:
+      title: GeneralValue
       description: 'Абсолютное значение - ориентир, для понимания происхождения относительного значения'
       type: object
       properties:
@@ -2036,8 +2040,8 @@ components:
       required:
         - total
         - date
-    TotalValuePhases:
-      title: TotalValuePhases
+    GeneralValuePhases:
+      title: GeneralValuePhases
       type: object
       description: 'Абсолютное значение - ориентир, для понимания происхождения относительного значения'
       properties:
