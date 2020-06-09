@@ -572,7 +572,7 @@ paths:
       tags:
         - PowerLosses
         - Test
-      description: Метод для тестирования расчета потерь
+      description: Метод для проверки работы алгоритма расчета потерь
       requestBody:
         content:
           application/json:
@@ -609,7 +609,7 @@ paths:
                     type: object
                   response:
                     $ref: '#/components/schemas/TestPowerLossesConsumerResponse'
-      description: ''
+      description: Метод для проверки работы алгоритма Абонент
       requestBody:
         content:
           application/json:
@@ -663,7 +663,7 @@ paths:
       tags:
         - PowerLosses
         - Test
-      description: Метод для тестирования работы модуля Метод
+      description: Метод для проверки работы алгоритма модуля Метод
   /powerlosses/test/segment:
     post:
       summary: Тестирование модуля Магистраль
@@ -705,6 +705,7 @@ paths:
       tags:
         - PowerLosses
         - Test
+      description: Метод для проверки работы алгоритма модуля Магистраль
   /powerlosses/test/grid:
     post:
       summary: Тестирование модуля Сеть
@@ -733,7 +734,7 @@ paths:
                   $ref: '#/components/schemas/TestPowerLossesGridPayload'
               required:
                 - payload
-      description: ''
+      description: Метод для проверки работы алгоритма модуля Сеть
       tags:
         - PowerLosses
         - Test
