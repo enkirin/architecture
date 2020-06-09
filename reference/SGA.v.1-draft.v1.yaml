@@ -1241,7 +1241,7 @@ components:
           type: array
           description: Небаланс
           items:
-            $ref: './SGA.v1.yaml#/components/schemas/valueUnit'
+            $ref: '#/components/schemas/ValueUnit'
         origination:
           type: array
           description: Количество произведенной (отданной) электроэнергии
@@ -1474,6 +1474,9 @@ components:
       required:
         - energyConsumer
         - substation
+      x-tags:
+        - PowerLosses
+        - Test
     TestPowerLossesConsumerResponse:
       title: TestPowerLossesConsumerResponse
       type: object
@@ -1503,6 +1506,9 @@ components:
                       allOf:
                         - $ref: '#/components/schemas/PhasesValue'
                       description: ' Потери в проводах'
+      x-tags:
+        - PowerLosses
+        - Test
     PhasesValue:
       title: PhasesValue
       type: object
@@ -1628,6 +1634,9 @@ components:
         - geoID
         - city
         - resistance
+      x-tags:
+        - PowerLosses
+        - Test
     TestPowerLossesMethodResponse:
       title: TestPowerLossesMethodResponse
       type: object
@@ -1680,6 +1689,9 @@ components:
               description: Длительно-допустимый ток провода для текущей температуры окр. среды
       required:
         - wireInfo
+      x-tags:
+        - PowerLosses
+        - Test
     TestPowerLossesACLineSegmentPayload:
       title: TestPowerLossesACLineSegmentPayload
       type: object
@@ -1698,6 +1710,9 @@ components:
           description: Мощность
           allOf:
             - $ref: '#/components/schemas/ComplexPhaseValue'
+      x-tags:
+        - PowerLosses
+        - Test
     TestPowerLossesACLineSegmentResponse:
       title: TestPowerLossesACLineSegmentResponse
       type: object
@@ -1750,6 +1765,9 @@ components:
         - asymmetry
         - cosF
         - power
+      x-tags:
+        - PowerLosses
+        - Test
     ComplexCurrentValue:
       title: ComplexCurrentValue
       type: object
@@ -1833,6 +1851,9 @@ components:
                   - location
       required:
         - line
+      x-tags:
+        - PowerLosses
+        - Test
     TestPowerLossesGridResponse:
       title: TestPowerLossesGridResponse
       type: object
@@ -1866,6 +1887,9 @@ components:
             - ACLineSegment
             - meridianAngle
       description: Объект ответа модуля Сеть
+      x-tags:
+        - PowerLosses
+        - Test
     phasesAggragateValue:
       title: phasesAggragateValue
       type: object
