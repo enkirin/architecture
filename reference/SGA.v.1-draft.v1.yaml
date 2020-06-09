@@ -699,17 +699,7 @@ paths:
                   header:
                     type: object
                   response:
-                    $ref: '#/components/schemas/TestPowerLossesGridResponse'
-        '':
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  header:
-                    type: object
-                  response:
-                    $ref: '#/components/schemas/TestPowerLossesGridResponse'
+                    $ref: '#/components/schemas/TestPowerLossesGridResponse'        
       requestBody:
         content:
           application/json:
@@ -720,6 +710,7 @@ paths:
                   type: object
                 payload:
                   $ref: '#/components/schemas/TestPowerLossesGridPayload'
+      description: ''
 components:
   schemas:
     ValueUnit:
