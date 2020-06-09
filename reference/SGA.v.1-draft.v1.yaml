@@ -1906,7 +1906,7 @@ components:
     phasesAggragateValue:
       title: phasesAggragateValue
       type: object
-      description: 'Значение для каждой фазы, нетрального проыода, плюс значение агрегационной функции'
+      description: 'Значение для каждой фазы, нетрального провода, плюс значение агрегационной функции'
       properties:
         aggragateValue:
           type: array
@@ -1918,7 +1918,7 @@ components:
     ComplexAggragateValue:
       title: ComplexAggragateValue
       type: object
-      description: ''
+      description: Комплексное значение с активной и реактивной составляющей разделенное на общее и для каждой фазы
       properties:
         aggregateValue:
           $ref: '#/components/schemas/ActiveReactiveTotal'
@@ -1934,18 +1934,23 @@ components:
     ActiveReactiveTotal:
       title: ActiveReactiveTotal
       type: object
+      description: Объект значения с активной и реактивной составляющей
       properties:
         total:
-          $ref: '#/components/schemas/ValueUnit'
+          allOf:
+            - $ref: '#/components/schemas/ValueUnit'
+          description: Общее значение
         active:
-          $ref: '#/components/schemas/ValueUnit'
+          allOf:
+            - $ref: '#/components/schemas/ValueUnit'
+          description: Активная составляющая
         reactive:
-          $ref: '#/components/schemas/ValueUnit'
+          allOf:
+            - $ref: '#/components/schemas/ValueUnit'
+          description: Реактивная составляющая
       required:
-        - total
         - active
         - reactive
-      description: ''
     ComplexPhaseValue:
       title: ComplexPhaseValue
       type: object
@@ -2007,7 +2012,7 @@ components:
     MARSVoltagePhasesNeutral:
       title: MARSVoltagePhasesNeutral
       type: object
-      description: ' Напряжение "фаза-ноль" СШ-0,4 кВ ТП'
+      description: '(DRAFT!) Объект от контролера МАРС. Напряжение "фаза-ноль" СШ-0,4 кВ ТП'
       properties:
         phases:
           allOf:
@@ -2033,6 +2038,7 @@ components:
           $ref: '#/components/schemas/PhasesValue'
         phaseValue:
           $ref: '#/components/schemas/ComplexPhasesValue'
+      description: 'Комплексное значение с активной и реактивной составляющей для каждой фазы, плюс, значение агрегационной функции'
     GeneralValue:
       title: GeneralValue
       description: 'Абсолютное значение - ориентир, для понимания происхождения относительного значения'
