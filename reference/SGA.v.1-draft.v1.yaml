@@ -854,7 +854,7 @@ components:
     PhasingResult:
       title: PhasingResult
       type: object
-      description: Базовый объект результата определения фаз потребителя
+      description: '(Потерявшийся объект!) Базовый объект результата определения фаз потребителя'
       properties:
         id:
           type: string
@@ -1240,7 +1240,7 @@ components:
     PowerLossesValue:
       title: PowerLossesValue
       type: object
-      description: ''
+      description: Объект потерь электроэнерги
       properties:
         imbalance:
           type: array
@@ -1270,6 +1270,7 @@ components:
         - imbalance
       x-tags:
         - PowerLosses
+      description: Объект потерь электроэнерги резделенный по фазно
     PowerLossesMetrics:
       title: PowerLossesMetrics
       type: object
@@ -1313,7 +1314,7 @@ components:
     PowerLossesLine:
       title: PowerLossesLine
       type: object
-      description: ''
+      description: Потери электроэнерги в линии
       properties:
         line:
           type: object
@@ -1339,6 +1340,7 @@ components:
           $ref: '#/components/schemas/PowerLossesMetrics'
       x-tags:
         - PowerLosses
+      description: Потери электроэнерги на участки линии абонента
     PowerLossesSubstation:
       title: PowerLossesSubstation
       type: object
@@ -1352,6 +1354,7 @@ components:
           $ref: '#/components/schemas/PowerLossesMetrics'
       x-tags:
         - PowerLosses
+      description: Потери электроэнерги в трансформаторной подстанции
     PowerLossesACLineSegment:
       title: PowerLossesACLineSegment
       type: object
@@ -1365,6 +1368,7 @@ components:
           $ref: '#/components/schemas/PowerLossesMetrics'
       x-tags:
         - PowerLosses
+      description: Потери электроэнерги для участка линии
     PowerLossesPowerTransformer:
       title: PowerLossesPowerTransformer
       type: object
@@ -1378,6 +1382,7 @@ components:
           $ref: '#/components/schemas/PowerLossesMetrics'
       x-tags:
         - PowerLosses
+      description: Потери электроэнерги в трансформаторе
     PowerLossesBusbarSection:
       title: PowerLossesBusbarSection
       type: object
@@ -1391,6 +1396,7 @@ components:
           $ref: '#/components/schemas/PowerLossesMetrics'
       x-tags:
         - PowerLosses
+      description: Потери электроэнерги на секции шин
     PowerLossesStructure:
       title: PowerLossesStructure
       type: object
