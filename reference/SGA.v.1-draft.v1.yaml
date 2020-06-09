@@ -546,7 +546,7 @@ paths:
     parameters: []
   /powerlosses/test:
     post:
-      summary: Тестовые данные для расчета потерь
+      summary: Тестирование расчета потерь
       operationId: post-powerlosses-test
       responses:
         '200':
@@ -572,7 +572,7 @@ paths:
       tags:
         - PowerLosses
         - Test
-      description: Метод принимает тестовые данные для расчета потерь. Используется в целях тестирования работы алгоритма
+      description: Метод для тестирования расчета потерь
       requestBody:
         content:
           application/json:
@@ -595,7 +595,7 @@ paths:
         description: Объект с тестовыми данными
   /powerlosses/test/consumer:
     post:
-      summary: Тестовые данные для модуля Абонент
+      summary: Тестирование модуля Абонент
       operationId: post-powerlosses-test-consumer
       responses:
         '200':
@@ -625,9 +625,12 @@ paths:
                       $ref: '#/components/schemas/TestPowerLossesMethodPayload'
                     consumer:
                       $ref: '#/components/schemas/TestPowerLossesConsumerPayload'
+      tags:
+        - PowerLosses
+        - Test
   /powerlosses/test/method:
     post:
-      summary: Тестовые данные для модуля Метод
+      summary: Тестирование модуля Метод
       operationId: post-powerlosses-test-method
       responses:
         '200':
@@ -651,10 +654,16 @@ paths:
                   type: object
                 payload:
                   $ref: '#/components/schemas/TestPowerLossesMethodPayload'
-        description: ''
+              required:
+                - payload
+        description: Входные параметры для модуля Метод
+      tags:
+        - PowerLosses
+        - Test
+      description: Метод для тестирования работы модуля Метод
   /powerlosses/test/segment:
     post:
-      summary: Тестовые данные для модуля Магистраль
+      summary: Тестирование модуля Магистраль
       operationId: post-powerlosses-test-segment
       responses:
         '200':
@@ -684,9 +693,12 @@ paths:
                     segment:
                       $ref: '#/components/schemas/TestPowerLossesACLineSegmentPayload'
         description: ''
+      tags:
+        - PowerLosses
+        - Test
   /powerlosses/test/grid:
     post:
-      summary: Тестовые данные для модуля Сеть
+      summary: Тестирование модуля Сеть
       operationId: post-powerlosses-test-grid
       responses:
         '200':
@@ -711,6 +723,9 @@ paths:
                 payload:
                   $ref: '#/components/schemas/TestPowerLossesGridPayload'
       description: ''
+      tags:
+        - PowerLosses
+        - Test
 components:
   schemas:
     ValueUnit:
@@ -1549,10 +1564,15 @@ components:
     TestPowerLossesMethodPayload:
       title: TestPowerLossesMethodPayload
       type: object
+      description: Объект входных параметров для модуля Метод
       properties:
         environmentZone:
           type: object
           description: Окружающая Среда Зоны (информация о погодных условиях в зоне наблюдения)
+          required:
+            - ambientTemperature
+            - groundTemperature
+            - month
           properties:
             ambientTemperature:
               type: object
@@ -1566,6 +1586,9 @@ components:
         wireInfo:
           type: object
           description: '  Характеристики провода'
+          required:
+            - type
+            - properties
           properties:
             type:
               type: string
@@ -1575,13 +1598,20 @@ components:
               description: Характеристики
               properties:
                 twistingCoef:
-                  type: string
+                  allOf:
+                    - $ref: '#/components/schemas/ValueUnit'
+                  description: Коэффициент скручивания
                 continuousTemp:
-                  type: string
+                  allOf:
+                    - $ref: '#/components/schemas/ValueUnit'
                 continuousCurrent:
-                  type: string
+                  description: Длительно-допустимый ток
+                  allOf:
+                    - $ref: '#/components/schemas/ValueUnit'
                 tempResCoef:
-                  type: string
+                  description: Температурный коэффициент сопротивления
+                  allOf:
+                    - $ref: '#/components/schemas/ValueUnit'
         geoID:
           type: string
         city:
@@ -1590,15 +1620,25 @@ components:
           allOf:
             - $ref: '#/components/schemas/ComplexPhaseValue'
           description: Сопротивление
-      description: Объект входных параметров для модуля Метод
+      required:
+        - environmentZone
+        - wireInfo
+        - geoID
+        - city
+        - resistance
     TestPowerLossesMethodResponse:
       title: TestPowerLossesMethodResponse
       type: object
       description: Объект ответа модуля Метод
       properties:
-        wire:
+        wireInfo:
           type: object
           description: Провод
+          required:
+            - temperature
+            - losses
+            - resistance
+            - сontinuousCurrent
           properties:
             temperature:
               allOf:
@@ -1607,18 +1647,23 @@ components:
             losses:
               type: object
               description: Потери в проводе
+              required:
+                - power
+                - voltage
               properties:
                 power:
-                  description: ''
+                  description: Потери мощности
                   type: object
+                  required:
+                    - active
                   properties:
                     active:
                       type: array
-                      description: Потери активной мощности в проводе
+                      description: Потери активной мощности
                       items:
                         $ref: '#/components/schemas/ValueUnit'
                 voltage:
-                  description: Потери напряжения в проводе
+                  description: Потери напряжения
                   type: array
                   items:
                     $ref: '#/components/schemas/ValueUnit'
@@ -1631,6 +1676,8 @@ components:
               allOf:
                 - $ref: '#/components/schemas/ValueUnit'
               description: Длительно-допустимый ток провода для текущей температуры окр. среды
+      required:
+        - wireInfo
     TestPowerLossesACLineSegmentPayload:
       title: TestPowerLossesACLineSegmentPayload
       type: object
@@ -1854,7 +1901,7 @@ components:
           allOf:
             - $ref: '#/components/schemas/PhaseValue'
         reactive:
-          description: Реактивноя состовляющая
+          description: Реактивная составляющая
           allOf:
             - $ref: '#/components/schemas/PhaseValue'
     ComplexPhasesValue:
