@@ -225,10 +225,10 @@ paths:
                         $ref: '#/components/schemas/PhasingWorkerMetrics'
       operationId: get-phasing-worker-metrics
       description: Метод возвращает показатели (метрики) работы алгоритма
-  /phasing/test/data/input:
+  /phasing/test:
     parameters: []
     post:
-      summary: Тестовые данные для расчета фазировки
+      summary: Тестирование алгоритма фазировки
       operationId: post-phasing-test
       responses:
         '202':
@@ -256,7 +256,7 @@ paths:
                     line:
                       $ref: '#/components/schemas/Line'
         description: Объект с тестовыми данными
-      description: Метод принимает тестовые данные для расчета фазировки. Используется в целях тестирования работы алгоритма
+      description: Метод принимает тестовые данные для тестирования расчета фазировки. Используется в целях проверки работы алгоритма
       tags:
         - Test
         - Phasing
