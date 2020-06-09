@@ -742,7 +742,7 @@ components:
     ValueUnit:
       title: Value
       type: object
-      description: Объект значения и его единица измерения
+      description: Значение и его единица измерения
       properties:
         unit:
           type: string
@@ -1208,9 +1208,6 @@ components:
             - unknown
           description: 'Ротация фаз: прямая; обратная.'
       description: Объект потребителя
-    TestData:
-      title: TestData
-      type: object
     Line:
       title: Line
       type: object
@@ -1534,7 +1531,7 @@ components:
         - A
         - B
         - C
-      description: Значение фаз
+      description: 'Значение для каждой фазы, плюс значение нетрального провода'
     ComplexPowerValue:
       title: ComplexPowerValue
       type: object
@@ -1567,7 +1564,7 @@ components:
             $ref: '#/components/schemas/ValueUnit'
       required:
         - phase
-      description: Обобщенное значение фаз (одинаковое для всех фаз)
+      description: 'Обобщённое (одинаковое для всех фаз) значение фаз, плюс значение нетрального провод'
     DataPackageEnergyConsumer:
       title: DataPackageEnergyConsumer
       type: object
@@ -1778,7 +1775,7 @@ components:
     ComplexCurrentValue:
       title: ComplexCurrentValue
       type: object
-      description: Ток
+      description: Комплексное значение тока состоящее из действительной и мнимой части
       properties:
         real:
           description: Действительная часть
@@ -1894,11 +1891,11 @@ components:
     phasesAggragateValue:
       title: phasesAggragateValue
       type: object
-      description: ''
+      description: 'Значение для каждой фазы, нетрального проыода, плюс значение агрегационной функции'
       properties:
         aggragateValue:
           type: array
-          description: Значение агригационной функции
+          description: Значение агрегационной функции
           items:
             $ref: '#/components/schemas/ValueUnit'
         phaseValue:
@@ -1933,50 +1930,6 @@ components:
         - total
         - active
         - reactive
-    SimpleResistanceValue:
-      title: SimpleResistanceValue
-      type: object
-      properties:
-        active:
-          type: object
-          description: Активное сопротивление
-          properties:
-            phase:
-              type: array
-              description: Сопротивление фазного провода
-              items:
-                $ref: '#/components/schemas/ValueUnit'
-            neutral:
-              type: array
-              description: Сопротивление нетрального провода
-              items:
-                $ref: '#/components/schemas/ValueUnit'
-        reactive:
-          type: object
-          description: Реактивное сопротивление
-          properties:
-            phase:
-              type: array
-              description: Сопротивление фазного провода
-              items:
-                $ref: '#/components/schemas/ValueUnit'
-            neutral:
-              type: array
-              description: Сопротивление нетрального провода
-              items:
-                $ref: '#/components/schemas/ValueUnit'
-    SimpleAggregateResistanceValue:
-      title: SimpleAggregateResistanceValue
-      allOf:
-        - $ref: '#/components/schemas/SimpleResistanceValue'
-        - type: object
-          properties:
-            total:
-              type: array
-              description: Полное сопротивление
-              items:
-                $ref: '#/components/schemas/ValueUnit'
-      description: ''
     ComplexPhaseValue:
       title: ComplexPhaseValue
       type: object
@@ -1989,6 +1942,7 @@ components:
           description: Реактивная составляющая
           allOf:
             - $ref: '#/components/schemas/PhaseValue'
+      description: 'Комплексное значение, для фазы и нетрального провода, состоящее из активной и реактивной части'
     ComplexPhasesValue:
       title: ComplexPhasesValue
       type: object
@@ -1997,6 +1951,7 @@ components:
           $ref: '#/components/schemas/PhasesValue'
         reactive:
           $ref: '#/components/schemas/PhasesValue'
+      description: 'Комплексное значение, для каждой фазы и нетрального провода, состоящее из активной и реактивной части'
     ComplexAggregateCurrentValue:
       title: ComplexAggregateCurrentValue
       type: object
