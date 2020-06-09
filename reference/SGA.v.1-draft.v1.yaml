@@ -625,6 +625,9 @@ paths:
                       $ref: '#/components/schemas/TestPowerLossesMethodPayload'
                     consumer:
                       $ref: '#/components/schemas/TestPowerLossesConsumerPayload'
+                  required:
+                    - method
+                    - consumer
       tags:
         - PowerLosses
         - Test
@@ -690,8 +693,14 @@ paths:
                   properties:
                     method:
                       $ref: '#/components/schemas/TestPowerLossesMethodPayload'
-                    segment:
-                      $ref: '#/components/schemas/TestPowerLossesACLineSegmentPayload'
+                    ACLineSegments:
+                      type: array
+                      description: Массив участков линии
+                      items:
+                        $ref: '#/components/schemas/TestPowerLossesACLineSegmentPayload'
+                  required:
+                    - method
+                    - ACLineSegments
         description: ''
       tags:
         - PowerLosses
@@ -722,6 +731,8 @@ paths:
                   type: object
                 payload:
                   $ref: '#/components/schemas/TestPowerLossesGridPayload'
+              required:
+                - payload
       description: ''
       tags:
         - PowerLosses
@@ -1523,6 +1534,7 @@ components:
         - A
         - B
         - C
+      description: Значение фаз
     ComplexPowerValue:
       title: ComplexPowerValue
       type: object
@@ -1555,6 +1567,7 @@ components:
             $ref: '#/components/schemas/ValueUnit'
       required:
         - phase
+      description: Обобщенное значение фаз (одинаковое для всех фаз)
     DataPackageEnergyConsumer:
       title: DataPackageEnergyConsumer
       type: object
@@ -1697,13 +1710,13 @@ components:
       type: object
       description: Объект входных параметров для модуля Магистраль
       properties:
-        id:
-          type: string
         ACLineSegment:
           type: object
+          description: Участок линии
           properties:
             mRID:
               type: string
+              description: ID участка линии
         current:
           $ref: '#/components/schemas/ComplexCurrentValue'
         power:
@@ -1713,26 +1726,55 @@ components:
     TestPowerLossesACLineSegmentResponse:
       title: TestPowerLossesACLineSegmentResponse
       type: object
+      description: Объект ответа модуля Магистраль
       properties:
         losses:
           type: object
-          description: Потери активное мощности и потери напряжения в линии
+          description: Потери мощности и напряжения в линии
+          required:
+            - voltage
+            - power
           properties:
-            power:
-              $ref: '#/components/schemas/phasesAggragateValue'
             voltage:
-              $ref: '#/components/schemas/phasesAggragateValue'
+              allOf:
+                - $ref: '#/components/schemas/phasesAggragateValue'
+              description: Напряжение
+            power:
+              type: object
+              description: Мощность
+              required:
+                - active
+              properties:
+                active:
+                  allOf:
+                    - $ref: '#/components/schemas/phasesAggragateValue'
+                  description: Потери активной мощности
         current:
-          $ref: '#/components/schemas/phasesAggragateValue'
+          allOf:
+            - $ref: '#/components/schemas/phasesAggragateValue'
+          description: Ток
         load:
-          $ref: '#/components/schemas/phasesAggragateValue'
+          allOf:
+            - $ref: '#/components/schemas/phasesAggragateValue'
+          description: Нагрузка
         asymmetry:
-          $ref: '#/components/schemas/phasesAggragateValue'
+          allOf:
+            - $ref: '#/components/schemas/phasesAggragateValue'
+          description: Несимметрия
         cosF:
-          $ref: '#/components/schemas/phasesAggragateValue'
+          allOf:
+            - $ref: '#/components/schemas/phasesAggragateValue'
         power:
-          $ref: '#/components/schemas/ComplexAggragateValue'
-      description: Объект ответа модуля Магистраль
+          allOf:
+            - $ref: '#/components/schemas/ComplexAggragateValue'
+          description: Мощность
+      required:
+        - losses
+        - current
+        - load
+        - asymmetry
+        - cosF
+        - power
     ComplexCurrentValue:
       title: ComplexCurrentValue
       type: object
@@ -1749,26 +1791,42 @@ components:
     TestPowerLossesGridPayload:
       title: TestPowerLossesGridPayload
       type: object
+      description: Объект входных параметров для модуля Сеть
       properties:
         line:
           type: object
+          required:
+            - mRID
+            - ACLineSegment
+          description: Линия
           properties:
             mRID:
               type: string
+              description: ID линии
             ACLineSegment:
               type: array
+              description: Участок линии
               items:
                 type: object
                 properties:
                   mRID:
                     type: string
+                    description: ID участка линии
                   wireInfo:
                     type: object
+                    required:
+                      - type
+                      - properties
+                    description: Характеристики провода
                     properties:
                       type:
                         type: string
+                        description: Тип провода
                       properties:
                         type: object
+                        required:
+                          - resistance
+                        description: Характеристики
                         properties:
                           resistance:
                             allOf:
@@ -1778,9 +1836,14 @@ components:
                     $ref: '#/components/schemas/ValueUnit'
                   location:
                     type: object
+                    required:
+                      - positionPoint
                     properties:
                       positionPoint:
                         type: object
+                        required:
+                          - xPosition
+                          - yPosition
                         properties:
                           xPosition:
                             type: string
@@ -1788,7 +1851,13 @@ components:
                             type: string
                           zPosition:
                             type: string
-      description: Объект входных параметров для модуля Сеть
+                required:
+                  - mRID
+                  - wireInfo
+                  - length
+                  - location
+      required:
+        - line
     TestPowerLossesGridResponse:
       title: TestPowerLossesGridResponse
       type: object
@@ -1825,9 +1894,11 @@ components:
     phasesAggragateValue:
       title: phasesAggragateValue
       type: object
+      description: ''
       properties:
         aggragateValue:
           type: array
+          description: Значение агригационной функции
           items:
             $ref: '#/components/schemas/ValueUnit'
         phaseValue:
