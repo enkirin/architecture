@@ -699,7 +699,7 @@ paths:
                   header:
                     type: object
                   response:
-                    $ref: '#/components/schemas/TestPowerLossesGridResponse'        
+                    $ref: '#/components/schemas/TestPowerLossesGridResponse'
       requestBody:
         content:
           application/json:
@@ -1524,41 +1524,20 @@ components:
           oneOf:
             - $ref: '#/components/schemas/PhaseValue'
             - $ref: '#/components/schemas/PhasesValue'
-    ComplexResistanceValue:
-      title: ComplexResistanceValue
-      type: object
-      properties:
-        total:
-          type: object
-          properties:
-            '':
-              $ref: '#/components/schemas/ValueUnit'
-        active:
-          oneOf:
-            - $ref: '#/components/schemas/PhaseValue'
-            - $ref: '#/components/schemas/PhasesValue'
-          description: Активная составляющая
-        reactive:
-          oneOf:
-            - $ref: '#/components/schemas/PhaseValue'
-            - $ref: '#/components/schemas/PhasesValue'
-          description: Реактивная составляющая
     PhaseValue:
       title: PhaseValue
       type: object
       properties:
         phase:
-          allOf:
-            - items:
-                $ref: '#/components/schemas/ValueUnit'
           description: Значение фазного провода
           type: array
+          items:
+            $ref: '#/components/schemas/ValueUnit'
         neutral:
-          allOf:
-            - items:
-                $ref: '#/components/schemas/ValueUnit'
           description: Значение нетрального провода
           type: array
+          items:
+            $ref: '#/components/schemas/ValueUnit'
       required:
         - phase
     DataPackageEnergyConsumer:
@@ -1640,10 +1619,9 @@ components:
                         $ref: '#/components/schemas/ValueUnit'
                 voltage:
                   description: Потери напряжения в проводе
-                  allOf:
-                    - items:
-                        $ref: '#/components/schemas/ValueUnit'
                   type: array
+                  items:
+                    $ref: '#/components/schemas/ValueUnit'
             resistance:
               allOf:
                 - $ref: '#/components/schemas/ValueUnit'
