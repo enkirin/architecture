@@ -1276,12 +1276,19 @@ components:
               properties:
                 structure:
                   $ref: '#/components/schemas/PowerLossesStructure'
+          description: Технические потери электроэнергии
         powerLossesCommerce:
-          $ref: '#/components/schemas/PowerLosses'
+          allOf:
+            - $ref: '#/components/schemas/PowerLosses'
+          description: Коммерческие потери электроэнергии
         powerLossesGeneral:
-          $ref: '#/components/schemas/PowerLosses'
+          allOf:
+            - $ref: '#/components/schemas/PowerLosses'
+          description: Общие (технические + коммерческие) потери электроэнергии
         powerOrigination:
-          $ref: '#/components/schemas/PowerOrigination'
+          allOf:
+            - $ref: '#/components/schemas/GeneralValuePhases'
+          description: Количество отданной (произведенной) электроэнергии
         id:
           type: string
           description: ID рузультата
@@ -1289,6 +1296,7 @@ components:
           type: string
           description: 'Дата и время, когда результат был получен'
       required:
+        - powerLossesTech
         - powerLossesCommerce
         - powerLossesGeneral
         - powerOrigination
@@ -1398,16 +1406,24 @@ components:
     PowerLossesStructure:
       title: PowerLossesStructure
       type: object
-      properties:
-        reactivePower:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValueUnit'
-        activePower:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValueUnit'
       description: Объект структуры технических потерь
+      properties:
+        power:
+          type: object
+          required:
+            - active
+            - reactive
+          properties:
+            active:
+              type: array
+              items:
+                $ref: '#/components/schemas/ValueUnit'
+            reactive:
+              type: array
+              items:
+                $ref: '#/components/schemas/ValueUnit'
+      required:
+        - power
     TestPowerLossesConsumerPayload:
       title: TestPowerLossesConsumerPayload
       type: object
