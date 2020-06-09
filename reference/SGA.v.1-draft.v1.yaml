@@ -1571,18 +1571,32 @@ components:
           description: Окружающая Среда Зоны (информация о погодных условиях в зоне наблюдения)
           required:
             - ambientTemperature
-            - groundTemperature
             - month
           properties:
             ambientTemperature:
-              type: object
               description: Температура окружающей среды
+              allOf:
+                - $ref: '#/components/schemas/ValueUnit'
             groundTemperature:
-              type: string
               description: Температура грунта
+              allOf:
+                - $ref: '#/components/schemas/ValueUnit'
             month:
               type: string
               description: Season in CIM model
+              enum:
+                - January
+                - February
+                - March
+                - April
+                - May
+                - June
+                - July
+                - August
+                - September
+                - October
+                - November
+                - December
         wireInfo:
           type: object
           description: '  Характеристики провода'
