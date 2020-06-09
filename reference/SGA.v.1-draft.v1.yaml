@@ -456,7 +456,7 @@ paths:
                   response:
                     $ref: '#/components/schemas/PowerLossesPowerTransformer'
       operationId: get-powerlosses-substation-123
-      description: Метод возвращает потери электроэнергии в трансофрматоре
+      description: Метод возвращает потери электроэнергии в трансформаторе
     parameters:
       - schema:
           type: string
@@ -1194,7 +1194,7 @@ components:
             $ref: '#/components/schemas/ValueUnit'
         time:
           type: integer
-          description: 'Приращение времени, когда данные были отправленны'
+          description: 'Приращение времени, когда данные были отправлены'
     EnergyConsumer:
       title: EnergyConsumer
       type: object
@@ -1245,7 +1245,7 @@ components:
     PowerLossesValue:
       title: PowerLossesValue
       type: object
-      description: Объект потерь электроэнерги
+      description: Объект потерь электроэнергии
       properties:
         imbalance:
           type: array
@@ -1275,7 +1275,7 @@ components:
         - imbalance
       x-tags:
         - PowerLosses
-      description: Объект потерь электроэнерги резделенный по фазно
+      description: Объект потерь электроэнергии разделённый по фазно
     PowerLossesMetrics:
       title: PowerLossesMetrics
       type: object
@@ -1303,7 +1303,7 @@ components:
           description: Количество отданной (произведенной) электроэнергии
         id:
           type: string
-          description: ID рузультата
+          description: ID результата
         date:
           type: string
           description: 'Дата и время, когда результат был получен'
@@ -1319,7 +1319,7 @@ components:
     PowerLossesLine:
       title: PowerLossesLine
       type: object
-      description: Потери электроэнерги в линии
+      description: Потери электроэнергии в линии
       properties:
         line:
           type: object
@@ -1345,7 +1345,7 @@ components:
           $ref: '#/components/schemas/PowerLossesMetrics'
       x-tags:
         - PowerLosses
-      description: Потери электроэнерги на участки линии абонента
+      description: Потери электроэнергии на участки линии абонента
     PowerLossesSubstation:
       title: PowerLossesSubstation
       type: object
@@ -1359,7 +1359,7 @@ components:
           $ref: '#/components/schemas/PowerLossesMetrics'
       x-tags:
         - PowerLosses
-      description: Потери электроэнерги в трансформаторной подстанции
+      description: Потери электроэнергии в трансформаторной подстанции
     PowerLossesACLineSegment:
       title: PowerLossesACLineSegment
       type: object
@@ -1373,7 +1373,7 @@ components:
           $ref: '#/components/schemas/PowerLossesMetrics'
       x-tags:
         - PowerLosses
-      description: Потери электроэнерги для участка линии
+      description: Потери электроэнергии для участка линии
     PowerLossesPowerTransformer:
       title: PowerLossesPowerTransformer
       type: object
@@ -1387,7 +1387,7 @@ components:
           $ref: '#/components/schemas/PowerLossesMetrics'
       x-tags:
         - PowerLosses
-      description: Потери электроэнерги в трансформаторе
+      description: Потери электроэнергии в трансформаторе
     PowerLossesBusbarSection:
       title: PowerLossesBusbarSection
       type: object
@@ -1401,7 +1401,7 @@ components:
           $ref: '#/components/schemas/PowerLossesMetrics'
       x-tags:
         - PowerLosses
-      description: Потери электроэнерги на секции шин
+      description: Потери электроэнергии на секции шин
     PowerLossesStructure:
       title: PowerLossesStructure
       type: object
@@ -1515,7 +1515,7 @@ components:
           properties:
             power:
               type: object
-              description: ' Потреи мощности'
+              description: ' Потери мощности'
               properties:
                 active:
                   description: Активная мощность
@@ -1561,7 +1561,7 @@ components:
         - A
         - B
         - C
-      description: 'Значение для каждой фазы, плюс значение нетрального провода'
+      description: 'Значение для каждой фазы, плюс значение нейтрального провода'
     PhaseValue:
       title: PhaseValue
       type: object
@@ -1572,13 +1572,13 @@ components:
           items:
             $ref: '#/components/schemas/ValueUnit'
         neutral:
-          description: Значение нетрального провода
+          description: Значение нейтрального провода
           type: array
           items:
             $ref: '#/components/schemas/ValueUnit'
       required:
         - phase
-      description: 'Обобщённое (одинаковое для всех фаз) значение фаз, плюс значение нетрального провод'
+      description: 'Обобщённое (одинаковое для всех фаз) значение фаз, плюс значение нейтрального провод'
     TestPowerLossesMethodPayload:
       title: TestPowerLossesMethodPayload
       type: object
@@ -1617,7 +1617,7 @@ components:
                 - December
         wireInfo:
           type: object
-          description: '  Характеристики провода'
+          description: 'Характеристики провода'
           required:
             - type
             - properties
@@ -1917,7 +1917,7 @@ components:
     phasesAggragateValue:
       title: phasesAggragateValue
       type: object
-      description: 'Значение для каждой фазы, нетрального провода, плюс значение агрегационной функции'
+      description: 'Значение для каждой фазы, нейтрального провода, плюс значение агрегационной функции'
       properties:
         aggragateValue:
           type: array
@@ -1974,7 +1974,7 @@ components:
           description: Реактивная составляющая
           allOf:
             - $ref: '#/components/schemas/PhaseValue'
-      description: 'Комплексное значение, для фазы и нетрального провода, состоящее из активной и реактивной части'
+      description: 'Комплексное значение, для фазы и нейтрального провода, состоящее из активной и реактивной части'
     ComplexPhasesValue:
       title: ComplexPhasesValue
       type: object
@@ -1983,7 +1983,7 @@ components:
           $ref: '#/components/schemas/PhasesValue'
         reactive:
           $ref: '#/components/schemas/PhasesValue'
-      description: 'Комплексное значение, для каждой фазы и нетрального провода, состоящее из активной и реактивной части'
+      description: 'Комплексное значение, для каждой фазы и нейтрального провода, состоящее из активной и реактивной части'
     ComplexAggregateCurrentValue:
       title: ComplexAggregateCurrentValue
       type: object
@@ -2088,4 +2088,4 @@ components:
       required:
         - general
         - phases
-        - '  date'
+        - ' date'
