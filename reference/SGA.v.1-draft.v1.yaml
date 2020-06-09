@@ -528,6 +528,10 @@ paths:
                         type: array
                         items:
                           $ref: '#/components/schemas/PowerLossesEnergyConsumer'
+                      powerTransformer:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/PowerLossesPowerTransformer'
       operationId: get-powerlosses
       parameters:
         - schema:
