@@ -2057,3 +2057,5 @@ components:
                 $ref: '#/components/schemas/PowerLossesPowerTransformer'
       required:
         - losses
+      x-tags:
+        - PowerLosses
