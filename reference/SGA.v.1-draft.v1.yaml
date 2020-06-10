@@ -340,32 +340,6 @@ paths:
         in: path
         required: true
         description: ID объекта трансформаторной подстанции
-  '/powerlosses/consumer/{id}':
-    get:
-      summary: Потери электроэнергии на абонентском участке (Deprecated)
-      tags:
-        - PowerLosses
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  header:
-                    type: object
-                  response:
-                    $ref: '#/components/schemas/PowerLossesEnergyConsumer'
-      operationId: get-powerlosses-consumer
-      description: Метод возвращает потери электроэнергии на абонентском участке (отпайке)
-    parameters:
-      - schema:
-          type: string
-        name: id
-        in: path
-        required: true
-        description: ID объекта потребителя электроэнергии
   '/powerlosses/grid/{id}':
     get:
       summary: Потери электроэнергии в сети
@@ -397,7 +371,6 @@ paths:
                         required:
                           - lines
                           - ACLineSegments
-                          - energyConsumers
                           - substations
                           - powerTransformers
                           - busbarSections
@@ -410,10 +383,6 @@ paths:
                             type: array
                             items:
                               $ref: '#/components/schemas/PowerLossesACLineSegment'
-                          energyConsumers:
-                            type: array
-                            items:
-                              $ref: '#/components/schemas/PowerLossesEnergyConsumer'
                           substations:
                             type: array
                             items:
@@ -524,10 +493,6 @@ paths:
                         type: array
                         items:
                           $ref: '#/components/schemas/PowerLossesBusbarSection'
-                      energyConsumer:
-                        type: array
-                        items:
-                          $ref: '#/components/schemas/PowerLossesEnergyConsumer'
                       powerTransformer:
                         type: array
                         items:
@@ -1332,20 +1297,6 @@ components:
           $ref: '#/components/schemas/PowerLossesMetrics'
       x-tags:
         - PowerLosses
-    PowerLossesEnergyConsumer:
-      title: PowerLossesEnergyConsumer
-      type: object
-      properties:
-        energyConsumer:
-          type: object
-          properties:
-            mRID:
-              type: string
-        powerLossesMetrics:
-          $ref: '#/components/schemas/PowerLossesMetrics'
-      x-tags:
-        - PowerLosses
-      description: Потери электроэнергии на участки линии абонента
     PowerLossesSubstation:
       title: PowerLossesSubstation
       type: object
@@ -1617,7 +1568,7 @@ components:
                 - December
         wireInfo:
           type: object
-          description: 'Характеристики провода'
+          description: Характеристики провода
           required:
             - type
             - properties
