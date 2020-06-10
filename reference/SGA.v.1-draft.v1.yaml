@@ -809,14 +809,14 @@ components:
           type: string
           description: ID результата
         endDate:
-          type: string
-          description: 'Дата и время, когда результат был получен'
+          type: integer
+          description: 'Дата и время, когда результат был получен (в миллисекундах Unix Epoch 00:00:00 UTC on 1 January 1970)'
         phasingResultValue:
           type: object
           description: Значение результата
         startDate:
-          type: string
-          description: 'Дата и время, когда расчет был начат'
+          type: integer
+          description: 'Дата и время, когда расчет был начат (в миллисекундах Unix Epoch 00:00:00 UTC on 1 January 1970)'
       required:
         - id
         - endDate
@@ -873,13 +873,13 @@ components:
           type: string
           description: ID процесса
         startTime:
-          type: string
+          type: integer
           format: date-time
-          description: Время старта процесса
+          description: Время старта процесса (в миллисекундах Unix Epoch)
         stopTime:
-          type: string
+          type: integer
           format: date-time
-          description: Время завершения расчета для статуса Finished и время отмены для статуса Cancelled
+          description: Время завершения расчета для статуса Finished и время отмены для статуса Cancelled (в миллисекундах Unix Epoch)
         status:
           type: string
           description: "Статус процесса: \nRunning - Идет накопление данных;\nFinished - Расчет запущен и находится в процессе выполнения;\nCancelled - Расчет был остановлен и не доведен до конца;\nIdle - Идет накопление данных."
@@ -1136,9 +1136,9 @@ components:
           description: Приращение энергии для фазы C
           items:
             $ref: '#/components/schemas/ValueUnit'
-        time:
+        date:
           type: integer
-          description: 'Приращение времени, когда данные были отправлены'
+          description: 'Приращение времени, когда данные были отправлены (в миллисекундах Unix Epoch 00:00:00 UTC on 1 January 1970)'
     EnergyConsumer:
       title: EnergyConsumer
       type: object
@@ -1251,8 +1251,8 @@ components:
           type: string
           description: ID результата
         date:
-          type: string
-          description: 'Дата и время, когда результат был получен'
+          type: integer
+          description: 'Дата и время, когда результат был получен (в миллисекундах Unix Epoch)'
       required:
         - powerLossesTech
         - powerLossesCommerce
@@ -1992,9 +1992,9 @@ components:
             - $ref: '#/components/schemas/ValueUnit'
           description: Абсолютное значение
         date:
-          type: string
+          type: integer
           format: date-time
-          description: 'Дата и время, когда значение было зафиксировано'
+          description: 'Дата и время, когда значение было зафиксировано (в миллисекундах Unix Epoch 00:00:00 UTC on 1 January 1970)'
       required:
         - relativeName
         - date
