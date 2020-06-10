@@ -1190,6 +1190,8 @@ components:
       title: PowerLossesValue
       type: object
       description: Объект потерь электроэнергии
+      x-tags:
+        - PowerLosses
       properties:
         imbalance:
           type: array
@@ -1201,8 +1203,6 @@ components:
           description: Количество произведенной (отданной) электроэнергии
           items:
             $ref: '#/components/schemas/GeneralValue'
-      x-tags:
-        - PowerLosses
     PowerLossesValuePhases:
       title: PowerLossesValuePhases
       type: object
@@ -1224,6 +1224,8 @@ components:
       title: PowerLossesMetrics
       type: object
       description: Показатели потерь электроэнергии
+      x-tags:
+        - PowerLosses
       properties:
         powerLossesTech:
           allOf:
@@ -1237,7 +1239,7 @@ components:
           allOf:
             - $ref: '#/components/schemas/PowerLosses'
           description: Коммерческие потери электроэнергии
-        powerLossesGeneral:
+        powerLossesTotal:
           allOf:
             - $ref: '#/components/schemas/PowerLosses'
           description: Общие (технические + коммерческие) потери электроэнергии
@@ -1254,12 +1256,9 @@ components:
       required:
         - powerLossesTech
         - powerLossesCommerce
-        - powerLossesGeneral
-        - powerOrigination
+        - powerLossesTotal
         - id
         - date
-      x-tags:
-        - PowerLosses
     PowerLossesLine:
       title: PowerLossesLine
       type: object
@@ -1985,40 +1984,33 @@ components:
       description: 'Абсолютное значение - ориентир, для понимания происхождения относительного значения'
       type: object
       properties:
-        value:
+        relativeName:
+          type: string
+          description: Название относительного значения для обеспечения связи с абсолютным
+        generalValue:
+          allOf:
+            - $ref: '#/components/schemas/ValueUnit'
           description: Абсолютное значение
-          type: array
-          items:
-            $ref: '#/components/schemas/ValueUnit'
         date:
           type: string
-          description: 'Дата и время, когда значение было зафиксировано'
           format: date-time
+          description: 'Дата и время, когда значение было зафиксировано'
       required:
-        - value
+        - relativeName
         - date
     GeneralValuePhases:
       title: GeneralValuePhases
-      type: object
       description: 'Абсолютное значение - ориентир, для понимания происхождения относительного значения'
-      properties:
-        general:
-          description: Абсолютное значение
-          type: array
-          items:
-            $ref: '#/components/schemas/ValueUnit'
-        phases:
-          allOf:
-            - $ref: '#/components/schemas/PhasesValue'
-          description: Абсолютное значение по фазно
-        '  date':
-          type: string
-          format: date-time
-          description: 'Дата и время, когда значение было зафиксировано'
-      required:
-        - general
-        - phases
-        - ' date'
+      allOf:
+        - type: object
+          properties:
+            phases:
+              allOf:
+                - $ref: '#/components/schemas/PhasesValue'
+              description: Абсолютное значение по фазно
+          required:
+            - phases
+        - $ref: '#/components/schemas/GeneralValue'
     PowerLossesGroup:
       title: PowerLossesGroup
       type: object
