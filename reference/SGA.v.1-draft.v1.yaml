@@ -475,28 +475,7 @@ paths:
                   header:
                     type: object
                   response:
-                    type: object
-                    properties:
-                      line:
-                        type: array
-                        items:
-                          $ref: '#/components/schemas/PowerLossesLine'
-                      ACLineSegment:
-                        type: array
-                        items:
-                          $ref: '#/components/schemas/PowerLossesACLineSegment'
-                      substation:
-                        type: array
-                        items:
-                          $ref: '#/components/schemas/PowerLossesSubstation'
-                      busbarSection:
-                        type: array
-                        items:
-                          $ref: '#/components/schemas/PowerLossesBusbarSection'
-                      powerTransformer:
-                        type: array
-                        items:
-                          $ref: '#/components/schemas/PowerLossesPowerTransformer'
+                    $ref: '#/components/schemas/PowerLossesGroup'
       operationId: get-powerlosses
       parameters:
         - schema:
@@ -2040,3 +2019,41 @@ components:
         - general
         - phases
         - ' date'
+    PowerLossesGroup:
+      title: PowerLossesGroup
+      type: object
+      description: Контейнер объектов потерь
+      properties:
+        losses:
+          type: object
+          description: Потери
+          required:
+            - line
+            - ACLineSegment
+            - substation
+            - busbarSection
+            - powerTransformer
+          properties:
+            line:
+              type: array
+              description: ''
+              items:
+                $ref: '#/components/schemas/PowerLossesLine'
+            ACLineSegment:
+              type: array
+              items:
+                $ref: '#/components/schemas/PowerLossesACLineSegment'
+            substation:
+              type: array
+              items:
+                $ref: '#/components/schemas/PowerLossesSubstation'
+            busbarSection:
+              type: array
+              items:
+                $ref: '#/components/schemas/PowerLossesBusbarSection'
+            powerTransformer:
+              type: array
+              items:
+                $ref: '#/components/schemas/PowerLossesPowerTransformer'
+      required:
+        - losses
