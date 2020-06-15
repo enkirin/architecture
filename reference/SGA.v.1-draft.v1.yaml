@@ -1952,7 +1952,7 @@ components:
     MARSVoltagePhasesNeutral:
       title: MARSVoltagePhasesNeutral
       type: object
-      description: '(DRAFT!) Объект от контролера МАРС. Напряжение "фаза-ноль" СШ-0,4 кВ ТП'
+      description: '(DRAFT!) Объект от контроллера МАРС. Напряжение "фаза-ноль" СШ-0,4 кВ ТП'
       properties:
         phases:
           allOf:
