@@ -1494,6 +1494,7 @@ components:
     PhaseValue:
       title: PhaseValue
       type: object
+      description: 'Обобщённое (одинаковое для всех фаз) значение фаз, плюс значение нейтрального провод'
       properties:
         phase:
           description: Значение фазного провода
@@ -1505,9 +1506,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ValueUnit'
-      required:
-        - phase
-      description: 'Обобщённое (одинаковое для всех фаз) значение фаз, плюс значение нейтрального провод'
     TestPowerLossesMethodPayload:
       title: TestPowerLossesMethodPayload
       type: object
@@ -1525,7 +1523,7 @@ components:
           properties:
             type:
               type: string
-              description: Тип провода
+              description: Тип провода (Справочник)
             properties:
               type: object
               description: Характеристики
@@ -1545,8 +1543,6 @@ components:
                   description: Температурный коэффициент сопротивления
                   allOf:
                     - $ref: '#/components/schemas/ValueUnit'
-                tempApproximation:
-                  type: string
         resistance:
           allOf:
             - $ref: '#/components/schemas/ComplexPhaseValue'
@@ -1567,7 +1563,7 @@ components:
                   type: string
                 name:
                   type: string
-                  description: 'Нозвание города, области и т.п.'
+                  description: 'Название города, области и т.п.'
             environmentZone:
               type: object
               description: Окружающая Среда Зоны (информация о погодных условиях в зоне наблюдения)
@@ -1607,10 +1603,28 @@ components:
                     - October
                     - November
                     - December
+        current:
+          $ref: '#/components/schemas/PhaseValue'
+        ACLineSegment:
+          type: object
+          properties:
+            PSRType:
+              type: string
+              enum:
+                - overhead
+                - underground
+              description: 'Тип прокладки линии: воздушный; подземный'
+        wireKind:
+          type: string
+          enum:
+            - phase
+            - neutral
+          description: 'Вид провода: фазный; нетральный'
       required:
         - wireInfo
         - resistance
         - region
+        - current
     TestPowerLossesMethodResponse:
       title: TestPowerLossesMethodResponse
       type: object
