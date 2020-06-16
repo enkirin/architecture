@@ -1512,38 +1512,10 @@ components:
       title: TestPowerLossesMethodPayload
       type: object
       description: Объект входных параметров для модуля Метод
+      x-tags:
+        - PowerLosses
+        - Test
       properties:
-        environmentZone:
-          type: object
-          description: Окружающая Среда Зоны (информация о погодных условиях в зоне наблюдения)
-          required:
-            - ambientTemperature
-            - month
-          properties:
-            ambientTemperature:
-              description: Температура окружающей среды
-              allOf:
-                - $ref: '#/components/schemas/ValueUnit'
-            groundTemperature:
-              description: Температура грунта
-              allOf:
-                - $ref: '#/components/schemas/ValueUnit'
-            month:
-              type: string
-              description: Season in CIM model
-              enum:
-                - January
-                - February
-                - March
-                - April
-                - May
-                - June
-                - July
-                - August
-                - September
-                - October
-                - November
-                - December
         wireInfo:
           type: object
           description: Характеристики провода
@@ -1573,23 +1545,72 @@ components:
                   description: Температурный коэффициент сопротивления
                   allOf:
                     - $ref: '#/components/schemas/ValueUnit'
-        geoID:
-          type: string
-        city:
-          type: string
+                tempApproximation:
+                  type: string
         resistance:
           allOf:
             - $ref: '#/components/schemas/ComplexPhaseValue'
           description: Сопротивление
+        region:
+          type: object
+          required:
+            - location
+            - environmentZone
+          properties:
+            location:
+              type: object
+              required:
+                - id
+                - name
+              properties:
+                id:
+                  type: string
+                name:
+                  type: string
+                  description: 'Нозвание города, области и т.п.'
+            environmentZone:
+              type: object
+              description: Окружающая Среда Зоны (информация о погодных условиях в зоне наблюдения)
+              required:
+                - ambientTemperature
+                - groundTemperature
+                - month
+              properties:
+                ambientTemperature:
+                  description: Температура окружающей среды
+                  allOf:
+                    - $ref: '#/components/schemas/ValueUnit'
+                groundTemperature:
+                  description: Температура грунта
+                  allOf:
+                    - $ref: '#/components/schemas/ValueUnit'
+                    - type: object
+                      properties:
+                        approximation:
+                          type: array
+                          items: {}
+                      required:
+                        - approximation
+                month:
+                  type: string
+                  description: Season in CIM model
+                  enum:
+                    - January
+                    - February
+                    - March
+                    - April
+                    - May
+                    - June
+                    - July
+                    - August
+                    - September
+                    - October
+                    - November
+                    - December
       required:
-        - environmentZone
         - wireInfo
-        - geoID
-        - city
         - resistance
-      x-tags:
-        - PowerLosses
-        - Test
+        - region
     TestPowerLossesMethodResponse:
       title: TestPowerLossesMethodResponse
       type: object
