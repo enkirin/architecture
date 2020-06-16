@@ -1584,7 +1584,8 @@ components:
                       properties:
                         approximation:
                           type: array
-                          items: {}
+                          items:
+                            type: number
                       required:
                         - approximation
                 month:
