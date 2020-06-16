@@ -1543,6 +1543,11 @@ components:
                   description: Температурный коэффициент сопротивления
                   allOf:
                     - $ref: '#/components/schemas/ValueUnit'
+                tempApproximation:
+                  type: array
+                  description: Диапазон аппроксимации Тп
+                  items:
+                    type: number
         resistance:
           allOf:
             - $ref: '#/components/schemas/ComplexPhaseValue'
@@ -1580,14 +1585,6 @@ components:
                   description: Температура грунта
                   allOf:
                     - $ref: '#/components/schemas/ValueUnit'
-                    - type: object
-                      properties:
-                        approximation:
-                          type: array
-                          items:
-                            type: number
-                      required:
-                        - approximation
                 month:
                   type: string
                   description: Season in CIM model
