@@ -1514,40 +1514,22 @@ components:
         - PowerLosses
         - Test
       properties:
-        wireInfo:
-          type: object
-          description: Характеристики провода
-          required:
-            - type
-            - properties
-          properties:
-            type:
-              type: string
-              description: Тип провода (Справочник)
+        wire:
+          type: array
+          description: ' Провод'
+          items:
+            type: object
             properties:
-              type: object
-              description: Характеристики
-              properties:
-                twistingCoef:
-                  allOf:
-                    - $ref: '#/components/schemas/ValueUnit'
-                  description: Коэффициент скручивания
-                continuousTemp:
-                  allOf:
-                    - $ref: '#/components/schemas/ValueUnit'
-                continuousCurrent:
-                  description: Длительно-допустимый ток
-                  allOf:
-                    - $ref: '#/components/schemas/ValueUnit'
-                tempResCoef:
-                  description: Температурный коэффициент сопротивления
-                  allOf:
-                    - $ref: '#/components/schemas/ValueUnit'
-                tempApproximation:
-                  type: array
-                  description: Диапазон аппроксимации Тп
-                  items:
-                    type: number
+              wireKind:
+                type: string
+                description: 'Вид провода: фазный; нетральный'
+                enum:
+                  - phase
+                  - neutral
+              wireInfo:
+                $ref: '#/components/schemas/WireInfo'
+            required:
+              - wireKind
         resistance:
           allOf:
             - $ref: '#/components/schemas/ComplexPhaseValue'
@@ -1612,14 +1594,8 @@ components:
                 - overhead
                 - underground
               description: 'Тип прокладки линии: воздушный; подземный'
-        wireKind:
-          type: string
-          enum:
-            - phase
-            - neutral
-          description: 'Вид провода: фазный; нетральный'
       required:
-        - wireInfo
+        - wire
         - resistance
         - region
         - current
@@ -2084,3 +2060,35 @@ components:
         - losses
       x-tags:
         - PowerLosses
+    WireInfo:
+      title: WireInfo
+      type: object
+      properties:
+        type:
+          type: string
+          description: Тип провода (Справочник)
+        properties:
+          type: object
+          description: Характеристики
+          properties:
+            twistingCoef:
+              allOf:
+                - $ref: '#/components/schemas/ValueUnit'
+              description: Коэффициент скручивания
+            continuousTemp:
+              allOf:
+                - $ref: '#/components/schemas/ValueUnit'
+            continuousCurrent:
+              description: Длительно-допустимый ток
+              allOf:
+                - $ref: '#/components/schemas/ValueUnit'
+            tempResCoef:
+              description: Температурный коэффициент сопротивления
+              allOf:
+                - $ref: '#/components/schemas/ValueUnit'
+            tempApproximation:
+              type: array
+              description: Диапазон аппроксимации Тп
+              items:
+                type: number
+      description: Характеристики провода (справочная информация)
