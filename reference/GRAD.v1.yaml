@@ -216,6 +216,23 @@ paths:
         in: path
         required: true
         description: ID счетчик
+  /grid/datasource:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  header:
+                    type: object
+                  response:
+                    type: string
+      operationId: get-grid-datasource
 components:
   schemas:
     geographicalRegion:
@@ -759,3 +776,54 @@ components:
             dataSourceId:
               type: string
               description: ID источника данных
+    DataSource:
+      title: DataSource
+      type: object
+      properties:
+        id:
+          type: string
+        deviceId:
+          type: string
+      description: Источник данных
+    DataPackage:
+      title: DataPackage
+      type: object
+      properties:
+        id:
+          type: string
+        date:
+          type: string
+      description: Пакет данных
+    MARSDataSource:
+      title: MARSDataSource
+      allOf:
+        - $ref: '#/components/schemas/DataSource'
+        - type: object
+          properties:
+            dataSet:
+              type: array
+              items:
+                $ref: '#/components/schemas/MARSDataPackage'
+      description: Источник данных контроллера МАРС
+    MARSDataPackage:
+      title: MARSDataPackage
+      allOf:
+        - $ref: '#/components/schemas/DataPackage'
+        - type: object
+      description: Данные от контроллера МАРС
+    CustomerDataSource:
+      allOf:
+        - $ref: '#/components/schemas/DataSource'
+        - type: object
+          properties:
+            dataSet:
+              type: array
+              items:
+                $ref: '#/components/schemas/CustomerDataPackage'
+      description: Источник данных прибора учета потребителя
+    CustomerDataPackage:
+      title: CustomerDataPackage
+      allOf:
+        - $ref: '#/components/schemas/DataPackage'
+        - type: object
+      description: Данные от прибора учета потребителя
